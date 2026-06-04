@@ -1,44 +1,24 @@
 @import "tailwindcss";
-
-@font-face {
-  font-family: PayPalPlain-Bold;
-  font-style: normal;
-  font-display: swap;
-  src: url(../fonts/PayPalPlain-Bold.woff2) format("woff2");
-}
+@import '@fontsource/space-grotesk/300.css';
+@import '@fontsource/space-grotesk/400.css';
+@import '@fontsource/space-grotesk/500.css';
+@import '@fontsource/space-grotesk/600.css';
+@import '@fontsource/space-grotesk/700.css';
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/700.css';
 
 div {
   opacity: 1 !important;
 }
 
-@font-face {
-  font-family: PayPalPlain-Medium;
-  font-style: normal;
-  font-display: swap;
-  src: url(../fonts/PayPalPlain-Medium.woff2) format("woff2");
-}
-
-@font-face {
-  font-family: PayPalPlain-Regular;
-  font-style: normal;
-  font-display: swap;
-  src: url(../fonts/PayPalPlain-Regular.woff2) format("woff2");
-}
-
-@font-face {
-  font-family: PayPalPro-Black;
-  font-style: normal;
-  font-display: swap;
-  src: url(../fonts/PayPalPro-Black.woff2) format("woff2");
-}
-
 * {
-  font-family: PaypalPlain-Regular, "Helvetica Neue", Arial, sans-serif;
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
 }
 
 @theme {
   --color-primary: #60cdff;
-  --font-paypal-pro: PaypalPro-Blac k;
+  --font-paypal-pro: "Space Grotesk", sans-serif;
 }
 
 @keyframes headerGlowPulse {
