@@ -10,18 +10,20 @@ const Home = () => {
   return (
     <>
       <Header />
-      <BrandsMarque />
-      <div id="how-it-works">
-        <SecondaryHero />
-      </div>
-      <SectionCards />
-      <div id="partners">
-        <BrandPartners />
-      </div>
-      <div id="impact">
-        <Impact />
-      </div>
-      <Onboarding />
+      <main>
+        <BrandsMarque />
+        <div id="how-it-works">
+          <SecondaryHero />
+        </div>
+        <SectionCards />
+        <div id="partners">
+          <BrandPartners />
+        </div>
+        <div id="impact">
+          <Impact />
+        </div>
+        <Onboarding />
+      </main>
     </>
   );
 };

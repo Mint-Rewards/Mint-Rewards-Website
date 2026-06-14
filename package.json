@@ -44,9 +44,11 @@
     "vite": "^8.0.16"
   },
   "jest": {
-    "preset": "ts-jest",
     "testEnvironment": "jsdom",
-    "setupFilesAfterFramework": ["@testing-library/jest-dom"],
+    "transform": {
+      "^.+\\.tsx?$": ["ts-jest", { "tsconfig": "tsconfig.jest.json" }]
+    },
+    "setupFilesAfterEnv": ["<rootDir>/jest.setup.ts"],
     "testMatch": ["**/__tests__/**/*.test.tsx"]
   }
 }
