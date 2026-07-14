@@ -15,7 +15,6 @@ import About from "./pages/About";
 import Story from "./pages/Story";
 import Careers from "./pages/Careers";
 import Contact from "./components/Contact";
-import { Analytics } from "@vercel/analytics/next"
 
 const AppContent = () => {
   // Use NavbarDark for Home page, regular Navbar for others
