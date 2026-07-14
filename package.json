@@ -20,6 +20,7 @@
     "@tailwindcss/vite": "^4.1.12",
     "@types/react-router-dom": "^5.3.3",
     "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "lucide-react": "^0.541.0",
     "motion": "^12.23.12",
     "react": "^19.1.1",
