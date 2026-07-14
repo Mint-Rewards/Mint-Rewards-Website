@@ -33,6 +33,27 @@
     "globals": "^16.3.0",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.39.1",
+<<<<<<< Updated upstream
     "vite": "^7.1.2"
+=======
+    "vite": "^8.0.16"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "transform": {
+      "^.+\\.tsx?$": [
+        "ts-jest",
+        {
+          "tsconfig": "tsconfig.jest.json"
+        }
+      ]
+    },
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest.setup.ts"
+    ],
+    "testMatch": [
+      "**/__tests__/**/*.test.tsx"
+    ]
+>>>>>>> Stashed changes
   }
 }
