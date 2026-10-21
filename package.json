@@ -45,7 +45,7 @@
     "ts-jest": "^29.4.11",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.39.1",
-    "vite": "^8.0.16"
+    "vite": "^8.3.5"
   },
   "jest": {
     "testEnvironment": "jsdom",
