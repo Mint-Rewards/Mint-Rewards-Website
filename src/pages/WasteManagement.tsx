@@ -207,7 +207,7 @@ export default function WasteManagement() {
         </section>
 
         <section className="section">
-          <div className="container split split-top">
+          <div className="container split compliance-split">
             <div>
               <Eyebrow>Compliance comes first</Eyebrow>
               <div className="section-head">
@@ -218,14 +218,6 @@ export default function WasteManagement() {
                   handling arrangements are assessed before a service is
                   confirmed.
                 </p>
-              </div>
-              <div className="feature-grid cols-2">
-                {COMPLIANCE_FEATURES.map((x) => (
-                  <div className="feature" key={x}>
-                    <Check size={17} color="#087de5" />
-                    <h3>{x}</h3>
-                  </div>
-                ))}
               </div>
             </div>
             {/* LOAD-BEARING. Every field says "verify", and the closing line
@@ -250,6 +242,16 @@ export default function WasteManagement() {
                 No licence number, EPA certification, disposal permission or
                 category coverage is represented here.
               </p>
+            </div>
+          </div>
+          <div className="container">
+            <div className="feature-row">
+              {COMPLIANCE_FEATURES.map((x) => (
+                <div className="feature" key={x}>
+                  <Check size={17} color="#087de5" />
+                  <h3>{x}</h3>
+                </div>
+              ))}
             </div>
           </div>
         </section>

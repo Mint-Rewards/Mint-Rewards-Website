@@ -337,6 +337,44 @@
  */
 .b2b .split-top { align-items: start; }
 
+/*
+ * The compliance split, and why the left column has a top inset.
+ *
+ * `.compliance-box` carries 28px of padding, so its first line of text
+ * starts 28px below its border. The column beside it has no such box, so
+ * setting both columns to the same top left the left-hand copy sitting
+ * visibly higher than the panel's heading — the two sides aligned by their
+ * edges and not by the thing a reader actually sees, which is the text.
+ * The inset matches the panel's padding so the two first lines start level.
+ */
+.b2b .compliance-split { align-items: start; }
+.b2b .compliance-split > :first-child { padding-top: 28px; }
+
+/*
+ * The six capability boxes, below the split rather than inside it.
+ *
+ * They were stacked two abreast inside the left column, which gave each one
+ * about 280px and wrapped the longer labels while the panel beside them ran
+ * out of content — the section read as one tall column and one short one.
+ * As a band under the split they get the full width, and a centred wrapping
+ * row sizes each box to its own label instead of forcing six very uneven
+ * strings into equal columns.
+ */
+.b2b .feature-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 46px;
+}
+.b2b .feature-row .feature { flex: 0 1 auto; }
+
+@media (max-width: 700px) {
+  .b2b .compliance-split > :first-child { padding-top: 0; }
+  .b2b .feature-row { margin-top: 32px; }
+  .b2b .feature-row .feature { flex: 1 1 100%; }
+}
+
 .b2b .compliance-box {
   background: #f7fafc;
   border: 1px solid #e3eaf0;
@@ -363,19 +401,4 @@
   border: 1px solid #e8eef4;
   color: #41566b;
   font-size: 11px;
-}
-
-/*
- * The capability grid's column count, moved out of an inline style.
- *
- * His markup sets gridTemplateColumns:'1fr 1fr' inline, and an inline style
- * beats a stylesheet rule at any specificity — so the 700px rule that stacks
- * `.feature-grid` never applied to it, and the six cards stayed two abreast
- * on a phone at roughly 150px each, wrapping every label onto three lines.
- * His build has the same defect; this is the one place it shows.
- */
-.b2b .feature-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
-
-@media (max-width: 700px) {
-  .b2b .feature-grid.cols-2 { grid-template-columns: 1fr; }
 }
