@@ -15,6 +15,7 @@ import About from "./pages/About";
 import Story from "./pages/Story";
 import Careers from "./pages/Careers";
 import NotFound from "./pages/NotFound";
+import WasteManagement from "./pages/WasteManagement";
 import Contact from "./components/Contact";
 
 const AppContent = () => {
@@ -37,6 +38,7 @@ const AppContent = () => {
         <Route path="/contact" element={<Contact />} />
 
         <Route path="/business" element={<Business />} />
+        <Route path="/business/waste-management" element={<WasteManagement />} />
         <Route path="/how-it-works" element={<HowItWorks />} />
         <Route path="/co2-calculator" element={<CO2Calculator />} />
         <Route path="/privacy" element={<Privacy />} />
