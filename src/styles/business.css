@@ -1,3 +1,19 @@
+/*
+ * The B2B design system, ported from Ahsan's Replit build rather than
+ * redesigned. The blue accent (#087de5) on white, the hero grid, the industry
+ * cards, the technology band, the comparison table and the conceptual
+ * dashboard are all his.
+ *
+ * EVERY rule is scoped under .b2b. These are generic global names —
+ * .container, .hero, .card, .section, .header, .footer-top — and the consumer
+ * site is Tailwind. An earlier version of this file scoped line by line and
+ * missed the second and third rules on lines holding several, which left ten
+ * selectors applying site-wide inside media queries.
+ *
+ * Do not "modernise" this into Tailwind utilities. The design decisions live
+ * in these rules and they were made deliberately.
+ */
+
 @import '@fontsource/dm-sans/400.css';
 @import '@fontsource/dm-sans/500.css';
 @import '@fontsource/dm-sans/700.css';
@@ -6,25 +22,8 @@
 @import '@fontsource/space-mono/400.css';
 
 /*
- * The B2B design system, ported from Ahsan's Replit build rather than
- * redesigned. It is his: the blue accent (#087de5) on white, the hero grid,
- * the industry cards, the technology band, the comparison table and the
- * conceptual dashboard. Those screenshots are what this file produces.
- *
- * SCOPED UNDER .b2b ON PURPOSE. These are generic global names — .container,
- * .hero, .card, .section — and the consumer site is Tailwind. Unscoped, the
- * two would fight over .container the moment anyone imported this.
- *
- * Do not "modernise" this into Tailwind utilities. The design decisions live
- * in these rules, they were made deliberately, and they are better than what
- * replaces them by default.
- */
-
-/*
- * His type stack. The RecovLoop guide specifies Avenir Next, which is a
- * licensed Linotype face with no webfont licence here — he substituted, and
- * until that licence is bought the substitution stands. Scoped like the rest,
- * so the consumer site keeps Inter and Space Grotesk.
+ * His type stack. The RecovLoop guide specifies Avenir Next, a licensed face
+ * with no webfont licence here; his substitution stands until one is bought.
  */
 .b2b {
   --app-font-sans: 'DM Sans', system-ui, sans-serif;
@@ -213,21 +212,29 @@
 .b2b .not-found h1 { font-size:45px; }
 .b2b .not-found p { color:#647079; }
 @media(max-width:900px) {
-.b2b .nav-links { gap:15px; }.hero-grid,.page-hero .hero-grid { gap:35px; }.industry-grid { grid-template-columns:repeat(3,1fr); }
-.b2b .cards, .b2b .services-grid { grid-template-columns:repeat(2,1fr); }.form-grid { gap:30px; }
+ .b2b .nav-links { gap:15px; }.b2b .hero-grid, .b2b .page-hero .hero-grid { gap:35px; }.b2b .industry-grid { grid-template-columns:repeat(3,1fr); }
+ .b2b .cards, .b2b .services-grid { grid-template-columns:repeat(2,1fr); }.b2b .form-grid { gap:30px; }
 }
 @media(max-width:700px) {
-.b2b .container { width:min(100% - 34px,560px); }.header { height:66px; }.nav-links,.header-cta { display:none; }.mobile-toggle { display:block; }
-.b2b .mobile-menu { display:grid;position:absolute;top:66px;left:0;right:0;background:#fff;border-bottom:1px solid #e7eeef;padding:12px 22px 18px;box-shadow:0 14px 20px #10252b0d; }
-.b2b .mobile-menu a { padding:12px 3px;font-size:14px;font-weight:600;border-bottom:1px solid #f0f3f4; }
-.b2b .hero { padding:61px 0 48px; }.hero-grid,.split,.form-grid,.technology-band,.independent,.visual-dashboard { grid-template-columns:1fr; }
-.b2b h1 { font-size:46px;letter-spacing:-2.7px; }.hero-sub { font-size:16px; }.hero-art,.hero-art img { min-height:300px;height:300px; }.section { padding:65px 0; }
-.b2b .cards, .b2b .services-grid, .b2b .feature-grid, .b2b .two-col-feature { grid-template-columns:1fr; }.industry-grid { grid-template-columns:repeat(2,1fr); }.waste-industries { grid-template-columns:repeat(2,1fr); }
-.b2b .cta-band { padding:29px 23px;align-items:flex-start;flex-direction:column; }.cta-copy h2 { font-size:30px; }.process-grid { grid-template-columns:repeat(2,1fr);gap:28px 16px; }
-.b2b .flow { display:grid;grid-template-columns:repeat(2,1fr); }.form-section { padding:64px 0; }.form-intro h2 { font-size:34px; }.footer-top,.footer-bottom { flex-direction:column; }.independent { padding:24px; }
-.b2b .page-hero { padding:52px 0; }.page-hero .hero-art { order:2; }.compliance-grid { grid-template-columns:repeat(2,1fr); }
-.b2b .mobile-sticky { display:flex;position:fixed;z-index:40;bottom:10px;left:12px;right:12px;justify-content:center;pointer-events:none; }.mobile-sticky a { pointer-events:auto;box-shadow:0 8px 24px #06467a35; }
-.b2b .footer { padding-bottom:80px; }
+ .b2b .container { width:min(100% - 34px,560px); }.b2b .header { height:66px; }.b2b .nav-links, .b2b .header-cta { display:none; }.b2b .mobile-toggle { display:block; }
+ .b2b .mobile-menu { display:grid;position:absolute;top:66px;left:0;right:0;background:#fff;border-bottom:1px solid #e7eeef;padding:12px 22px 18px;box-shadow:0 14px 20px #10252b0d; }
+ .b2b .mobile-menu a { padding:12px 3px;font-size:14px;font-weight:600;border-bottom:1px solid #f0f3f4; }
+ .b2b .hero { padding:61px 0 48px; }.b2b .hero-grid, .b2b .split, .b2b .form-grid, .b2b .technology-band, .b2b .independent, .b2b .visual-dashboard { grid-template-columns:1fr; }
+ .b2b h1 { font-size:46px;letter-spacing:-2.7px; }.b2b .hero-sub { font-size:16px; }.b2b .hero-art, .b2b .hero-art img { min-height:300px;height:300px; }.b2b .section { padding:65px 0; }
+ .b2b .cards, .b2b .services-grid, .b2b .feature-grid, .b2b .two-col-feature { grid-template-columns:1fr; }.b2b .industry-grid { grid-template-columns:repeat(2,1fr); }.b2b .waste-industries { grid-template-columns:repeat(2,1fr); }
+ .b2b .cta-band { padding:29px 23px;align-items:flex-start;flex-direction:column; }.b2b .cta-copy h2 { font-size:30px; }.b2b .process-grid { grid-template-columns:repeat(2,1fr);gap:28px 16px; }
+ .b2b .flow { display:grid;grid-template-columns:repeat(2,1fr); }.b2b .form-section { padding:64px 0; }.b2b .form-intro h2 { font-size:34px; }.b2b .footer-top, .b2b .footer-bottom { flex-direction:column; }.b2b .independent { padding:24px; }
+ .b2b .page-hero { padding:52px 0; }.b2b .page-hero .hero-art { order:2; }.b2b .compliance-grid { grid-template-columns:repeat(2,1fr); }
+ .b2b .mobile-sticky { display:flex;position:fixed;z-index:40;bottom:10px;left:12px;right:12px;justify-content:center;pointer-events:none; }.b2b .mobile-sticky a { pointer-events:auto;box-shadow:0 8px 24px #06467a35; }
+ .b2b .footer { padding-bottom:80px; }
 }
-@media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important;transition:none!important;animation:none!important; } }
+@media(prefers-reduced-motion:reduce) { .b2b *, .b2b *::before, .b2b *::after { scroll-behavior:auto!important;transition:none!important;animation:none!important; } }
 
+/*
+ * His header is position:sticky, so it sits in the flow and pushes the hero
+ * down by its own height. Ours is position:fixed and does not, which is why
+ * the hero read as cramped against the Replit original: it was losing the
+ * header's 78px of air at the top.
+ */
+.b2b .hero { padding-top: 174px; }
+@media (max-width: 900px) { .b2b .hero { padding-top: 125px; } }
