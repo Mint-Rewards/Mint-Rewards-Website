@@ -13,3 +13,6 @@ dist/
 # are generated from it into public/recovloop, where the same logo is 3.4KB.
 # Keep the original somewhere shared rather than in the site repo.
 RecovLoop_SVG_Developer_Pack/
+
+# The skill's working directory: screenshots and inspector reports.
+.taste-skill/
