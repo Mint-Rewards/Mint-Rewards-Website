@@ -248,7 +248,10 @@ export default function WasteManagement() {
             <div className="feature-row">
               {COMPLIANCE_FEATURES.map((x) => (
                 <div className="feature" key={x}>
-                  <Check size={17} color="#087de5" />
+                  {/* No colour prop: lucide defaults to currentColor, and
+                      `.feature svg` takes the page's accent token — green
+                      here, blue on the Mint business pages. */}
+                  <Check size={17} />
                   <h3>{x}</h3>
                 </div>
               ))}

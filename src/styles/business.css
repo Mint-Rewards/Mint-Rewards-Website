@@ -34,7 +34,29 @@
  * His type stack. The RecovLoop guide specifies Avenir Next, a licensed face
  * with no webfont licence here; his substitution stands until one is bought.
  */
+/*
+ * THE ACCENT IS A TOKEN BECAUSE THERE ARE TWO BRANDS ON THIS STYLESHEET.
+ *
+ * Mint for Business is the blue #087de5 on white. RecovLoop is a sub-brand
+ * with its own guide and its own palette — a green system, whose core is
+ * Deep Forest #0B3D2E, Forest Green #145C46 and Emerald #1E7A5D, with Jade
+ * and the lighter greens as supporting accents. Emerald is the one that
+ * carries a filled button on white, so it is the accent; Forest Green is a
+ * step darker and does the hover.
+ *
+ * Earlier work in this file called the greens "leftovers from an earlier
+ * palette" and recoloured some of them blue. That was wrong, and the guide
+ * says so plainly: #1E7A5D is Emerald and #EAF6F0 is Light Mint, both
+ * straight off the palette page. On the RecovLoop page the green is the
+ * brand and the blue is the import.
+ *
+ * Custom properties inherit, so overriding them on .recov-page is enough to
+ * swing the whole page — no rule below needs to know which brand it is
+ * serving.
+ */
 .b2b {
+  --b2b-accent: #087de5;
+  --b2b-accent-hover: #0064c5;
   font-synthesis-weight: none;
   --app-font-sans: 'DM Sans Variable', 'DM Sans', system-ui, sans-serif;
   --app-font-serif: 'Manrope Variable', 'Manrope', system-ui, sans-serif;
@@ -44,6 +66,12 @@
   color: #14191d;
 }
 
+/* RecovLoop's own accent. See the note above. */
+.b2b .recov-page {
+  --b2b-accent: #1e7a5d;
+  --b2b-accent-hover: #145c46;
+}
+
 .b2b .shell { overflow:hidden; }
 .b2b .container { width:min(1200px, calc(100% - 48px)); margin:0 auto; }
 .b2b .header { height:78px; display:flex; align-items:center; position:sticky; top:0; z-index:50; background:rgba(255,255,255,.92); backdrop-filter:blur(16px); border-bottom:1px solid #edf1f3; }
@@ -51,16 +79,16 @@
 .b2b .brand { font:800 23px var(--app-font-serif); letter-spacing:-1.3px; display:flex; align-items:center; }
 .b2b .brand small { display:block; font:500 9px var(--app-font-sans); color:#62717b; letter-spacing:1.3px; text-transform:uppercase; margin-top:-2px; }
 .b2b .nav-links { display:flex; align-items:center; gap:26px; color:#45515b; font-size:13px; font-weight:600; }
-.b2b .nav-links a:hover, .b2b .nav-links a.active { color:#087de5; }
-.b2b .header-cta, .b2b .btn-primary { display:inline-flex; align-items:center; justify-content:center; gap:10px; border:0; border-radius:999px; background:#087de5; color:#fff; font-size:13px; font-weight:700; padding:14px 21px; transition:transform .2s,background .2s; }
-.b2b .header-cta:hover, .b2b .btn-primary:hover { transform:translateY(-2px); background:#0064c5; }
+.b2b .nav-links a:hover, .b2b .nav-links a.active { color:var(--b2b-accent); }
+.b2b .header-cta, .b2b .btn-primary { display:inline-flex; align-items:center; justify-content:center; gap:10px; border:0; border-radius:999px; background:var(--b2b-accent); color:#fff; font-size:13px; font-weight:700; padding:14px 21px; transition:transform .2s,background .2s; }
+.b2b .header-cta:hover, .b2b .btn-primary:hover { transform:translateY(-2px); background:var(--b2b-accent-hover); }
 .b2b .btn-secondary { display:inline-flex; align-items:center; gap:9px; color:#17252d; border:1px solid #dbe4e8; background:rgba(255,255,255,.8); padding:13px 20px; border-radius:999px; font-size:13px; font-weight:700; transition:transform .2s,border .2s; }
 .b2b .btn-secondary:hover { transform:translateY(-2px); border-color:#8dbbd0; }
 .b2b .mobile-toggle { display:none; background:none; border:0; padding:8px; }
 .b2b .mobile-menu { display:none; }
 .b2b .hero { position:relative; padding:96px 0 76px; background:radial-gradient(ellipse at 82% 30%,rgba(181,235,250,.55),transparent 35%),radial-gradient(ellipse at 64% 75%,rgba(219,249,245,.8),transparent 32%),#fff; }
 .b2b .hero-grid { display:grid; grid-template-columns:1fr 1fr; gap:66px; align-items:center; }
-.b2b .eyebrow { color:#0781df; font:700 10px var(--app-font-mono); text-transform:uppercase; letter-spacing:1.2px; display:flex; align-items:center; gap:9px; margin-bottom:22px; }
+.b2b .eyebrow { color:var(--b2b-accent); font:700 10px var(--app-font-mono); text-transform:uppercase; letter-spacing:1.2px; display:flex; align-items:center; gap:9px; margin-bottom:22px; }
 .b2b .eyebrow:before { content:''; width:22px; height:1px; background:currentColor; }
 .b2b h1, .b2b h2, .b2b h3, .b2b p { margin-top:0; }
 .b2b h1, .b2b h2, .b2b h3 { font-family:var(--app-font-serif); }
@@ -89,7 +117,7 @@
 .b2b .solution-card h3 { font-size:22px; letter-spacing:-.7px; margin-bottom:5px; }
 .b2b .card-label { color:#16805e; font-size:11px; font-weight:700; margin-bottom:13px; }
 .b2b .solution-card p { color:#65717a; font-size:13px; line-height:1.75; margin-bottom:18px; }
-.b2b .text-link { display:inline-flex; align-items:center; gap:7px; color:#0878d8; font-size:12px; font-weight:700; }
+.b2b .text-link { display:inline-flex; align-items:center; gap:7px; color:var(--b2b-accent); font-size:12px; font-weight:700; }
 .b2b .benefit-list { list-style:none; padding:0; margin:0 0 22px; display:grid; gap:9px; color:#44534d; font-size:12px; }
 .b2b .benefit-list li:before { content:'↗'; color:#27936d; margin-right:9px; font-weight:700; }
 .b2b .split { display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:70px; }
@@ -209,7 +237,7 @@
 .b2b .form-error, .b2b .form-success { border-radius:9px;padding:12px;margin-bottom:13px;font-size:12px;line-height:1.5; }
 .b2b .form-error { background:#fff0ef;color:#9d251f; }
 .b2b .form-success { background:#e8f7ef;color:#17563c; }
-.b2b .submit-btn { width:100%;border:0;border-radius:9px;padding:14px;background:#087de5;color:#fff;font-weight:700;font-size:13px;display:flex;justify-content:center;gap:8px;align-items:center; }
+.b2b .submit-btn { width:100%;border:0;border-radius:9px;padding:14px;background:var(--b2b-accent);color:#fff;font-weight:700;font-size:13px;display:flex;justify-content:center;gap:8px;align-items:center; }
 .b2b .submit-btn:disabled { opacity:.7;cursor:wait; }
 .b2b .privacy-copy { text-align:center;color:#849089;font-size:9px;margin:12px 0 0; }
 .b2b .footer { padding:46px 0 25px;background:#f6f9f9; }
@@ -283,7 +311,7 @@
 .b2b .industry-invite strong { color: #17252d; }
 .b2b .industry-invite-cue {
   display: inline-flex; align-items: center; gap: 5px;
-  margin-top: 2px; color: #087de5; font-size: 11px; font-weight: 700;
+  margin-top: 2px; color: var(--b2b-accent); font-size: 11px; font-weight: 700;
 }
 
 /*
@@ -308,16 +336,19 @@
  * The compliance section — structure, and one deliberate departure from his
  * build.
  *
- * THE STRIPE IS HIS, AND IT GOES. `.compliance-box` was a mint-green panel
- * with a 4px dark-green bar down its left edge (#1e7a5d on #eaf6f0). Two
- * things are wrong with it here. The bar carries no meaning — nothing else
- * on the page marks a block that way, so it reads as decoration applied to a
- * panel rather than as part of the system. And the green is off-brand: this
- * stylesheet's accent is the blue #087de5, stated at the top of the file,
- * and the greens scattered through it are leftovers from an earlier palette.
- * The panel now earns its distinction from a tint and a hairline border,
- * like every other card on the page. The `border` shorthand resets all four
- * sides, which is what removes his stripe.
+ * THE STRIPE IS HIS, AND IT GOES — but not for the reason first given here.
+ * `.compliance-box` was a mint-green panel with a 4px bar down its left edge
+ * (#1e7a5d on #eaf6f0). An earlier version of this comment called those
+ * greens off-brand leftovers. They are not: the RecovLoop brand guide lists
+ * #1E7A5D as Emerald and #EAF6F0 as Light Mint, so Ahsan was using the
+ * sub-brand's palette correctly and this page is green by right.
+ *
+ * The bar goes on the remaining ground, which stands on its own: it carries
+ * no meaning, and nothing else on the page marks a block that way, so it
+ * reads as decoration applied to a panel rather than as part of the system.
+ * The panel earns its distinction from a tint and a hairline border like
+ * every other card. The `border` shorthand resets all four sides, which is
+ * what removes the stripe.
  *
  * THE STRUCTURE. Three things made the section read as unbuilt:
  *
@@ -386,6 +417,7 @@
   gap: 12px;
   padding: 16px 18px;
 }
+.b2b .feature svg { color: var(--b2b-accent); }
 .b2b .feature h3 {
   margin: 0;
   font-size: 13px;

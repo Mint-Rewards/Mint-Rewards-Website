@@ -94,7 +94,16 @@ const NavbarDark = () => {
   const navItemColour = (active: boolean) =>
     active
       ? mode === "business"
-        ? "text-[#087de5] font-semibold"
+        ? /*
+           * Which business accent: the header is outside .b2b, so the
+           * --b2b-accent token the pages use cannot reach it and the brand
+           * has to be read here instead. RecovLoop is a sub-brand with its
+           * own palette; Emerald #1E7A5D is its accent, Mint for Business
+           * keeps the blue.
+           */
+          brand === "recovloop"
+          ? "text-[#1e7a5d] font-semibold"
+          : "text-[#087de5] font-semibold"
         : "text-black font-semibold"
       : "text-black/70 hover:text-black";
 
