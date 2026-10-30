@@ -72,8 +72,30 @@ const NavbarDark = () => {
   const isActiveLink = (item: (typeof menuItems)[number]) =>
     item.type === "link" && location.pathname === item.path;
 
-  const baseNavItemStyles =
-    "text-sm font-medium transition text-black/70 hover:text-black";
+  /*
+   * No colour in the base. Putting `text-black/70` here and the active colour
+   * alongside it meant two utilities of equal specificity in one attribute,
+   * where the generated stylesheet's order decides the winner rather than the
+   * order written — and Tailwind emitted black last, so the active tab came
+   * out bold and black instead of blue.
+   */
+  const baseNavItemStyles = "text-sm font-medium transition";
+
+  /*
+   * The selected tab was `text-black` against a base of `text-black/70` — a
+   * 30% opacity difference that reads as no difference at all, so Overview
+   * looked unselected while sitting on /business.
+   *
+   * Business takes his accent, as the Replit build does. Personal has no
+   * accent of its own yet (see the theme task), so it leans on weight and
+   * full-strength ink instead of inventing a colour.
+   */
+  const navItemColour = (active: boolean) =>
+    active
+      ? mode === "business"
+        ? "text-[#087de5] font-semibold"
+        : "text-black font-semibold"
+      : "text-black/70 hover:text-black";
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 backdrop-blur">
@@ -134,16 +156,17 @@ const NavbarDark = () => {
                     <Link
                       to={item.path}
                       onClick={() => setOpen(false)}
-                      className={`${baseNavItemStyles} ${
-                        isActiveLink(item) ? "text-black" : ""
-                      }`}
+                      aria-current={isActiveLink(item) ? "page" : undefined}
+                      className={`${baseNavItemStyles} ${navItemColour(
+                        isActiveLink(item),
+                      )}`}
                     >
                       {item.name}
                     </Link>
                   ) : (
                     <button
                       onClick={() => handleMenuClick(item)}
-                      className={baseNavItemStyles}
+                      className={`${baseNavItemStyles} ${navItemColour(false)}`}
                       type="button"
                     >
                       {item.name}
@@ -244,16 +267,17 @@ const NavbarDark = () => {
                     onClick={() => {
                       setOpen(false);
                     }}
-                    className={`${baseNavItemStyles} block text-base ${
-                      isActiveLink(item) ? "text-black" : ""
-                    }`}
+                    aria-current={isActiveLink(item) ? "page" : undefined}
+                    className={`${baseNavItemStyles} block text-base ${navItemColour(
+                      isActiveLink(item),
+                    )}`}
                   >
                     {item.name}
                   </Link>
                 ) : (
                   <button
                     onClick={() => handleMenuClick(item)}
-                    className={`${baseNavItemStyles} block text-left text-base w-full`}
+                    className={`${baseNavItemStyles} ${navItemColour(false)} block text-left text-base w-full`}
                     type="button"
                   >
                     {item.name}
