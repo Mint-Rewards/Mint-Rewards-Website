@@ -175,11 +175,18 @@ export default function BrandOrbit() {
                   tabIndex={0}
                 >
                   <img
-                    src={`/brand-logos/${partner.file}`}
+                    src={`/brand-logos/orbit/${partner.file}`}
                     alt={partner.name}
-                    /* The numbered files total about 4.8MB at source and
-                       render at roughly 64px. The section is far down the
-                       page, so the cost is deferred until it is reached. */
+                    /* A NORMALISED COPY, not the file the consumer
+                       marquee uses. Those ship wildly different baked-in
+                       padding — the ink inside an identical circle ranged
+                       from 26px to 49px, which is why some logos looked
+                       bigger than others when every chip is the same size.
+                       These are trimmed to their mark and rescaled so the
+                       footprint is consistent (1.23x spread, from 1.9x),
+                       and at 168px they weigh 628KB against 5.1MB. The
+                       originals are untouched; the consumer homepage still
+                       uses them. See scripts/normalise-brand-logos.mjs. */
                     loading="lazy"
                     decoding="async"
                   />

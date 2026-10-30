@@ -16,7 +16,7 @@ import { BUSINESS_ROOT, brandFor, RECOVLOOP_ROOT, siteModeFor } from "../siteMod
  * somewhere else, and "somewhere else" now includes the other site.
  */
 const MENU_BY_MODE = {
-  personal: [
+  consumer: [
     { name: "How it Works", path: "/", key: "how-it-works", type: "scroll", scrollTarget: "how-it-works" },
     { name: "Partners", path: "/", key: "partners", type: "scroll", scrollTarget: "partners" },
     { name: "Impact", path: "/", key: "impact", type: "scroll", scrollTarget: "impact" },
@@ -80,14 +80,17 @@ const NavbarDark = () => {
    * order written — and Tailwind emitted black last, so the active tab came
    * out bold and black instead of blue.
    */
-  const baseNavItemStyles = "text-sm font-medium transition";
+  /* `whitespace-nowrap`: a nav label that wraps is a nav label that has
+     been squeezed, and the business tabs were folding onto two lines
+     rather than letting their row be as wide as it needs to be. */
+  const baseNavItemStyles = "text-sm font-medium transition whitespace-nowrap";
 
   /*
    * The selected tab was `text-black` against a base of `text-black/70` — a
    * 30% opacity difference that reads as no difference at all, so Overview
    * looked unselected while sitting on /business.
    *
-   * Business takes his accent, as the Replit build does. Personal has no
+   * Business takes his accent, as the Replit build does. Consumer has no
    * accent of its own yet (see the theme task), so it leans on weight and
    * full-strength ink instead of inventing a colour.
    */
@@ -109,8 +112,28 @@ const NavbarDark = () => {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 backdrop-blur">
-      <div className="mx-auto max-w-6xl px-6 gap-16 ">
-        <div className="flex h-16 items-center justify-between">
+      {/*
+        FULL WIDTH, WITH THE SWITCH TAKEN OUT OF THE FLOW.
+        `justify-between` cannot centre the middle of three items — it
+        spaces them by whatever is left over, so the switch drifted with
+        the width of the logo and the tabs, and moved again on every page
+        whose labels were a different length.
+
+        A THREE-COLUMN GRID WAS THE SECOND ATTEMPT AND ALSO WRONG. `1fr`
+        means `minmax(auto, 1fr)`, and the auto minimum for text is
+        MIN-CONTENT — so when the business tabs needed more than their
+        third, the column did not grow, it wrapped: "Rewards partners",
+        "Impact solutions" and "Talk to our team" each folded onto two
+        lines. The consumer nav escaped it only because its labels are
+        shorter.
+
+        Absolute centring has neither problem. The switch is positioned
+        against the header rather than sized by it, so it sits on the
+        centre of the SCREEN whatever the logo and tabs measure, and the
+        two sides are free to be whatever width their content needs.
+      */}
+      <div className="w-full px-6">
+        <div className="relative flex h-16 items-center justify-between gap-4">
           {/* Logo */}
           <div className="flex items-center gap-2">
             {/* Home of the site you are on. A logo that always went to "/"
@@ -168,12 +191,12 @@ const NavbarDark = () => {
             visual answer is a background colour.
           */}
           <div
-            className="ml-6 hidden sm:flex items-center rounded-full bg-black/5 p-0.5 text-sm"
+            className="absolute left-1/2 -translate-x-1/2 hidden sm:flex items-center rounded-full bg-black/5 p-0.5 text-sm"
             role="group"
-            aria-label="Choose Mint Rewards for personal or business use"
+            aria-label="Choose Mint Rewards for consumer or business use"
           >
             {([
-              { label: "Personal", to: "/", value: "personal" },
+              { label: "Consumer", to: "/", value: "consumer" },
               { label: "Business", to: BUSINESS_ROOT, value: "business" },
             ] as const).map((opt) => (
               <Link
@@ -192,9 +215,18 @@ const NavbarDark = () => {
             ))}
           </div>
 
-          <div className="flex items-center justify-end md:justify-between gap-6">
+          <div className="flex items-center justify-end gap-4">
             {/* Desktop Nav */}
-            <nav className="hidden lg:flex items-center gap-8">
+            {/*
+              `xl`, not `lg`. At 1024 the tabs and the CTA together need
+              more than their third of the row, so the right-hand column
+              grew past its `1fr` share and shoved the switch 99px off
+              centre — a grid column will not shrink below its content.
+              Collapsing the tabs one breakpoint earlier keeps the switch
+              on the centre of the screen, which is the thing that has to
+              hold; the tabs are still one tap away in the menu.
+            */}
+            <nav className="hidden 2xl:flex items-center gap-6">
               {menuItems.map((item) => (
                 <div key={item.key}>
                   {item.type === "link" ? (
@@ -228,7 +260,14 @@ const NavbarDark = () => {
               download a consumer recycling app. The one thing a business
               visitor is here to do is start a conversation.
             */}
-            <div className="flex">
+            {/*
+              DESKTOP ONLY. Below `lg` the nav items are already collapsed
+              into the hamburger, but this stayed visible — a full-size pill
+              wedged between the logo and the menu button, wrapping onto two
+              lines and overlapping the mark. The same action lives at the
+              bottom of the mobile sheet instead.
+            */}
+            <div className="hidden 2xl:flex">
               <a
                 /*
                  * #enquiry, not /business/contact. That route was never
@@ -241,7 +280,7 @@ const NavbarDark = () => {
                  * goes back to a route.
                  */
                 href={mode === "business" ? "#enquiry" : "#onboarding"}
-                className="flex items-center gap-2 rounded-full bg-black px-5 py-2 text-sm font-medium text-white hover:bg-gray-800 transition"
+                className="flex items-center gap-2 whitespace-nowrap rounded-full bg-black px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 transition"
               >
                 {mode === "business" ? (
                   <>
@@ -258,7 +297,7 @@ const NavbarDark = () => {
             </div>
             {/* Mobile Menu Button */}
             <button
-              className="lg:hidden text-black"
+              className="2xl:hidden text-black"
               onClick={() => setOpen(!open)}
               aria-label="Toggle navigation menu"
               aria-expanded={open}
@@ -274,7 +313,7 @@ const NavbarDark = () => {
       {/* Mobile Menu */}
       {open && (
         <div
-          className="lg:hidden border-t border-black/10 bg-white/95 backdrop-blur"
+          className="2xl:hidden border-t border-black/10 bg-white/95 backdrop-blur"
           id="mobile-nav"
         >
           <div className="flex flex-col gap-4 px-6 py-6 text-black/80">
@@ -291,10 +330,10 @@ const NavbarDark = () => {
             <div
               className="flex items-center rounded-full bg-black/5 p-0.5 text-sm"
               role="group"
-              aria-label="Choose Mint Rewards for personal or business use"
+              aria-label="Choose Mint Rewards for consumer or business use"
             >
               {([
-                { label: "Personal", to: "/", value: "personal" },
+                { label: "Consumer", to: "/", value: "consumer" },
                 { label: "Business", to: BUSINESS_ROOT, value: "business" },
               ] as const).map((opt) => (
                 <Link
@@ -340,16 +379,30 @@ const NavbarDark = () => {
                 )}
               </div>
             ))}
-            {/* <button
-              onClick={() => {
-                handleDownloadApp();
-                setOpen(false);
-              }}
+            {/*
+              The CTA, which the header no longer shows at this width. It
+              had been commented out here, which is why the header one was
+              left on to collide with the logo — the action has to live
+              somewhere, and full width at the end of the sheet is where a
+              thumb already is.
+            */}
+            <a
+              href={mode === "business" ? "#enquiry" : "#onboarding"}
+              onClick={() => setOpen(false)}
               className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-black px-5 py-3 text-base font-semibold text-white hover:bg-gray-900 transition"
             >
-              <Download size={18} />
-              Get the App
-            </button> */}
+              {mode === "business" ? (
+                <>
+                  Talk to our team
+                  <ArrowRight size={18} />
+                </>
+              ) : (
+                <>
+                  <Download size={18} />
+                  Get the App
+                </>
+              )}
+            </a>
           </div>
         </div>
       )}

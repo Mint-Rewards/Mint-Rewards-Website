@@ -1,6 +1,12 @@
 /**
  * Which of the two sites the visitor is on.
  *
+ * "consumer", not "personal". docs/VOCABULARY.md uses consumer throughout —
+ * consumer-facing, consumer incentive, consumer routes — and never defines
+ * personal as a term. The switch in the header says Consumer for the same
+ * reason. The `/personal` ROUTE keeps its path: a URL is a published
+ * contract and renaming it breaks every link already shared.
+ *
  * Mint Rewards speaks to two audiences who want unrelated things. A household
  * wants to know what they get for recycling; a café wants to know who collects,
  * how often, and what it costs. Those are not the same page with different
@@ -12,17 +18,17 @@
  * visitor and the router already agree on, so it is the source of truth.
  *
  * Everything under /business belongs to the business site. Pages shared by
- * both — terms, privacy, careers — resolve to `personal`, which is right:
+ * both — terms, privacy, careers — resolve to `consumer`, which is right:
  * they are company pages, and the consumer site is the company's front door.
  */
-export type SiteMode = "personal" | "business";
+export type SiteMode = "consumer" | "business";
 
 export const BUSINESS_ROOT = "/business";
 
 export function siteModeFor(pathname: string): SiteMode {
   return pathname === BUSINESS_ROOT || pathname.startsWith(`${BUSINESS_ROOT}/`)
     ? "business"
-    : "personal";
+    : "consumer";
 }
 
 /**

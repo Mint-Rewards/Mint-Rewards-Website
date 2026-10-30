@@ -958,3 +958,34 @@
     align-items: start;
   }
 }
+
+/*
+ * The eyebrows on a phone.
+ *
+ * `.eyebrow` is a flex row of a 22px rule and some uppercase mono. At full
+ * width every one of them fits on a single line, which is what
+ * `align-items: center` was written for. On a phone the long ones wrap —
+ * "RecovLoop | Industrial & Commercial Waste Management" takes two lines at
+ * 393px — and centring then floats the rule in the middle of a two-line
+ * block instead of sitting on the first line, which reads as a stray dash.
+ *
+ * So: align to the top and push the rule down to the optical centre of the
+ * first line. The rule also stops shrinking — as a flex item it was free to
+ * be squeezed to nothing by the text beside it — and the tracking comes in,
+ * because 1.2px across fifty uppercase characters is most of why the long
+ * ones wrapped in the first place.
+ */
+@media (max-width: 700px) {
+  .b2b .eyebrow {
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.5;
+    letter-spacing: 0.7px;
+    margin-bottom: 16px;
+  }
+  .b2b .eyebrow:before {
+    flex: 0 0 18px;
+    width: 18px;
+    margin-top: 7px;
+  }
+}
