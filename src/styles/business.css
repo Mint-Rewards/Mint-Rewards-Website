@@ -14,11 +14,20 @@
  * in these rules and they were made deliberately.
  */
 
-@import '@fontsource/dm-sans/400.css';
-@import '@fontsource/dm-sans/500.css';
-@import '@fontsource/dm-sans/700.css';
-@import '@fontsource/manrope/700.css';
-@import '@fontsource/manrope/800.css';
+/*
+ * VARIABLE, not a handful of static weights.
+ *
+ * His CSS asks for 400, 500, 600, 650, 700 and 800. Importing only
+ * 400/500/700 meant every 600 fell to the nearest available face or was
+ * synthesised by the browser, and 650 — which no static file can provide —
+ * snapped to 700. Synthetic bold is thicker and blunter than a real one,
+ * which is what made the type read heavy against his build.
+ *
+ * One variable file per family covers the whole range continuously and
+ * weighs less than six static cuts.
+ */
+@import '@fontsource-variable/dm-sans';
+@import '@fontsource-variable/manrope';
 @import '@fontsource/space-mono/400.css';
 
 /*
@@ -26,8 +35,9 @@
  * with no webfont licence here; his substitution stands until one is bought.
  */
 .b2b {
-  --app-font-sans: 'DM Sans', system-ui, sans-serif;
-  --app-font-serif: 'Manrope', system-ui, sans-serif;
+  font-synthesis-weight: none;
+  --app-font-sans: 'DM Sans Variable', 'DM Sans', system-ui, sans-serif;
+  --app-font-serif: 'Manrope Variable', 'Manrope', system-ui, sans-serif;
   --app-font-mono: 'Space Mono', ui-monospace, monospace;
   font-family: var(--app-font-sans);
   background: #fff;
