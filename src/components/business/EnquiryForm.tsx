@@ -28,6 +28,30 @@ import { ArrowRight } from "lucide-react";
 
 type Service = "general" | "waste-management" | "rewards" | "impact";
 
+/** A field, described rather than drawn, so the layout can count them. */
+type Spec =
+  | {
+      kind: "text";
+      key: keyof Values;
+      label: string;
+      type?: string;
+      required?: boolean;
+      min?: number;
+      max?: number;
+    }
+  | {
+      kind: "select";
+      key: keyof Values;
+      label: string;
+      options: readonly (readonly [string, string])[];
+    }
+  | {
+      kind: "area";
+      key: keyof Values;
+      label: string;
+      placeholder?: string;
+    };
+
 /** His four, exactly — the server rejects anything else. */
 const SOURCE_PAGES = [
   "/business",
@@ -286,8 +310,9 @@ export default function EnquiryForm({
     key: keyof Values,
     label: string,
     options: readonly (readonly [string, string])[],
+    full = false,
   ) => (
-    <div className="field" key={key}>
+    <div className={`field${full ? " full" : ""}`} key={key}>
       <label htmlFor={`field-${key}`}>{label}</label>
       <select
         id={`field-${key}`}
@@ -315,47 +340,123 @@ export default function EnquiryForm({
     </div>
   );
 
-  /** Ahsan's per-service questions, in his order. All optional. */
-  const serviceFields: Record<Service, ReactNode> = {
-    "waste-management": (
-      <>
-        {field("industry", "Industry")}
-        {field("wasteCategory", "Waste category")}
-        {select("hazardousStatus", "Hazardous status", HAZARDOUS_OPTIONS)}
-        {field("monthlyQuantity", "Approximate monthly quantity")}
-        {field("collectionLocation", "Collection location", { full: true })}
-        {select("wasteService", "Service of interest", WASTE_SERVICE_OPTIONS)}
-      </>
-    ),
-    rewards: (
-      <>
-        {field("businessCategory", "Business category")}
-        {field("outletCount", "Number of outlets", {
-          type: "number",
-          min: 1,
-          max: 100000,
-        })}
-        {field("geographicCoverage", "Geographic coverage", { full: true })}
-        {area(
-          "rewardOffer",
-          "Reward or offer you have in mind",
+  /*
+   * Ahsan's per-service questions, in his order. All optional, as in his
+   * schema — declared rather than written out as JSX so the layout below can
+   * count them.
+   */
+  const EXTRAS: Record<Service, Spec[]> = {
+    "waste-management": [
+      { kind: "text", key: "industry", label: "Industry" },
+      { kind: "text", key: "wasteCategory", label: "Waste category" },
+      {
+        kind: "select",
+        key: "hazardousStatus",
+        label: "Hazardous status",
+        options: HAZARDOUS_OPTIONS,
+      },
+      {
+        kind: "text",
+        key: "monthlyQuantity",
+        label: "Approximate monthly quantity",
+      },
+      {
+        kind: "text",
+        key: "collectionLocation",
+        label: "Collection location",
+      },
+      {
+        kind: "select",
+        key: "wasteService",
+        label: "Service of interest",
+        options: WASTE_SERVICE_OPTIONS,
+      },
+    ],
+    rewards: [
+      { kind: "text", key: "businessCategory", label: "Business category" },
+      {
+        kind: "text",
+        key: "outletCount",
+        label: "Number of outlets",
+        type: "number",
+        min: 1,
+        max: 100000,
+      },
+      {
+        kind: "text",
+        key: "geographicCoverage",
+        label: "Geographic coverage",
+      },
+      {
+        kind: "area",
+        key: "rewardOffer",
+        label: "Reward or offer you have in mind",
+        placeholder:
           "For example a discount, a voucher or an exclusive benefit.",
-        )}
-      </>
-    ),
-    impact: (
-      <>
-        {field("impactInterest", "Area of interest")}
-        {field("targetLocation", "Target location")}
-        {field("programmeScale", "Programme scale", { full: true })}
-        {area(
-          "programmeObjectives",
-          "Programme objectives",
-          "What would this programme need to achieve?",
-        )}
-      </>
-    ),
-    general: null,
+      },
+    ],
+    impact: [
+      { kind: "text", key: "impactInterest", label: "Area of interest" },
+      { kind: "text", key: "targetLocation", label: "Target location" },
+      { kind: "text", key: "programmeScale", label: "Programme scale" },
+      {
+        kind: "area",
+        key: "programmeObjectives",
+        label: "Programme objectives",
+        placeholder: "What would this programme need to achieve?",
+      },
+    ],
+    general: [],
+  };
+
+  const SHARED: Spec[] = [
+    { kind: "text", key: "name", label: "Your name", required: true },
+    { kind: "text", key: "company", label: "Company", required: true },
+    {
+      kind: "text",
+      key: "workEmail",
+      label: "Work email",
+      type: "email",
+      required: true,
+    },
+    { kind: "text", key: "phone", label: "Phone", type: "tel" },
+    { kind: "text", key: "city", label: "City" },
+  ];
+
+  /*
+   * THE ORPHAN RULE, and why this is computed rather than written out.
+   *
+   * The grid is two columns and a full-width field starts a new row, so a
+   * full-width field landing after an ODD number of half-width ones leaves
+   * a visible hole beside the last of them. That is what put empty space
+   * next to "Approximate monthly quantity": collection location was
+   * full-width and arrived tenth.
+   *
+   * Hand-balancing it per service is the kind of thing that is correct once
+   * and wrong after the next field is added — and it differs per service,
+   * since each contributes a different number. So the last half-width field
+   * is promoted to full whenever the count is odd, which closes the hole
+   * wherever it would fall and keeps closing it.
+   */
+  const halves = [
+    ...SHARED,
+    ...EXTRAS[chosenService].filter((f) => f.kind !== "area"),
+  ];
+  const areas = EXTRAS[chosenService].filter((f) => f.kind === "area");
+  const lastIsOrphan = halves.length % 2 === 1;
+
+  const render = (spec: Spec, full = false) => {
+    if (spec.kind === "area")
+      return area(spec.key, spec.label, spec.placeholder);
+    if (spec.kind === "select")
+      return select(spec.key, spec.label, spec.options, full);
+    return field(spec.key, spec.label, {
+      required: spec.required,
+      type: spec.type,
+      min: spec.min,
+      max: spec.max,
+      full,
+    });
   };
 
   return (
@@ -431,16 +532,10 @@ export default function EnquiryForm({
                 </div>
               )}
 
-              {field("name", "Your name", { required: true })}
-              {field("company", "Company", { required: true })}
-              {field("workEmail", "Work email", {
-                required: true,
-                type: "email",
-              })}
-              {field("phone", "Phone", { type: "tel" })}
-              {field("city", "City")}
-
-              {serviceFields[chosenService]}
+              {halves.map((spec, i) =>
+                render(spec, lastIsOrphan && i === halves.length - 1),
+              )}
+              {areas.map((spec) => render(spec))}
 
               <div className="field full">
                 <label htmlFor="field-message">How can we help? *</label>

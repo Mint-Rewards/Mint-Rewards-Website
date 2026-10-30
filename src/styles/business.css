@@ -673,8 +673,24 @@
 /* The Mint lockup is a wide horizontal; inside a circle it is width-bound,
    so it is sized against the width and left to take whatever height it
    needs. */
-.b2b .orbit-core img {
+/*
+ * THE WIDTH GOES ON THE <picture>, NOT THE <img>.
+ *
+ * The core holds a <picture> so the RecovLoop mark can ship as WebP. That
+ * wrapper, not the core, is the grid item and the img's containing block —
+ * so `width: 72%` on the img resolved against a shrink-to-fit picture
+ * rather than against the circle, and the mark sat left of centre.
+ *
+ * Sizing the picture and letting the img fill it puts one box in the grid
+ * with a width `place-items: center` can actually centre.
+ */
+.b2b .orbit-core picture {
+  display: block;
   width: 72%;
+}
+.b2b .orbit-core img {
+  display: block;
+  width: 100%;
   height: auto;
 }
 
@@ -755,7 +771,61 @@
     padding: 16px;
     border-radius: 18px;
   }
-  .b2b .orbit-core img {
+  .b2b .orbit-core picture {
     width: 170px;
+  }
+}
+
+/*
+ * The enquiry form: tighter, and its intro aligned to it.
+ *
+ * THE FORM GOT LONGER WHEN THE PER-SERVICE FIELDS CAME BACK — a waste
+ * enquiry now asks eleven questions instead of five, and at Ahsan's
+ * original spacing that ran to over 900px of white card. The spacing was
+ * set for a five-field form and did not survive doubling the field count.
+ *
+ * Nothing here changes a font size: the labels are already 10px and the
+ * inputs 12px, and shrinking text to fit more in is how a form becomes
+ * unreadable. What comes out is padding and gaps, which is space that was
+ * doing nothing.
+ *
+ * THE INTRO COLUMN is centred against the form rather than pinned to its
+ * top. `.form-grid` is `align-items: start`, which was right when the two
+ * columns were a similar height; beside an eleven-field form the heading
+ * sat alone at the top with a long run of empty green beneath it.
+ */
+.b2b .form-grid {
+  align-items: center;
+}
+
+.b2b .enquiry-form {
+  padding: 24px;
+}
+.b2b .form-title {
+  margin-bottom: 15px;
+}
+.b2b .form-fields {
+  gap: 10px;
+}
+.b2b .field {
+  gap: 4px;
+}
+.b2b .field input,
+.b2b .field select,
+.b2b .field textarea {
+  padding: 9px 11px;
+}
+.b2b .field textarea {
+  min-height: 76px;
+}
+.b2b .consent {
+  margin: 11px 0;
+}
+
+@media (max-width: 700px) {
+  /* Stacked, so there is nothing to centre against — the intro is simply
+     above the form and should start where its text starts. */
+  .b2b .form-grid {
+    align-items: start;
   }
 }
