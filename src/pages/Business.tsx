@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { BUSINESS_ROOT } from "../siteMode";
 import EnquiryForm from "../components/business/EnquiryForm";
+import Eyebrow from "../components/business/Eyebrow";
 import PageMeta from "../components/business/PageMeta";
 import "../styles/business.css";
 
@@ -108,19 +109,6 @@ const TECH_NODES = [
   { Icon: Boxes, t: "Business workflows", s: "Service design and coordination" },
   { Icon: PackageCheck, t: "Reporting", s: "Records and programme insights" },
 ];
-
-/*
- * A <div>, as his is — not a <p>.
- *
- * `.b2b .section-head p { color:#65727b }` is more specific than
- * `.b2b .eyebrow`, so an eyebrow rendered as a paragraph inside a section
- * head lost its blue and came out grey. Every eyebrow above a section
- * heading was wrong; the one in the hero, which sits outside a section-head,
- * was right — which is why it looked inconsistent rather than broken.
- */
-function Eyebrow({ children }: { children: React.ReactNode }) {
-  return <div className="eyebrow">{children}</div>;
-}
 
 export default function Business() {
   return (

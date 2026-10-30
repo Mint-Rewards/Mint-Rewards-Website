@@ -303,3 +303,79 @@
   white-space: nowrap;
   border: 0;
 }
+
+/*
+ * The compliance section — structure, and one deliberate departure from his
+ * build.
+ *
+ * THE STRIPE IS HIS, AND IT GOES. `.compliance-box` was a mint-green panel
+ * with a 4px dark-green bar down its left edge (#1e7a5d on #eaf6f0). Two
+ * things are wrong with it here. The bar carries no meaning — nothing else
+ * on the page marks a block that way, so it reads as decoration applied to a
+ * panel rather than as part of the system. And the green is off-brand: this
+ * stylesheet's accent is the blue #087de5, stated at the top of the file,
+ * and the greens scattered through it are leftovers from an earlier palette.
+ * The panel now earns its distinction from a tint and a hairline border,
+ * like every other card on the page. The `border` shorthand resets all four
+ * sides, which is what removes his stripe.
+ *
+ * THE STRUCTURE. Three things made the section read as unbuilt:
+ *
+ *   - `.split` centres its columns, and the left column is far taller than
+ *     the panel, so the panel floated at the midpoint with unequal space
+ *     above and below. A modifier top-aligns this one; the other pages'
+ *     splits pair items of similar height and still want centring.
+ *   - The six capability cards hold an icon and a label and no paragraph,
+ *     but `.feature h3` carries a 14px/8px margin sized for a card that has
+ *     body copy under it. That left a band of dead space beneath every
+ *     label and made six short items look like six empty boxes. Icon and
+ *     label now sit on one line.
+ *   - The licence fields were 10px text in three columns, so the longer
+ *     ones wrapped and the rows went ragged. Two columns at 11px fit each
+ *     on one line, and solid white over a near-white panel is legible where
+ *     60%-alpha white was not.
+ */
+.b2b .split-top { align-items: start; }
+
+.b2b .compliance-box {
+  background: #f7fafc;
+  border: 1px solid #e3eaf0;
+}
+
+.b2b .feature {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+}
+.b2b .feature h3 {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.b2b .compliance-grid {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+.b2b .compliance-item {
+  background: #fff;
+  border: 1px solid #e8eef4;
+  color: #41566b;
+  font-size: 11px;
+}
+
+/*
+ * The capability grid's column count, moved out of an inline style.
+ *
+ * His markup sets gridTemplateColumns:'1fr 1fr' inline, and an inline style
+ * beats a stylesheet rule at any specificity — so the 700px rule that stacks
+ * `.feature-grid` never applied to it, and the six cards stayed two abreast
+ * on a phone at roughly 150px each, wrapping every label onto three lines.
+ * His build has the same defect; this is the one place it shows.
+ */
+.b2b .feature-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+
+@media (max-width: 700px) {
+  .b2b .feature-grid.cols-2 { grid-template-columns: 1fr; }
+}

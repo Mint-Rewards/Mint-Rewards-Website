@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import CtaBand from "../components/business/CtaBand";
 import EnquiryForm from "../components/business/EnquiryForm";
+import Eyebrow from "../components/business/Eyebrow";
 import PageMeta from "../components/business/PageMeta";
 import "../styles/business.css";
 
@@ -146,11 +147,6 @@ const CHIPS = [
   "Other recoverables",
 ];
 
-/** A <div>, not a <p> — `.section-head p` would override its colour. */
-function Eyebrow({ children }: { children: React.ReactNode }) {
-  return <div className="eyebrow">{children}</div>;
-}
-
 export default function WasteManagement() {
   return (
     <div className="b2b">
@@ -211,7 +207,7 @@ export default function WasteManagement() {
         </section>
 
         <section className="section">
-          <div className="container split">
+          <div className="container split split-top">
             <div>
               <Eyebrow>Compliance comes first</Eyebrow>
               <div className="section-head">
@@ -223,14 +219,11 @@ export default function WasteManagement() {
                   confirmed.
                 </p>
               </div>
-              <div
-                className="feature-grid"
-                style={{ gridTemplateColumns: "1fr 1fr" }}
-              >
+              <div className="feature-grid cols-2">
                 {COMPLIANCE_FEATURES.map((x) => (
                   <div className="feature" key={x}>
-                    <Check size={17} color="#1e7a5d" />
-                    <h3 style={{ fontSize: 13 }}>{x}</h3>
+                    <Check size={17} color="#087de5" />
+                    <h3>{x}</h3>
                   </div>
                 ))}
               </div>
