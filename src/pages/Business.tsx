@@ -204,12 +204,31 @@ export default function Business() {
               </Link>
             </div>
             <div className="ecosystem">
+              {/*
+                One wrapper, deliberately. `.eco-center` is `display:grid;
+                place-items:center`, which makes every child its own grid
+                item — so the bare text and the <small> became two rows,
+                each centred in its own row, and the circle read as a label
+                at the top and a caption at the bottom with a hole between.
+                Wrapped, the grid has a single item to centre and the lines
+                sit together as one block.
+              */}
               <div className="eco-center">
-                Mint
-                <br />
-                Rewards
-                <br />
-                <small style={{ fontWeight: 400 }}>business ecosystem</small>
+                <span style={{ lineHeight: 1.35, display: "block" }}>
+                  Mint
+                  <br />
+                  Rewards
+                  <small
+                    style={{
+                      display: "block",
+                      fontWeight: 400,
+                      marginTop: 4,
+                      opacity: 0.75,
+                    }}
+                  >
+                    business ecosystem
+                  </small>
+                </span>
               </div>
               <div className="eco-options">
                 <div className="eco-option">
