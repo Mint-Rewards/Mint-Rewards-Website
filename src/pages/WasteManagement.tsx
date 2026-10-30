@@ -519,9 +519,9 @@ export default function WasteManagement() {
           effect has to stay, or the orbit invents a commercial relationship
           with thirty-one named organisations.
         */}
-        <section className="section">
-          <div className="container">
-            <div className="section-head center">
+        <section className="section network-section">
+          <div className="container network-split">
+            <div className="section-head">
               <Eyebrow>The network</Eyebrow>
               <h2>{PARTNER_COUNT} organisations in the network.</h2>
               <p>

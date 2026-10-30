@@ -57,6 +57,16 @@
 .b2b {
   --b2b-accent: #087de5;
   --b2b-accent-hover: #0064c5;
+  /*
+   * The page margin, as a number other rules can use.
+   *
+   * `.container` bakes it into a `calc(100% - 48px)` and a
+   * `calc(100% - 34px)` below 700px, so it is 24px and then 17px a side.
+   * The carousel has to bleed past the container by exactly that much to
+   * reach the screen edge while its first item still lines up with the
+   * text above it — which it cannot do by reading a width.
+   */
+  --b2b-gutter: 24px;
   font-synthesis-weight: none;
   --app-font-sans: 'DM Sans Variable', 'DM Sans', system-ui, sans-serif;
   --app-font-serif: 'Manrope Variable', 'Manrope', system-ui, sans-serif;
@@ -254,6 +264,7 @@
  .b2b .cards, .b2b .services-grid { grid-template-columns:repeat(2,1fr); }.b2b .form-grid { gap:30px; }
 }
 @media(max-width:700px) {
+ .b2b { --b2b-gutter: 17px; }
  .b2b .container { width:min(100% - 34px,560px); }.b2b .header { height:66px; }.b2b .nav-links, .b2b .header-cta { display:none; }.b2b .mobile-toggle { display:block; }
  .b2b .mobile-menu { display:grid;position:absolute;top:66px;left:0;right:0;background:#fff;border-bottom:1px solid #e7eeef;padding:12px 22px 18px;box-shadow:0 14px 20px #10252b0d; }
  .b2b .mobile-menu a { padding:12px 3px;font-size:14px;font-weight:600;border-bottom:1px solid #f0f3f4; }
@@ -447,9 +458,9 @@
  */
 .b2b .orbit {
   position: relative;
-  width: min(760px, 100%);
+  width: min(660px, 100%);
   aspect-ratio: 1;
-  margin: 40px auto 0;
+  margin: 0 auto;
   /* Isolates the chips' stacking from the page, so a hovered chip lifts
      above its neighbours without escaping the section. */
   isolation: isolate;
@@ -464,12 +475,44 @@
    * viewport while the gap tracked the orbit, so the two drifted apart and
    * the figure overlapped at some widths and not others.
    *
-   * In container units both track the same box: 7.6cqw against an 8.67%
-   * gap leaves about one percent of clearance at EVERY size, which is a
-   * property of the ratio rather than something that happens to hold at the
-   * width it was eyeballed at.
+   * In container units both track the same box: 9cqw against a 10% gap
+   * leaves one percent of clearance at EVERY size, which is a property of
+   * the ratio rather than something that happens to hold at the width it
+   * was eyeballed at.
    */
   container-type: inline-size;
+}
+
+/*
+ * THE SECTION CLIPS, NOT THE ORBIT — AND A ROTATING SQUARE IS WHY ANY OF
+ * THIS IS NEEDED.
+ *
+ * Each ring is a square the size of the orbit, and a square rotated 45° has
+ * a bounding box 1.41 times its side: a 660px ring claims about 930px while
+ * it turns, ~135px past each edge. Nothing is drawn out there — the corners
+ * are empty — but transforms contribute to scrollable overflow, so those
+ * empty corners gave the whole PAGE a horizontal scrollbar.
+ *
+ * That was always true and simply did not show. Centred in a 1200px
+ * container the orbit had ~220px of slack each side and the corners fit
+ * inside it; in a 70% column there is ~73px and they do not.
+ *
+ * CLIPPING THE ORBIT ITSELF WAS THE FIRST ATTEMPT AND IT WAS WRONG. The
+ * tooltips legitimately sit outside the orbit box — above a chip at the top
+ * of a ring — so the clip needed a margin to let them through, and that
+ * margin then overflowed on its own account at 1024px, where the column is
+ * narrow enough that 44px of slop reaches past the viewport.
+ *
+ * Clipping the SECTION has no such problem: the section is already the
+ * width of the viewport, so the boundary is exactly the one that matters.
+ * The empty corners are cut at the screen edge where nobody can see them,
+ * and everything inside — tooltips included — is untouched.
+ *
+ * `clip`, not `hidden`: hidden would make a scroll container, which is the
+ * thing being avoided. Clipping one axis leaves the other visible.
+ */
+.b2b .network-section {
+  overflow-x: clip;
 }
 
 .b2b .orbit-ring {
@@ -540,9 +583,9 @@
   position: absolute;
   display: grid;
   place-items: center;
-  width: 7.6cqw;
-  height: 7.6cqw;
-  margin: -3.8cqw;
+  width: 9cqw;
+  height: 9cqw;
+  margin: -4.5cqw;
   background: #fff;
   border: 1px solid #e4ece8;
   border-radius: 50%;
@@ -624,7 +667,7 @@
 .b2b .orbit-tip {
   position: absolute;
   left: 50%;
-  bottom: calc(3.8cqw + 10px);
+  bottom: calc(4.5cqw + 10px);
   transform: translate(-50%, 4px);
   padding: 5px 9px;
   border-radius: 7px;
@@ -657,9 +700,9 @@
   top: 50%;
   /* Container units here too, so the core keeps its clearance from the
      inner ring at every size rather than only at the one it was set at. */
-  width: 22cqw;
-  height: 22cqw;
-  margin: -11cqw;
+  width: 19cqw;
+  height: 19cqw;
+  margin: -9.5cqw;
   display: grid;
   place-items: center;
   background: #fff;
@@ -701,31 +744,88 @@
 }
 
 /*
- * ON A PHONE THERE IS NO ORBIT, AND THAT IS THE ONLY HONEST ANSWER.
+ * The network section: copy on the left, orbit on the right.
  *
- * Every measurement here is a proportion of the box, so a narrower box
- * scales the whole figure and keeps its clearances — but it scales the
- * logos too. At 390px the chips come out around 27px, which is a row of
- * coloured dots: the ring survives and the thing it exists to show, which
- * is WHICH brands these are, does not. Thirty-one marks cannot be both
- * arranged in rings and legible on a 390px screen; the geometry decides
- * that, not taste.
+ * 30/70 because the two halves want opposite things. The copy is three
+ * short blocks and reads better in a narrow measure; the orbit is a
+ * fixed-ratio square whose logos shrink with every pixel taken off it, so
+ * the space is worth more on the right.
  *
- * So below 700px the same markup lays out as a centred grid at a size you
- * can actually read. `display: contents` on the rings drops the slots
- * straight into the grid, and every transform, animation and absolute
- * position is unwound — which is why this block looks like a list of
- * undos. The core comes first with `order`, so RecovLoop still leads.
+ * The heading is stepped down from the page's `clamp(32px, 4vw, 46px)`.
+ * That size is set for a full-width heading; at 46px in a 340px column
+ * "31 organisations in the network." breaks across four lines and stops
+ * looking like a heading.
  */
-@media (max-width: 700px) {
+.b2b .network-split {
+  display: grid;
+  grid-template-columns: 30fr 70fr;
+  gap: 48px;
+  align-items: center;
+}
+.b2b .network-split .section-head {
+  margin-bottom: 0;
+}
+.b2b .network-split .section-head h2 {
+  font-size: clamp(28px, 2.6vw, 36px);
+  letter-spacing: -1.4px;
+}
+
+/*
+ * BELOW 900px THE ORBIT BECOMES A CAROUSEL, because it cannot be both
+ * ring-shaped and legible in a narrow column.
+ *
+ * Every measurement in the orbit is a proportion of its box, so a narrow
+ * box scales the figure — and the logos with it. The ring survives and the
+ * only thing the section exists to show, which is WHICH organisations
+ * these are, does not. A grid was the earlier answer; a carousel is better
+ * on a phone because it keeps the logos at a readable size without turning
+ * the section into eight rows of scrolling.
+ *
+ * It is a scroll-snap strip, not a scripted slider: the browser already
+ * does momentum, snapping, keyboard and assistive-technology scrolling
+ * correctly, and none of that has to be rebuilt or kept working.
+ *
+ * The tooltip becomes a visible caption here. There is no hover on a
+ * touchscreen, so a name that only appears on hover is a name nobody sees.
+ * It stays aria-hidden because the image's alt already carries it — the
+ * caption is for eyes, the alt for everything else.
+ */
+@media (max-width: 900px) {
+  .b2b .network-split {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
   .b2b .orbit {
-    width: 100%;
+    /*
+     * `auto`, NOT `100%`. With an explicit width the negative margins below
+     * only SHIFT the box — it moved a gutter to the left, started off the
+     * screen edge and stopped a gutter short on the right, which is not a
+     * bleed, it is a misalignment. Letting the width resolve from the box
+     * lets the negative margins widen it on both sides instead.
+     */
+    width: auto;
     aspect-ratio: auto;
-    margin-top: 28px;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
+    flex-wrap: nowrap;
+    /* Both axes, so the desktop `clip` above cannot leave overflow-y
+       clipped while x scrolls — mixing the two computes in ways nobody
+       should have to reason about. */
+    overflow: auto hidden;
+    scroll-snap-type: x proximity;
+    gap: 14px;
+    /* Full-bleed: the strip runs to the screen edge so it reads as
+       scrollable, while the first and last items still line up with the
+       page's margin. */
+    margin-inline: calc(var(--b2b-gutter, 24px) * -1);
+    padding-inline: var(--b2b-gutter, 24px);
+    padding-bottom: 4px;
+    scroll-padding-inline: var(--b2b-gutter, 24px);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .b2b .orbit::-webkit-scrollbar {
+    display: none;
   }
 
   .b2b .orbit-ring {
@@ -735,6 +835,8 @@
     display: none;
   }
 
+  /* Every transform, animation and absolute position unwound — which is
+     why this reads as a list of undos. */
   .b2b .orbit-slot,
   .b2b .orbit-counter {
     position: static;
@@ -743,36 +845,63 @@
     transform: none;
     animation: none;
   }
+  .b2b .orbit-slot {
+    flex: 0 0 auto;
+    width: 92px;
+    /*
+     * `start`, not `center`. With centre snapping the browser picks a snap
+     * position on load, and the nearest one centred the FIRST logo — which
+     * scrolled the strip 50px on arrival and cut the RecovLoop mark in
+     * half before anyone had touched it. Snapping to the start means the
+     * resting position is the start.
+     */
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   .b2b .orbit-counter {
-    position: relative;
-    display: inline-block;
+    display: contents;
   }
 
   .b2b .orbit-chip {
     position: static;
-    width: 58px;
-    height: 58px;
+    width: 64px;
+    height: 64px;
     margin: 0;
   }
 
-  /* Anchored to the chip rather than to a ring position that no longer
-     exists. Reachable by tap, because the chip is focusable. */
   .b2b .orbit-tip {
-    bottom: calc(100% + 6px);
+    position: static;
+    opacity: 1;
+    transform: none;
+    background: none;
+    color: #65727b;
+    padding: 0;
+    margin-top: 9px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.3;
+    white-space: normal;
+    text-align: center;
   }
 
+  /* RecovLoop leads the strip rather than sitting in the middle of it. */
   .b2b .orbit-core {
     position: static;
     order: -1;
-    flex: 0 0 100%;
+    flex: 0 0 auto;
     width: auto;
     height: auto;
-    margin: 0 0 18px;
-    padding: 16px;
-    border-radius: 18px;
+    margin: 0;
+    padding: 0 18px 0 0;
+    border-radius: 0;
+    box-shadow: none;
+    align-self: center;
+    scroll-snap-align: start;
   }
   .b2b .orbit-core picture {
-    width: 170px;
+    width: 150px;
   }
 }
 

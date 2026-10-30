@@ -51,13 +51,21 @@ type Partner = {
  * breakpoint re-laying it out.
  *
  * The outermost sits at 45%: a chip is centred on the radius, so anything
- * past about that overhangs the square and gets cut by the section edge.
+ * past that overhangs the square and gets cut by the section edge.
  *
- * THE RADII ARE EVENLY SPACED ON PURPOSE — 19, 27.67, 36.33, 45, a gap of
- * 8.67% between each. Chips are 7.6% wide (see .orbit in business.css), so
- * that gap is what keeps a chip on one ring clear of a chip on the next as
- * they pass. Move one radius without moving the rest and rings will start
- * colliding wherever the gap falls below the chip width.
+ * THE RADII ARE EVENLY SPACED ON PURPOSE — 15, 25, 35, 45, a gap of exactly
+ * 10% between each. Chips are 9% wide (see .orbit in business.css), so that
+ * gap is what keeps a chip on one ring clear of a chip on the next as they
+ * pass. Move one radius without moving the rest and rings start colliding
+ * wherever the gap falls below the chip width.
+ *
+ * WIDENING THE SPAN IS WHAT LET THE CHIPS GROW. The orbit got smaller when
+ * it moved into a 70% column, which would normally shrink every logo with
+ * it. Pulling the inner ring from 19% in to 15% buys a 10% gap instead of
+ * 8.67%, and the chip is sized against that gap — so the marks come out
+ * LARGER in the smaller figure. The inner ring and the core are the other
+ * constraint: 15% minus half a chip leaves the core 10.5% of radius to sit
+ * in, which is why the core is 19% across and not more.
  */
 const RINGS: {
   radius: number;
@@ -66,7 +74,7 @@ const RINGS: {
   partners: Partner[];
 }[] = [
   {
-    radius: 19,
+    radius: 15,
     duration: 86,
     reverse: false,
     partners: [
@@ -75,7 +83,7 @@ const RINGS: {
     ],
   },
   {
-    radius: 27.67,
+    radius: 25,
     duration: 104,
     reverse: true,
     partners: [
@@ -91,7 +99,7 @@ const RINGS: {
     ],
   },
   {
-    radius: 36.33,
+    radius: 35,
     duration: 126,
     reverse: false,
     partners: [
