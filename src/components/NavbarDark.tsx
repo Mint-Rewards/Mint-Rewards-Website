@@ -1,58 +1,55 @@
 import React, { useState } from "react";
 import { Download, Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import { BUSINESS_ROOT, siteModeFor } from "../siteMode";
+
+/*
+ * One nav, two sets of destinations.
+ *
+ * "Personal" used to be a nav item pointing at "/" with "Business" commented
+ * out beside it — which could only ever have read as two links to the same
+ * place. The two audiences are now a switch, and the items below it belong to
+ * whichever side you are on.
+ *
+ * The scroll items only work on the home page they anchor into, which is why
+ * each carries its own `path`: the handler navigates there first when you are
+ * somewhere else, and "somewhere else" now includes the other site.
+ */
+const MENU_BY_MODE = {
+  personal: [
+    { name: "How it Works", path: "/", key: "how-it-works", type: "scroll", scrollTarget: "how-it-works" },
+    { name: "Partners", path: "/", key: "partners", type: "scroll", scrollTarget: "partners" },
+    { name: "Impact", path: "/", key: "impact", type: "scroll", scrollTarget: "impact" },
+    { name: "CO2 Calculator", path: "/co2-calculator", key: "co2-calculator", type: "link" },
+  ],
+  business: [
+    { name: "What we do", path: BUSINESS_ROOT, key: "b-what", type: "scroll", scrollTarget: "what-we-do" },
+    { name: "Why Mint", path: BUSINESS_ROOT, key: "b-why", type: "scroll", scrollTarget: "why-mint" },
+    { name: "Get in touch", path: `${BUSINESS_ROOT}/contact`, key: "b-contact", type: "link" },
+  ],
+} as const;
 
 const NavbarDark = () => {
   const location = useLocation();
-
-  const menuItems = [
-    {
-      name: "Personal",
-      path: "/",
-      key: "personal",
-      type: "link",
-    },
-    // {
-    //   name: "Business",
-    //   path: "/",
-    //   key: "business",
-    //   type: "link",
-    // },
-    {
-      name: "How it Works",
-      path: "/",
-      key: "how-it-works",
-      type: "scroll",
-      scrollTarget: "how-it-works",
-    },
-    {
-      name: "Partners",
-      path: "/",
-      key: "partners",
-      type: "scroll",
-      scrollTarget: "partners",
-    },
-    {
-      name: "Impact",
-      path: "/",
-      key: "impact",
-      type: "scroll",
-      scrollTarget: "impact",
-    },
-    {
-      name: "CO2 Calculator",
-      path: "/co2-calculator",
-      key: "co2-calculator",
-      type: "link",
-    },
-  ];
+  const mode = siteModeFor(location.pathname);
+  const menuItems: readonly {
+    name: string;
+    path: string;
+    key: string;
+    type: string;
+    scrollTarget?: string;
+  }[] = MENU_BY_MODE[mode];
 
   const handleMenuClick = (item: (typeof menuItems)[number]) => {
     if (item.type === "scroll" && item.scrollTarget) {
-      // If not on homepage, navigate to homepage first
-      if (location.pathname !== "/") {
-        // Navigate to homepage and then scroll
-        window.location.href = `/#${item.scrollTarget}`;
+      /*
+       * `item.path` rather than a hardcoded "/": each site has its own home to
+       * scroll within, and the business anchors do not exist on the consumer
+       * one. Assuming "/" here would have sent a business visitor to the
+       * consumer page and then failed to find the section.
+       */
+      if (location.pathname !== item.path) {
+        window.location.href = `${item.path}#${item.scrollTarget}`;
       } else {
         // Already on homepage, just scroll
         const section = document.getElementById(item.scrollTarget);
@@ -62,10 +59,6 @@ const NavbarDark = () => {
     }
   };
 
-  const handleDownloadApp = () => {
-    // Handle download app action
-    console.log("Download app clicked");
-  };
 
   const [open, setOpen] = useState(false);
 
@@ -81,9 +74,48 @@ const NavbarDark = () => {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-2">
-            <div className="h-10 w-32 overflow-hidden">
-              <img src="/favicon.png" alt="Mint Rewards" />
-            </div>
+            {/* Home of the site you are on. A logo that always went to "/"
+                would quietly drop a business visitor onto the consumer site. */}
+            <Link to={mode === "business" ? BUSINESS_ROOT : "/"} className="h-10 w-32 overflow-hidden block">
+              <img src="/favicon.png" alt={mode === "business" ? "Mint Rewards for Business" : "Mint Rewards"} />
+            </Link>
+          </div>
+
+          {/*
+            THE SWITCH BETWEEN THE TWO SITES.
+            Beside the logo rather than among the nav items: it changes which
+            site you are on, while everything to its right changes where you
+            are within one. Putting it in the same row as "Impact" would have
+            made a change of audience look like a change of page.
+
+            Two links, not a button — each side is a real URL that can be
+            shared, bookmarked and opened in a new tab. `aria-current` is what
+            tells a screen reader which of the two you are reading, since the
+            visual answer is a background colour.
+          */}
+          <div
+            className="ml-6 hidden sm:flex items-center rounded-full bg-black/5 p-0.5 text-sm"
+            role="group"
+            aria-label="Choose Mint Rewards for personal or business use"
+          >
+            {([
+              { label: "Personal", to: "/", value: "personal" },
+              { label: "Business", to: BUSINESS_ROOT, value: "business" },
+            ] as const).map((opt) => (
+              <Link
+                key={opt.value}
+                to={opt.to}
+                onClick={() => setOpen(false)}
+                aria-current={mode === opt.value ? "page" : undefined}
+                className={`rounded-full px-3.5 py-1.5 font-medium transition ${
+                  mode === opt.value
+                    ? "bg-white text-black shadow-sm"
+                    : "text-black/55 hover:text-black"
+                }`}
+              >
+                {opt.label}
+              </Link>
+            ))}
           </div>
 
           <div className="flex items-center justify-end md:justify-between gap-6">
@@ -146,6 +178,42 @@ const NavbarDark = () => {
           id="mobile-nav"
         >
           <div className="flex flex-col gap-4 px-6 py-6 text-black/80">
+            {/*
+              The switch again, because the desktop one is `hidden sm:flex`.
+              Without this a phone visitor has no route to the business site at
+              all — the whole feature would be invisible on the device most
+              people arrive on.
+
+              First in the sheet, and separated by a rule: it changes which
+              site you are on, and the items below it belong to whichever you
+              pick, so reading it after them would be reading them twice.
+            */}
+            <div
+              className="flex items-center rounded-full bg-black/5 p-0.5 text-sm"
+              role="group"
+              aria-label="Choose Mint Rewards for personal or business use"
+            >
+              {([
+                { label: "Personal", to: "/", value: "personal" },
+                { label: "Business", to: BUSINESS_ROOT, value: "business" },
+              ] as const).map((opt) => (
+                <Link
+                  key={`${opt.value}-mobile`}
+                  to={opt.to}
+                  onClick={() => setOpen(false)}
+                  aria-current={mode === opt.value ? "page" : undefined}
+                  className={`flex-1 rounded-full px-3.5 py-2 text-center font-medium transition ${
+                    mode === opt.value
+                      ? "bg-white text-black shadow-sm"
+                      : "text-black/55"
+                  }`}
+                >
+                  {opt.label}
+                </Link>
+              ))}
+            </div>
+            <hr className="border-black/10" />
+
             {menuItems.map((item) => (
               <div key={`${item.key}-mobile`}>
                 {item.type === "link" ? (

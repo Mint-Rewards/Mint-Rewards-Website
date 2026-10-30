@@ -2,3 +2,14 @@
 node_modules
 .DS_STORE
 dist/
+# The skill's own library and scripts — 2.5MB of reference material that is a
+# tool, not part of this site. `skills-lock.json` records which skill and
+# version is in use, which is the part worth tracking.
+.agents/
+.claude/
+
+# The supplied RecovLoop handover: 5.3MB of PNGs wrapped in SVG containers,
+# one per background. Source material, not a build input — the usable assets
+# are generated from it into public/recovloop, where the same logo is 3.4KB.
+# Keep the original somewhere shared rather than in the site repo.
+RecovLoop_SVG_Developer_Pack/
