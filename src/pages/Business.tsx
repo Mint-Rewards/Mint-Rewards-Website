@@ -11,6 +11,7 @@ import {
   Users,
 } from "lucide-react";
 import { BUSINESS_ROOT } from "../siteMode";
+import EnquiryForm from "../components/business/EnquiryForm";
 import "../styles/business.css";
 
 /**
@@ -186,10 +187,50 @@ export default function Business() {
         </section>
 
         <section className="section section-soft">
+          <div className="container split">
+            <div>
+              <Eyebrow>Connected by possibility</Eyebrow>
+              <div className="section-head">
+                <h2>One Ecosystem. More Ways to Create Value.</h2>
+                <p>
+                  A manufacturer may use RecovLoop to manage waste, become a
+                  Rewards Partner to connect with consumers, or sponsor a
+                  recycling programme through Impact Solutions. Start where it
+                  makes sense for your business.
+                </p>
+              </div>
+              <Link className="text-link" to={`${BUSINESS_ROOT}/contact`}>
+                Explore a fit for your business <ArrowRight size={15} />
+              </Link>
+            </div>
+            <div className="ecosystem">
+              <div className="eco-center">
+                Mint
+                <br />
+                Rewards
+                <br />
+                <small style={{ fontWeight: 400 }}>business ecosystem</small>
+              </div>
+              <div className="eco-options">
+                <div className="eco-option">
+                  RecovLoop<span>Recover resources</span>
+                </div>
+                <div className="eco-option">
+                  Rewards<span>Connect customers</span>
+                </div>
+                <div className="eco-option">
+                  Impact<span>Engage communities</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="section">
           <div className="container">
-            <div className="section-head">
-              <Eyebrow>Sectors we work with</Eyebrow>
-              <h2>Built around your operation.</h2>
+            <div className="section-head center">
+              <Eyebrow>Made for business realities</Eyebrow>
+              <h2>Who we work with</h2>
               <p>
                 From production floors to customer-facing brands, we tailor
                 conversations around your organisation and its goals.
@@ -206,7 +247,7 @@ export default function Business() {
           </div>
         </section>
 
-        <section className="section">
+        <section className="section section-soft">
           <div className="container">
             <div className="technology-band">
               <div>
@@ -274,6 +315,8 @@ export default function Business() {
             </Link>
           </div>
         </section>
+
+        <EnquiryForm showServicePicker title="Tell us what you need" />
       </main>
     </div>
   );
