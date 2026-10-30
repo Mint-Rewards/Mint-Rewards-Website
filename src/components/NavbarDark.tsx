@@ -22,10 +22,17 @@ const MENU_BY_MODE = {
     { name: "Impact", path: "/", key: "impact", type: "scroll", scrollTarget: "impact" },
     { name: "CO2 Calculator", path: "/co2-calculator", key: "co2-calculator", type: "link" },
   ],
+  /*
+   * Ahsan's business nav, matching the Replit build: four destinations, one
+   * per page, rather than the scroll anchors I guessed at first. Those pointed
+   * at #what-we-do and #why-mint, which exist on no page — they silently did
+   * nothing.
+   */
   business: [
-    { name: "What we do", path: BUSINESS_ROOT, key: "b-what", type: "scroll", scrollTarget: "what-we-do" },
-    { name: "Why Mint", path: BUSINESS_ROOT, key: "b-why", type: "scroll", scrollTarget: "why-mint" },
-    { name: "Get in touch", path: `${BUSINESS_ROOT}/contact`, key: "b-contact", type: "link" },
+    { name: "Overview", path: BUSINESS_ROOT, key: "b-overview", type: "link" },
+    { name: "RecovLoop", path: `${BUSINESS_ROOT}/waste-management`, key: "b-waste", type: "link" },
+    { name: "Rewards partners", path: `${BUSINESS_ROOT}/rewards`, key: "b-rewards", type: "link" },
+    { name: "Impact solutions", path: `${BUSINESS_ROOT}/impact`, key: "b-impact", type: "link" },
   ],
 } as const;
 

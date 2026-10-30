@@ -127,15 +127,19 @@ export default function Business() {
                 </Link>
               </div>
             </div>
-            {/*
-              His hero photograph is a material recovery facility. It is not in
-              the handover — only the markup referencing /images/recovery-hero.jpg
-              — so the slot renders its colour field until the real photograph
-              is supplied. Deliberately not replaced with stock: a generic
-              recycling image would be exactly the thing the spec's imagery
-              guidance warns against.
-            */}
-            <div className="hero-art" data-awaiting-photo="recovery-hero">
+            {/* His photograph of a material recovery facility, carried over
+                from the handover. WebP with a JPEG fallback; it is the hero,
+                so it is not lazy-loaded. */}
+            <div className="hero-art">
+              <picture>
+                <source srcSet="/images/recovery-hero.webp" type="image/webp" />
+                <img
+                  src="/images/recovery-hero.jpg"
+                  alt="Material recovery facility with sorted recyclable materials"
+                  width={1024}
+                  height={1024}
+                />
+              </picture>
               <div className="photo-shade" />
               <div className="floating-note">
                 <strong>Physical recovery</strong>connected with digital insight
