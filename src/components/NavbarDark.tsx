@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ArrowRight, Download, Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import { BUSINESS_ROOT, siteModeFor } from "../siteMode";
+import { BUSINESS_ROOT, brandFor, RECOVLOOP_ROOT, siteModeFor } from "../siteMode";
 
 /*
  * One nav, two sets of destinations.
@@ -39,6 +39,7 @@ const MENU_BY_MODE = {
 const NavbarDark = () => {
   const location = useLocation();
   const mode = siteModeFor(location.pathname);
+  const brand = brandFor(location.pathname);
   const menuItems: readonly {
     name: string;
     path: string;
@@ -105,8 +106,43 @@ const NavbarDark = () => {
           <div className="flex items-center gap-2">
             {/* Home of the site you are on. A logo that always went to "/"
                 would quietly drop a business visitor onto the consumer site. */}
-            <Link to={mode === "business" ? BUSINESS_ROOT : "/"} className="h-10 w-32 overflow-hidden block">
-              <img src="/favicon.png" alt={mode === "business" ? "Mint Rewards for Business" : "Mint Rewards"} />
+            {/* On a RecovLoop page the header wears RecovLoop's mark, and it
+                leads to RecovLoop's own page rather than to the business
+                overview — the mark and the destination have to agree. */}
+            <Link
+              to={
+                brand === "recovloop"
+                  ? RECOVLOOP_ROOT
+                  : mode === "business"
+                    ? BUSINESS_ROOT
+                    : "/"
+              }
+              className="h-10 w-32 flex items-center overflow-hidden"
+            >
+              {brand === "recovloop" ? (
+                <picture>
+                  <source
+                    srcSet="/images/recovloop-logo.webp"
+                    type="image/webp"
+                  />
+                  <img
+                    src="/images/recovloop-logo.png"
+                    alt="RecovLoop, from Mint Rewards"
+                    width={560}
+                    height={147}
+                    className="h-auto w-full"
+                  />
+                </picture>
+              ) : (
+                <img
+                  src="/favicon.png"
+                  alt={
+                    mode === "business"
+                      ? "Mint Rewards for Business"
+                      : "Mint Rewards"
+                  }
+                />
+              )}
             </Link>
           </div>
 

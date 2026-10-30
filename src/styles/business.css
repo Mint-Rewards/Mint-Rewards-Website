@@ -246,8 +246,17 @@
  * the hero read as cramped against the Replit original: it was losing the
  * header's 78px of air at the top.
  */
+/*
+ * Both hero kinds, not just .hero. The overview uses .hero and the three
+ * service pages use .page-hero, so fixing one left the others sitting under
+ * the navigation — the same cramped top, one class along.
+ */
 .b2b .hero { padding-top: 174px; }
-@media (max-width: 900px) { .b2b .hero { padding-top: 125px; } }
+.b2b .page-hero { padding-top: 150px; }
+@media (max-width: 900px) {
+  .b2b .hero { padding-top: 125px; }
+  .b2b .page-hero { padding-top: 116px; }
+}
 
 /*
  * OURS, not his — the sector cards.

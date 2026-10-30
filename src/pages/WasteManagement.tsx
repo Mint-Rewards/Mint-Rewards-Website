@@ -162,23 +162,8 @@ export default function WasteManagement() {
         <section className="page-hero">
           <div className="container hero-grid">
             <div>
-              {/* The supplied logo is opaque RGB, so it drew a white box
-                  against the hero's pale ground. Keyed out and trimmed, with
-                  the edge feathered by alpha rather than cut, so it sits on
-                  any brand background. 550KB -> 32KB as a side effect. */}
-              <picture>
-                <source
-                  srcSet="/images/recovloop-logo.webp"
-                  type="image/webp"
-                />
-                <img
-                  className="logo-rec"
-                  src="/images/recovloop-logo.png"
-                  alt="RecovLoop"
-                  width={560}
-                  height={147}
-                />
-              </picture>
+              {/* The RecovLoop mark is worn by the header on this route, so
+                  the hero does not repeat it — see brandFor() in siteMode. */}
               <Eyebrow>
                 RecovLoop | Industrial &amp; Commercial Waste Management
               </Eyebrow>

@@ -37,3 +37,26 @@ export function siteModeFor(pathname: string): SiteMode {
 export function switchTarget(mode: SiteMode): string {
   return mode === "business" ? "/" : BUSINESS_ROOT;
 }
+
+/**
+ * Which brand's mark the header should wear.
+ *
+ * RecovLoop is a sub-brand with its own identity — its own guide, palette and
+ * logo — and its page is the one place a visitor is reading about RecovLoop
+ * rather than about Mint. Wearing the Mint mark there makes the page look
+ * like a Mint page about a product, when it is meant to read as the product's
+ * own front door.
+ *
+ * Derived from the path like everything else here, so a shared link to the
+ * RecovLoop page opens wearing the right mark rather than correcting itself
+ * after a render.
+ */
+export type Brand = "mint" | "recovloop";
+
+export const RECOVLOOP_ROOT = `${BUSINESS_ROOT}/waste-management`;
+
+export function brandFor(pathname: string): Brand {
+  return pathname === RECOVLOOP_ROOT || pathname.startsWith(`${RECOVLOOP_ROOT}/`)
+    ? "recovloop"
+    : "mint";
+}
