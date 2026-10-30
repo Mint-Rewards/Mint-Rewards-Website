@@ -449,9 +449,15 @@ export default function WasteManagement() {
               <Eyebrow>Clear steps, tailored scope</Eyebrow>
               <h2>How We Work</h2>
             </div>
-            <div className="process-grid">
-              {PROCESS.map(([h, p]) => (
+            <div
+              className="process-grid"
+              style={{ ["--steps" as string]: PROCESS.length }}
+            >
+              {PROCESS.map(([h, p], i) => (
                 <div className="process-step" key={h}>
+                  {i < PROCESS.length - 1 && (
+                    <span className="process-link" aria-hidden="true" />
+                  )}
                   <h3>{h}</h3>
                   <p>{p}</p>
                 </div>
