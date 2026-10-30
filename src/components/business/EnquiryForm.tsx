@@ -113,7 +113,8 @@ export default function EnquiryForm({
     <section id="enquiry" className="form-section">
       <div className="container form-grid">
         <div className="form-intro">
-          <p className="eyebrow">Start a conversation</p>
+          {/* A div, not a p — see the note on Eyebrow in Business.tsx. */}
+          <div className="eyebrow">Start a conversation</div>
           <h2>Let's find the right fit for your business.</h2>
           <p>
             Tell us what you are working on. Our team will follow up to
