@@ -79,14 +79,26 @@ const OFFERS = [
   },
 ];
 
-const SECTORS = [
-  "Manufacturing and Industry",
-  "FMCG and Consumer Brands",
-  "Retail and E commerce",
-  "Hospitality and Restaurants",
-  "Corporate Offices",
-  "Property Developers",
-  "Institutions and Public Sector",
+/*
+ * The sector list, with a line each on what the conversation is usually
+ * about. The cards previously held a name and "Business sector · 01" — a
+ * label that restated the section heading seven times and left the middle of
+ * every card empty, because `.industry` is justify-content:space-between.
+ *
+ * These lines describe what a sector typically produces, not what Mint has
+ * done for anyone. No client is implied, no volume claimed, no service
+ * guaranteed — section 15 forbids all three, and sector pages are where that
+ * slips. WRITTEN BY ME, not from the specification: worth a read before this
+ * goes anywhere public.
+ */
+const SECTORS: [name: string, note: string][] = [
+  ["Manufacturing and Industry", "Production scrap, packaging and recurring industrial streams."],
+  ["FMCG and Consumer Brands", "Packaging materials alongside brand-led customer engagement."],
+  ["Retail and E commerce", "Cardboard and plastics, and in-store redemption for shoppers."],
+  ["Hospitality and Restaurants", "Daily service waste: food, glass, packaging and dry recyclables."],
+  ["Corporate Offices", "Office recyclables and employee participation programmes."],
+  ["Property Developers", "Construction debris, metals and coordinated multi-site collection."],
+  ["Institutions and Public Sector", "Campus and facility waste, with community engagement."],
 ];
 
 const TECH_NODES = [
@@ -256,12 +268,33 @@ export default function Business() {
               </p>
             </div>
             <div className="industry-grid">
-              {SECTORS.map((s, i) => (
-                <div className="industry" key={s}>
-                  <strong>{s}</strong>
-                  <span>Business sector · {String(i + 1).padStart(2, "0")}</span>
+              {SECTORS.map(([name, note], i) => (
+                <div className="industry" key={name}>
+                  {/* The index as a quiet numeral rather than a sentence. It
+                      orders the list without claiming anything. */}
+                  <span className="industry-index">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <strong>{name}</strong>
+                  <span className="industry-note">{note}</span>
                 </div>
               ))}
+              {/*
+                Seven sectors in a four-column grid leaves an eighth cell
+                empty. Rather than air, it holds the invitation the list
+                implies — the sectors are examples, not a closed set, and a
+                reader whose industry is absent currently just stops.
+                An invitation, not a claim.
+              */}
+              <Link className="industry industry-invite" to={`${BUSINESS_ROOT}/contact`}>
+                <strong>Not listed here?</strong>
+                <span className="industry-note">
+                  Tell us about your operation and we will talk it through.
+                </span>
+                <span className="industry-invite-cue">
+                  Start a conversation <ArrowRight size={13} />
+                </span>
+              </Link>
             </div>
           </div>
         </section>

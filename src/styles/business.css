@@ -238,3 +238,31 @@
  */
 .b2b .hero { padding-top: 174px; }
 @media (max-width: 900px) { .b2b .hero { padding-top: 125px; } }
+
+/*
+ * OURS, not his — the sector cards.
+ *
+ * His `.industry` is justify-content:space-between over a min-height, which
+ * pins the name to the top and the label to the bottom and leaves the middle
+ * empty. That reads as an unfinished card, and the label it was spacing out
+ * ("Business sector · 01") restated the section heading seven times over.
+ *
+ * Now each card carries a line of real content, so it is filled by substance
+ * rather than by distributing two short strings across a fixed height.
+ */
+.b2b .industry { justify-content: flex-start; gap: 6px; position: relative; padding-right: 46px; }
+.b2b .industry strong { font-size: 14px; line-height: 1.3; }
+.b2b .industry .industry-note { color: #65726c; font-size: 11px; line-height: 1.6; }
+.b2b .industry .industry-index {
+  position: absolute; top: 14px; right: 16px;
+  font-family: var(--app-font-mono); font-size: 11px; color: #c3d2cc;
+}
+
+/* The eighth cell: an invitation rather than an empty slot. Deliberately
+   quieter than a card and louder than nothing — it is a way in, not an offer. */
+.b2b .industry-invite { background: #f5faf8; border-style: dashed; padding-right: 18px; }
+.b2b .industry-invite strong { color: #17252d; }
+.b2b .industry-invite-cue {
+  display: inline-flex; align-items: center; gap: 5px;
+  margin-top: 2px; color: #087de5; font-size: 11px; font-weight: 700;
+}
