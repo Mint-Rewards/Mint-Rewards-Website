@@ -349,8 +349,21 @@ export default function WasteManagement() {
               ))}
             </div>
             {/* LOAD-BEARING: a dashboard is the easiest place on a B2B page
-                to imply a product that does not exist. Every figure says it
-                is illustrative, and the closing note says so again. */}
+                to imply a product that does not exist.
+
+                The three tiles used to read "Illustrative", "Example only"
+                and "Not live data" where their numbers go, which did not
+                read as restraint — it read as a broken component, and the
+                mock stopped showing what the screen is actually for.
+
+                They carry sample figures now, and the labelling moves to the
+                frame, which is where a reader looks for it anyway: the
+                eyebrow says illustrative, the bar above the tiles says
+                SAMPLE DATA, and the note below repeats it in full. The
+                figures are internally consistent (913 of 1,248 tonnes is the
+                73% recovery rate) because sample numbers that do not add up
+                read as carelessness rather than as a placeholder. They are
+                invented and must not be quoted anywhere. */}
             <div className="dashboard">
               <div className="dash-top">
                 <span>RecovLoop · operations overview</span>
@@ -359,9 +372,9 @@ export default function WasteManagement() {
               <div className="dash-content">
                 <div className="dash-metrics">
                   {[
-                    ["Total collected", "Illustrative"],
-                    ["Material recovered", "Example only"],
-                    ["Recovery rate", "Not live data"],
+                    ["Total collected", "1,248 t"],
+                    ["Material recovered", "913 t"],
+                    ["Recovery rate", "73%"],
                   ].map(([l, v]) => (
                     <div className="metric" key={l}>
                       <span>{l}</span>

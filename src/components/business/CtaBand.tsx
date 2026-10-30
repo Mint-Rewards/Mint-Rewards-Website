@@ -1,12 +1,15 @@
 import { ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
-import { BUSINESS_ROOT } from "../../siteMode";
 
 /**
- * The closing band, shared by the three service pages. His component, with
- * the anchor swapped for a route — his links to #enquiry on the same page,
- * and the form is on the page here too, so the anchor still works; the
- * contact route is used where the form is not rendered.
+ * The closing band, shared by the three service pages.
+ *
+ * His links to #enquiry on the same page, and the form is on every business
+ * page here too, so the anchor works everywhere this renders.
+ *
+ * It used to carry a second branch that routed a non-anchor href to
+ * /business/contact. Nothing passed one, and that route was never built — so
+ * the branch was dead code whose only effect, had anything reached it, would
+ * have been a 404. If a contact page is ever built, this takes a route again.
  */
 export default function CtaBand({
   title,
@@ -19,7 +22,6 @@ export default function CtaBand({
   button?: string;
   href?: string;
 }) {
-  const isAnchor = href.startsWith("#");
   return (
     <section className="container section" style={{ paddingTop: 18 }}>
       <div className="cta-band">
@@ -27,17 +29,10 @@ export default function CtaBand({
           <h2>{title}</h2>
           <p>{description}</p>
         </div>
-        {isAnchor ? (
-          <a className="btn-primary" href={href}>
-            {button}
-            <ArrowRight size={15} />
-          </a>
-        ) : (
-          <Link className="btn-primary" to={`${BUSINESS_ROOT}/contact`}>
-            {button}
-            <ArrowRight size={15} />
-          </Link>
-        )}
+        <a className="btn-primary" href={href}>
+          {button}
+          <ArrowRight size={15} />
+        </a>
       </div>
     </section>
   );

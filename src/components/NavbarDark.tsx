@@ -221,7 +221,17 @@ const NavbarDark = () => {
             */}
             <div className="flex">
               <a
-                href={mode === "business" ? `${BUSINESS_ROOT}/contact` : "#onboarding"}
+                /*
+                 * #enquiry, not /business/contact. That route was never
+                 * built, so this button — the primary call to action, on
+                 * every business page — fell through to the catch-all and
+                 * showed a 404. Each business page renders EnquiryForm,
+                 * which carries id="enquiry", so the anchor resolves
+                 * everywhere this button appears. A dedicated contact page
+                 * would duplicate that form; if one is ever built, this
+                 * goes back to a route.
+                 */
+                href={mode === "business" ? "#enquiry" : "#onboarding"}
                 className="flex items-center gap-2 rounded-full bg-black px-5 py-2 text-sm font-medium text-white hover:bg-gray-800 transition"
               >
                 {mode === "business" ? (

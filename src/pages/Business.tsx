@@ -138,9 +138,9 @@ export default function Business() {
                 <a className="btn-primary" href="#solutions">
                   Explore Our Solutions <ArrowDown size={15} />
                 </a>
-                <Link className="btn-secondary" to={`${BUSINESS_ROOT}/contact`}>
+                <a className="btn-secondary" href="#enquiry">
                   Talk to Our Team <ArrowRight size={15} />
-                </Link>
+                </a>
               </div>
             </div>
             {/* His photograph of a material recovery facility, carried over
@@ -214,9 +214,9 @@ export default function Business() {
                   makes sense for your business.
                 </p>
               </div>
-              <Link className="text-link" to={`${BUSINESS_ROOT}/contact`}>
+              <a className="text-link" href="#enquiry">
                 Explore a fit for your business <ArrowRight size={15} />
-              </Link>
+              </a>
             </div>
             <div className="ecosystem">
               {/*
@@ -289,7 +289,7 @@ export default function Business() {
                 reader whose industry is absent currently just stops.
                 An invitation, not a claim.
               */}
-              <Link className="industry industry-invite" to={`${BUSINESS_ROOT}/contact`}>
+              <a className="industry industry-invite" href="#enquiry">
                 <strong>Not listed here?</strong>
                 <span className="industry-note">
                   Tell us about your operation and we will talk it through.
@@ -297,7 +297,7 @@ export default function Business() {
                 <span className="industry-invite-cue">
                   Start a conversation <ArrowRight size={13} />
                 </span>
-              </Link>
+              </a>
             </div>
           </div>
         </section>
@@ -365,9 +365,9 @@ export default function Business() {
                 the right solution.
               </p>
             </div>
-            <Link to={`${BUSINESS_ROOT}/contact`} className="btn-primary">
+            <a href="#enquiry" className="btn-primary">
               Talk to Our Team <ArrowRight size={15} />
-            </Link>
+            </a>
           </div>
         </section>
 
