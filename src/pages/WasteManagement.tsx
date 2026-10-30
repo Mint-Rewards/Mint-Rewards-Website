@@ -10,6 +10,7 @@ import {
   ShieldCheck,
   Truck,
 } from "lucide-react";
+import BrandOrbit, { PARTNER_COUNT } from "../components/business/BrandOrbit";
 import CtaBand from "../components/business/CtaBand";
 import EnquiryForm from "../components/business/EnquiryForm";
 import Eyebrow from "../components/business/Eyebrow";
@@ -499,23 +500,38 @@ export default function WasteManagement() {
           </div>
         </section>
 
+        {/*
+          WHAT THIS SECTION MAY AND MAY NOT CLAIM. Read before rewording.
+
+          What stood here was a placeholder for RecovLoop's industrial and
+          commercial WASTE CLIENTS. Those were never supplied, and none are
+          shown.
+
+          What orbits below is the wider partner network — mostly the reward
+          partners the consumer homepage already shows publicly, so repeating
+          them here repeats a public claim rather than making a new one. They
+          are a mix of consumer brands, universities and initiatives.
+
+          THE SENTENCE BELOW IS WHAT KEEPS THIS HONEST. With RecovLoop at the
+          centre and no caption underneath, the only thing standing between
+          this section and "these are RecovLoop's waste clients" is the body
+          text saying these are partners of Mint Rewards. Something to that
+          effect has to stay, or the orbit invents a commercial relationship
+          with thirty-one named organisations.
+        */}
         <section className="section">
-          <div className="container split">
-            <div>
-              <Eyebrow>Client and partner materials</Eyebrow>
-              <div className="section-head">
-                <h2>Relationships should be verifiable.</h2>
-                <p>
-                  Approved industrial and commercial client logos will appear
-                  here once supplied and cleared for use. No client names, case
-                  studies or performance claims are invented in this preview.
-                </p>
-              </div>
+          <div className="container">
+            <div className="section-head center">
+              <Eyebrow>The network</Eyebrow>
+              <h2>{PARTNER_COUNT} organisations in the network.</h2>
+              <p>
+                RecovLoop is the industrial arm of Mint Rewards. These are the
+                partners already working with us, across industry, retail and
+                education.
+              </p>
             </div>
-            <div className="logo-note">
-              <strong>Approved logos pending</strong>
-              Client and partner marks will be added only with permission.
-            </div>
+
+            <BrandOrbit />
           </div>
         </section>
 

@@ -434,3 +434,328 @@
   color: #41566b;
   font-size: 11px;
 }
+
+/*
+ * The partner orbit. See src/components/business/BrandOrbit.tsx for what the
+ * logos are and why the motion is built in two cancelling halves.
+ *
+ * The square is sized in `min()` against the viewport so the whole figure
+ * scales as one object. Everything inside is positioned in percentages of
+ * that square, so there is no breakpoint that re-lays-out the orbit — it
+ * just gets smaller, and the chips have their own clamp so they stop
+ * shrinking before they stop being recognisable.
+ */
+.b2b .orbit {
+  position: relative;
+  width: min(760px, 100%);
+  aspect-ratio: 1;
+  margin: 40px auto 0;
+  /* Isolates the chips' stacking from the page, so a hovered chip lifts
+     above its neighbours without escaping the section. */
+  isolation: isolate;
+
+  /*
+   * THE CHIPS ARE SIZED IN cqw, AND THAT IS WHAT STOPS THEM COLLIDING.
+   *
+   * The rings sit 8.67% of the diameter apart. A chip is centred on its
+   * ring, so two chips on neighbouring rings collide the moment the chip is
+   * wider than that gap — and because the rings turn at different speeds,
+   * every pair gets its turn to prove it. Sized in `vw` the chip tracked the
+   * viewport while the gap tracked the orbit, so the two drifted apart and
+   * the figure overlapped at some widths and not others.
+   *
+   * In container units both track the same box: 7.6cqw against an 8.67%
+   * gap leaves about one percent of clearance at EVERY size, which is a
+   * property of the ratio rather than something that happens to hold at the
+   * width it was eyeballed at.
+   */
+  container-type: inline-size;
+}
+
+.b2b .orbit-ring {
+  position: absolute;
+  inset: 0;
+  animation: b2b-orbit var(--dur) linear infinite;
+}
+.b2b .orbit-ring.reverse {
+  animation-direction: reverse;
+}
+
+/* The faint guide that makes a ring read as an orbit rather than as logos
+   that happen to sit in a curve. Centred by its own negative half-size. */
+.b2b .orbit-path {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--r) * 2);
+  height: calc(var(--r) * 2);
+  margin-left: calc(var(--r) * -1);
+  margin-top: calc(var(--r) * -1);
+  border: 1px dashed color-mix(in srgb, var(--b2b-accent) 22%, transparent);
+  border-radius: 50%;
+}
+
+/*
+ * Placement: turn to the slot's angle, push out by the radius, then turn
+ * back so the contents are upright with respect to the ring. translateY is
+ * negative because 0deg should read as the top of the circle.
+ *
+ * THE SLOT IS FULL-SIZE, AND THAT IS LOAD-BEARING, NOT LAZY. A percentage
+ * translate resolves against the element's OWN box, not its parent's — so
+ * when this was a 0x0 point, `translateY(-20%)` was twenty percent of zero
+ * and all twenty-nine logos stacked silently in the centre behind the core.
+ * At `inset: 0` the slot is the size of the ring, so `--r` reads as a
+ * percentage of the orbit's diameter, which is what the radii were written
+ * as. Give this element a size and the orbit collapses again.
+ */
+.b2b .orbit-slot {
+  position: absolute;
+  inset: 0;
+  transform: rotate(var(--angle)) translateY(calc(var(--r) * -1))
+    rotate(calc(var(--angle) * -1));
+}
+
+/* The other half of the cancellation: same duration, opposite direction. If
+   this ever disagrees with its ring's --dur, logos will slowly tumble.
+   Sized and centred so the chip inside it lands on the slot's midpoint. */
+.b2b .orbit-counter {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  z-index: 1;
+  animation: b2b-orbit var(--dur) linear infinite reverse;
+}
+.b2b .orbit-ring.reverse .orbit-counter {
+  animation-direction: normal;
+}
+
+/*
+ * Big enough to recognise, small enough to stay a network rather than a
+ * logo wall. The floor matters more than the ceiling: below about 38px most
+ * of these marks stop being identifiable.
+ */
+.b2b .orbit-chip {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 7.6cqw;
+  height: 7.6cqw;
+  margin: -3.8cqw;
+  background: #fff;
+  border: 1px solid #e4ece8;
+  border-radius: 50%;
+  box-shadow: 0 6px 16px #10252b0f;
+  transition: transform .25s, box-shadow .25s, border-color .25s;
+  /* Several of these logos ship with an opaque dark background baked into
+     the file rather than transparency. Without clipping they render as a
+     dark SQUARE sitting inside a round chip, which is the one thing that
+     makes the set look unfinished. Clipped, they read as a dark disc and
+     the circular motif holds. */
+  overflow: hidden;
+}
+
+/*
+ * The logos are mixed aspect ratios — one is nearly 5:1 — so they are fitted
+ * rather than filled, and the padding is small because a wide mark inside a
+ * circle has little vertical room to give away.
+ */
+.b2b .orbit-chip img {
+  /*
+   * 86% IS A COMPROMISE BETWEEN TWO BROKEN SOURCE SHAPES, not a round
+   * number someone liked.
+   *
+   * These files are inconsistent: most are a mark on transparent or white
+   * with generous padding, but several bake in an opaque dark background,
+   * and a couple run their content edge to edge.
+   *
+   * A square inscribed in a circle is about 70% of its diameter, so:
+   * at 100% a dark-background file reads as a proper disc, but an
+   * edge-to-edge mark loses its outer letters to the clip (IBA lost its
+   * "I"); at 70% nothing clips but every mark is shrunk twice, once by its
+   * own padding and again by ours, which is what cost recognisability.
+   *
+   * 86% keeps the padded majority large, trims only the corners of the
+   * dark-background few, and leaves edge-to-edge marks legible. The real
+   * fix is to normalise the assets — see the orbit note on the task.
+   */
+  width: 86%;
+  height: 86%;
+  object-fit: contain;
+}
+
+/* Hovering holds the whole figure still, which is the only way to actually
+   look at one logo, and lifts the one under the cursor. */
+.b2b .orbit:hover .orbit-ring,
+.b2b .orbit:hover .orbit-counter {
+  animation-play-state: paused;
+}
+.b2b .orbit-chip:hover,
+.b2b .orbit-chip:focus-visible {
+  transform: scale(1.14);
+  border-color: var(--b2b-accent);
+  box-shadow: 0 10px 22px #10252b1f;
+  outline: none;
+}
+
+/*
+ * A chip for a logo drawn for dark backgrounds. TriFit's wordmark is white
+ * and its mark is gold, with no dark-background variant published — on a
+ * white chip the name simply is not there. Filling the chip is the only way
+ * to show that logo as its owner draws it.
+ */
+.b2b .orbit-chip.dark {
+  background: #16181b;
+  border-color: #2a2e33;
+}
+
+/*
+ * The name, on hover or keyboard focus.
+ *
+ * It sits OUTSIDE the chip, as a sibling: the chip clips its overflow to a
+ * circle to round off square artwork, and a tooltip inside it would be
+ * clipped to that circle too.
+ *
+ * It is aria-hidden because it repeats the image's alt text, which already
+ * carries the name to assistive technology — announcing both would say every
+ * brand twice.
+ */
+.b2b .orbit-tip {
+  position: absolute;
+  left: 50%;
+  bottom: calc(3.8cqw + 10px);
+  transform: translate(-50%, 4px);
+  padding: 5px 9px;
+  border-radius: 7px;
+  background: #16242c;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s, transform .18s;
+}
+.b2b .orbit-chip:hover + .orbit-tip,
+.b2b .orbit-chip:focus-visible + .orbit-tip {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* The hovered slot rises above its neighbours so neither the enlarged chip
+   nor its tooltip is overlapped by the next ring. */
+.b2b .orbit-counter:hover,
+.b2b .orbit-counter:focus-within {
+  z-index: 3;
+}
+
+.b2b .orbit-core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  /* Container units here too, so the core keeps its clearance from the
+     inner ring at every size rather than only at the one it was set at. */
+  width: 22cqw;
+  height: 22cqw;
+  margin: -11cqw;
+  display: grid;
+  place-items: center;
+  background: #fff;
+  border-radius: 50%;
+  /* The ring echoes the accent without competing with the marks around it. */
+  box-shadow:
+    0 0 0 1px #e4ece8,
+    0 0 0 10px color-mix(in srgb, var(--b2b-accent) 7%, transparent),
+    0 14px 34px #10252b14;
+}
+/* The Mint lockup is a wide horizontal; inside a circle it is width-bound,
+   so it is sized against the width and left to take whatever height it
+   needs. */
+.b2b .orbit-core img {
+  width: 72%;
+  height: auto;
+}
+
+@keyframes b2b-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/*
+ * ON A PHONE THERE IS NO ORBIT, AND THAT IS THE ONLY HONEST ANSWER.
+ *
+ * Every measurement here is a proportion of the box, so a narrower box
+ * scales the whole figure and keeps its clearances — but it scales the
+ * logos too. At 390px the chips come out around 27px, which is a row of
+ * coloured dots: the ring survives and the thing it exists to show, which
+ * is WHICH brands these are, does not. Thirty-one marks cannot be both
+ * arranged in rings and legible on a 390px screen; the geometry decides
+ * that, not taste.
+ *
+ * So below 700px the same markup lays out as a centred grid at a size you
+ * can actually read. `display: contents` on the rings drops the slots
+ * straight into the grid, and every transform, animation and absolute
+ * position is unwound — which is why this block looks like a list of
+ * undos. The core comes first with `order`, so RecovLoop still leads.
+ */
+@media (max-width: 700px) {
+  .b2b .orbit {
+    width: 100%;
+    aspect-ratio: auto;
+    margin-top: 28px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .b2b .orbit-ring {
+    display: contents;
+  }
+  .b2b .orbit-path {
+    display: none;
+  }
+
+  .b2b .orbit-slot,
+  .b2b .orbit-counter {
+    position: static;
+    width: auto;
+    height: auto;
+    transform: none;
+    animation: none;
+  }
+  .b2b .orbit-counter {
+    position: relative;
+    display: inline-block;
+  }
+
+  .b2b .orbit-chip {
+    position: static;
+    width: 58px;
+    height: 58px;
+    margin: 0;
+  }
+
+  /* Anchored to the chip rather than to a ring position that no longer
+     exists. Reachable by tap, because the chip is focusable. */
+  .b2b .orbit-tip {
+    bottom: calc(100% + 6px);
+  }
+
+  .b2b .orbit-core {
+    position: static;
+    order: -1;
+    flex: 0 0 100%;
+    width: auto;
+    height: auto;
+    margin: 0 0 18px;
+    padding: 16px;
+    border-radius: 18px;
+  }
+  .b2b .orbit-core img {
+    width: 170px;
+  }
+}
