@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { BUSINESS_ROOT } from "../siteMode";
 import EnquiryForm from "../components/business/EnquiryForm";
+import PageMeta from "../components/business/PageMeta";
 import "../styles/business.css";
 
 /**
@@ -124,6 +125,11 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
 export default function Business() {
   return (
     <div className="b2b">
+      {/* His exact title and description. */}
+      <PageMeta
+        title="Mint Rewards | Business Solutions in Pakistan"
+        description="Discover Mint Rewards business solutions in Pakistan: industrial waste management, customer rewards partnerships and corporate sustainability programmes."
+      />
       <main id="main">
         <section className="hero">
           <div className="container hero-grid">
