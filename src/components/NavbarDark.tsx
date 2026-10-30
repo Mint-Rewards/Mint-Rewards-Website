@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Download, Menu, X } from "lucide-react";
+import { ArrowRight, Download, Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { BUSINESS_ROOT, siteModeFor } from "../siteMode";
 
@@ -146,14 +146,29 @@ const NavbarDark = () => {
               ))}
             </nav>
 
-            {/* CTA */}
+            {/*
+              THE CTA BELONGS TO THE SIDE YOU ARE ON.
+              It swapped nowhere when the nav items did, so a procurement
+              manager reading about waste contracts was being asked to
+              download a consumer recycling app. The one thing a business
+              visitor is here to do is start a conversation.
+            */}
             <div className="flex">
               <a
-                href={"#onboarding"}
+                href={mode === "business" ? `${BUSINESS_ROOT}/contact` : "#onboarding"}
                 className="flex items-center gap-2 rounded-full bg-black px-5 py-2 text-sm font-medium text-white hover:bg-gray-800 transition"
               >
-                <Download size={16} />
-                Get the App
+                {mode === "business" ? (
+                  <>
+                    Talk to our team
+                    <ArrowRight size={16} />
+                  </>
+                ) : (
+                  <>
+                    <Download size={16} />
+                    Get the App
+                  </>
+                )}
               </a>
             </div>
             {/* Mobile Menu Button */}

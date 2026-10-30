@@ -14,6 +14,7 @@ import FAQs from "./pages/FAQs";
 import About from "./pages/About";
 import Story from "./pages/Story";
 import Careers from "./pages/Careers";
+import NotFound from "./pages/NotFound";
 import Contact from "./components/Contact";
 
 const AppContent = () => {
@@ -40,6 +41,9 @@ const AppContent = () => {
         <Route path="/co2-calculator" element={<CO2Calculator />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/app" element={<AppRedirect />} />
+        {/* Last, and a real page: an unmatched route used to render the
+            navigation over nothing at all. */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
     </div>
