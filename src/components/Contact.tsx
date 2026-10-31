@@ -16,6 +16,7 @@ import {
 } from "../constants";
 import Footer from "./Footer";
 import { openAppStore } from "../utils/appStore";
+import { API_BASE } from "../utils/appStore";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -25,17 +26,63 @@ const Contact = () => {
     inquiryType: "",
     message: "",
   });
+  /** Honeypot. Named innocuously, hidden off-screen, never shown to a human. */
+  const [honeypot, setHoneypot] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  /*
+   * IT USED TO BE A LIE. This was a 1500ms setTimeout that set `submitted`
+   * and showed a thank-you — the message went nowhere and nobody received
+   * it. A form that appears to send and quietly discards is the worst of
+   * the options: the visitor believes they have been in touch, and nobody
+   * finds out until somebody wonders why nobody ever replies.
+   *
+   * It posts to /api/contact now, which rate-limits, validates again
+   * server-side and emails the message. The success state is only reached
+   * on a 200 — every other outcome says what happened.
+   */
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSubmitting) return;
     setIsSubmitting(true);
-    // Simulate form submission
-    setTimeout(() => {
+    setError("");
+
+    try {
+      const response = await fetch(`${API_BASE}/api/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formData, website: honeypot }),
+      });
+
+      if (response.ok) {
+        setSubmitted(true);
+        return;
+      }
+
+      /* 429 is named: a generic error on a rate limit reads as a broken
+         form and gets retried immediately, which is what the limit is
+         there to stop. */
+      if (response.status === 429) {
+        setError(
+          "We have had several messages from here recently. Please wait a little while and try again.",
+        );
+        return;
+      }
+
+      const body = await response.json().catch(() => null);
+      setError(
+        body?.error ||
+          "We could not send your message. Please try again, or email us directly.",
+      );
+    } catch {
+      setError(
+        "We could not reach our servers. Please check your connection and try again.",
+      );
+    } finally {
       setIsSubmitting(false);
-      setSubmitted(true);
-    }, 1500);
+    }
   };
 
   const handleChange = (
@@ -232,6 +279,34 @@ const Contact = () => {
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
+                  {error && (
+                    <div
+                      role="alert"
+                      className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700"
+                    >
+                      {error}
+                    </div>
+                  )}
+
+                  {/* Honeypot: off-screen and hidden from assistive
+                      technology, so only something filling every field
+                      will touch it. The server answers 200 and sends
+                      nothing when it is set. */}
+                  <div
+                    aria-hidden="true"
+                    style={{ position: "absolute", left: "-9999px" }}
+                  >
+                    <label htmlFor="contact-website">Website</label>
+                    <input
+                      id="contact-website"
+                      name="website"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={honeypot}
+                      onChange={(e) => setHoneypot(e.target.value)}
+                    />
+                  </div>
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label

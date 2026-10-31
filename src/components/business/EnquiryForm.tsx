@@ -1,5 +1,6 @@
 import { useState, type FormEvent, type ReactNode } from "react";
 import { useLocation } from "react-router-dom";
+import { API_BASE } from "../../utils/appStore";
 import { ArrowRight } from "lucide-react";
 
 /**
@@ -60,17 +61,7 @@ const SOURCE_PAGES = [
   "/business/impact",
 ] as const;
 
-/**
- * Where the backend lives.
- *
- * Same-origin would be simpler, but the website is a static Vite build and
- * the API is a separate deployment, so this is a cross-origin POST and the
- * backend's ALLOWED_ORIGINS has to name this site. Falls back to localhost
- * for `npm run dev`, which that list already permits.
- */
-const API_BASE = (
-  import.meta.env.VITE_API_BASE_URL || "http://localhost:3000"
-).replace(/\/$/, "");
+/* API_BASE is shared with the contact form — see src/utils/appStore.ts. */
 
 /*
  * The wording people agree to.
