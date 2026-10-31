@@ -235,20 +235,6 @@ const Onboarding = () => {
               {/* <span>50,000+ downloads</span> */}
             </motion.div>
 
-            {/* Additional CTA */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.8, delay: 1.0 }}
-              className="pt-4"
-            >
-              <p className="text-sm text-white/80 mb-4">
-                Already have the app?
-              </p>
-              <button className="text-white hover:text-[#8CE4B5] font-semibold transition-colors duration-200 underline underline-offset-4">
-                Sign In →
-              </button>
-            </motion.div>
           </motion.div>
 
           {/* Right Phone Mockup */}
@@ -264,19 +250,18 @@ const Onboarding = () => {
           transition={{ duration: 0.8, delay: 1.2 }}
           className="mt-16 text-center"
         >
-          <div className="inline-flex flex-wrap justify-center items-center gap-8 md:gap-12 text-lg md:text-xl text-white">
-            <div className="flex items-center space-x-3">
-              <div className="text-3xl md:text-4xl">🔒</div>
-              <span className="font-medium">Secure signup</span>
-            </div>
-            <div className="flex items-center space-x-3">
-              <div className="text-3xl md:text-4xl">📱</div>
-              <span className="font-medium">Free app</span>
-            </div>
-            <div className="flex items-center space-x-3">
-              <div className="text-3xl md:text-4xl">⚡</div>
-              <span className="font-medium">Instant rewards</span>
-            </div>
+          {/*
+            The three labels, without the padlock, phone and lightning bolt
+            that used to sit beside them at text-4xl — emoji from the
+            operating system's own font, rendered larger than the words they
+            were decorating. The words say it on their own.
+          */}
+          <div className="inline-flex flex-wrap justify-center items-center gap-x-8 gap-y-2 text-sm md:text-base text-white/85">
+            {["Secure signup", "Free app", "Instant rewards"].map((label) => (
+              <span key={label} className="font-medium">
+                {label}
+              </span>
+            ))}
           </div>
         </motion.div>
       </div>
