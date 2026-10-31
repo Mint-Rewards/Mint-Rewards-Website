@@ -17,3 +17,4 @@ RecovLoop_SVG_Developer_Pack/
 # The skill's working directory: screenshots and inspector reports.
 .taste-skill/
 .env
+.env*
