@@ -80,8 +80,9 @@ export default function FeatureScrollSection() {
             occupied only the middle of a frame whose edges were invented.
             Letting the browser crop the overflow keeps the pixels honest:
             every card is the same shape and no image is distorted.
-            `object-top` so the crop comes off the bottom, where this
-            screen has least to lose.
+            `object-center` so the crop is shared top and bottom: taking it all
+            off the bottom cut away the Google and Apple buttons, which are
+            the reason this particular frame was chosen.
           */}
           {/* Mobile */}
           <div className="relative flex justify-center md:hidden pt-24 pb-16">
@@ -89,47 +90,60 @@ export default function FeatureScrollSection() {
               <img
                 src="/app-screens/app-signup.jpg"
                 alt=""
-                className="absolute left-1/2 top-1/2 z-30 -translate-x-[20px] -translate-y-[120px] h-[300px] w-[169px] opacity-90 rounded-2xl object-cover object-top shadow-lg z-0"
+                className="absolute left-1/2 top-1/2 z-30 -translate-x-[20px] -translate-y-[120px] h-[300px] w-[169px] opacity-90 rounded-2xl object-cover object-center shadow-lg z-0"
               />
 
               <img
                 src="/app-screens/app-home.jpg"
                 alt=""
-                className="absolute left-1/2 top-1/2 z-30 -translate-x-[120px] -translate-y-[80px] h-[320px] w-[180px] -rotate-25 rounded-2xl object-cover object-top shadow-xl z-10"
+                className="absolute left-1/2 top-1/2 z-30 -translate-x-[120px] -translate-y-[80px] h-[320px] w-[180px] -rotate-25 rounded-2xl object-cover object-center shadow-xl z-10"
               />
 
               <img
                 src="/app-screens/app-coupon.jpg"
                 alt=""
-                className="absolute left-1/2 top-1/2 z-30 -translate-x-1/2 h-[340px] w-[191px] -rotate-5 rounded-2xl object-cover object-top shadow-2xl z-20"
+                className="absolute left-1/2 top-1/2 z-30 -translate-x-1/2 h-[340px] w-[191px] -rotate-5 rounded-2xl object-cover object-center shadow-2xl z-20"
               />
-              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 h-[340px] w-[191px] -rotate-5 rounded-2xl object-cover object-top shadow-2xl z-20">
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 h-[340px] w-[191px] -rotate-5 rounded-2xl object-cover object-center shadow-2xl z-20">
                 <GlowingOrb />
               </div>
             </div>
           </div>
           {/* Desktop */}
           <div className="relative hidden md:block">
-            <div className="sticky top-24 hidden md:flex justify-center items-start h-screen">
+            <div className="sticky top-40 hidden md:flex justify-center items-start h-screen">
+              {/*
+                `overflow-hidden` clips the stack to the phone.
+
+                The two upper cards animate `y` from -100%, so before they
+                arrive they sit a full screen-height ABOVE this box — out in
+                the page, sliding under the fixed header, which cut their
+                tops off against the navigation. Clipping here turns the
+                same motion into a reveal inside the phone, which is what it
+                was always meant to look like, and nothing escapes the frame.
+
+                The rounding moves here with it: the images are clipped by
+                this box now, so the corners have to be cut on this box.
+              */}
               <motion.div
                 style={{ rotate }}
-                className="relative w-[300px] aspect-[9/16]"
+                className="relative w-[300px] aspect-[9/16] overflow-hidden rounded-2xl"
               >
                 <img
                   src="/app-screens/app-signup.jpg"
                   alt="Three screens from the Mint Rewards app: creating an account, booking a collection, and redeeming a reward"
-                  className="absolute inset-0 z-1 h-full w-full rounded-2xl object-cover object-top drop-shadow-lg"
+                  className="absolute inset-0 z-1 h-full w-full rounded-2xl object-cover object-center drop-shadow-lg"
                 />
 
                 <motion.img
                   style={{ y: tasksY, opacity: tasksOpacity }}
                   src="/app-screens/app-home.jpg"
-                  className="absolute inset-0 z-2 h-full w-full rounded-2xl object-cover object-top shadow-lg"
+                  className="absolute inset-0 z-2 h-full w-full rounded-2xl object-cover object-center shadow-lg"
                 />
                 <motion.img
                   style={{ y: goalsY, opacity: goalsOpacity }}
                   src="/app-screens/app-coupon.jpg"
-                  className="absolute inset-0 z-3 h-full w-full rounded-2xl object-cover object-top shadow-lg"
+                  className="absolute inset-0 z-3 h-full w-full rounded-2xl object-cover object-center shadow-lg"
                 />
               </motion.div>
             </div>
