@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import CtaBand from "../components/business/CtaBand";
 import EnquiryForm from "../components/business/EnquiryForm";
+import AppShowcase from "../components/business/AppShowcase";
 import Eyebrow from "../components/business/Eyebrow";
 import PageMeta from "../components/business/PageMeta";
 import "../styles/business.css";
@@ -241,9 +242,9 @@ export default function Rewards() {
               <div className="section-head">
                 <h2>Good partnerships deserve the real thing.</h2>
                 <p>
-                  This is the coupon screen from the Mint Rewards app, showing
-                  a partner offer as a customer sees it. Approved marks for a
-                  full partner showcase have not been supplied, and we will
+                  Recycle, collect points, redeem them with partner brands
+                  &mdash; the whole loop in twenty seconds. Approved marks for
+                  a full partner showcase have not been supplied, and we will
                   not invent participating businesses, offers or endorsements.
                 </p>
               </div>
@@ -254,17 +255,12 @@ export default function Rewards() {
                 services.
               </p>
             </div>
-            <figure className="app-shot">
-              <img
-                src="/Coupon Detail 15.png"
-                alt="The coupon detail screen in the Mint Rewards app, showing a Dawlance offer a customer can redeem with their points"
-                width={393}
-                height={760}
-                loading="lazy"
-                decoding="async"
-              />
-              <figcaption>A deal in the app, as a customer sees it</figcaption>
-            </figure>
+            <AppShowcase
+              src="/media/app-showcase.mp4"
+              poster="/media/app-showcase-poster.jpg"
+              caption="Mint Rewards, end to end"
+              description="A short film: recycling waste earns points in the Mint Rewards app, and those points are redeemed against offers from partner brands."
+            />
           </div>
         </section>
 

@@ -1100,15 +1100,18 @@
  * indicator, so a drawn bezel around them is a second device frame on top of
  * the one in the image.
  *
- * Capped and centred because the file is 393px wide: stretched to fill a
- * half-width column it would be upscaled and soft.
+ * Capped and centred because the source is phone-shaped — a 393px still or
+ * a 1080x1920 recording. Stretched to fill a half-width column either one
+ * would be upscaled and soft, and the recording would also be decoding far
+ * more pixels than it displays.
  */
 .b2b .app-shot {
   margin: 0 auto;
   max-width: 300px;
   text-align: center;
 }
-.b2b .app-shot img {
+.b2b .app-shot img,
+.b2b .app-shot video {
   display: block;
   width: 100%;
   height: auto;
