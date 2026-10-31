@@ -29,7 +29,7 @@ export default function FeatureScrollSection() {
           transition={{ duration: 0.5 }}
           className="inline-block px-4 py-1.5 mb-6 text-sm font-medium rounded-full bg-gradient-to-r from-[#8CE4B5]/20 via-[#3EBAB9]/20 to-[#1D558E]/20 text-[#1D558E] border border-[#3EBAB9]/30"
         >
-          ✨ Simple as 1-2-3
+          Simple as 1-2-3
         </motion.span>
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -73,33 +73,37 @@ export default function FeatureScrollSection() {
             everywhere else), so no web or Android render shows the pair of
             buttons this screen is here to show.
 
-            It arrived at 9:19.5, a real phone, against the 9:16 of the
-            video frames, and these three are stacked with `inset-0` so a
-            different ratio misaligns them. It is padded rather than
-            cropped: cropping to 9:16 clipped the Google and Apple buttons,
-            which defeats the point of using it.
+            RATIOS ARE RECONCILED BY `object-cover`, NOT BY PADDING. The
+            signup frame is 9:20 — a real phone — against the 9:16 of the
+            video frames. Padding it to 9:16 was the first attempt and it
+            read as a stretched, too-wide screen, because the UI then
+            occupied only the middle of a frame whose edges were invented.
+            Letting the browser crop the overflow keeps the pixels honest:
+            every card is the same shape and no image is distorted.
+            `object-top` so the crop comes off the bottom, where this
+            screen has least to lose.
           */}
           {/* Mobile */}
           <div className="relative flex justify-center md:hidden pt-24 pb-16">
             <div className="relative w-[280px] h-[340px]">
               <img
-                src="/app-screens/app-login.jpg"
+                src="/app-screens/app-signup.jpg"
                 alt=""
-                className="absolute left-1/2 top-1/2 z-30 -translate-x-[20px] -translate-y-[120px] h-[300px] opacity-90 rounded-2xl shadow-lg object-cover z-0"
+                className="absolute left-1/2 top-1/2 z-30 -translate-x-[20px] -translate-y-[120px] h-[300px] w-[169px] opacity-90 rounded-2xl object-cover object-top shadow-lg z-0"
               />
 
               <img
                 src="/app-screens/app-home.jpg"
                 alt=""
-                className="absolute left-1/2 top-1/2 z-30 -translate-x-[120px] -translate-y-[80px] h-[320px] -rotate-25 rounded-2xl shadow-xl object-cover z-10"
+                className="absolute left-1/2 top-1/2 z-30 -translate-x-[120px] -translate-y-[80px] h-[320px] w-[180px] -rotate-25 rounded-2xl object-cover object-top shadow-xl z-10"
               />
 
               <img
                 src="/app-screens/app-coupon.jpg"
                 alt=""
-                className="absolute left-1/2 top-1/2 z-30 -translate-x-1/2 h-[340px] -rotate-5 rounded-2xl shadow-2xl object-cover z-20"
+                className="absolute left-1/2 top-1/2 z-30 -translate-x-1/2 h-[340px] w-[191px] -rotate-5 rounded-2xl object-cover object-top shadow-2xl z-20"
               />
-              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 h-[340px] -rotate-5 rounded-2xl shadow-2xl object-cover z-20">
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 h-[340px] w-[191px] -rotate-5 rounded-2xl object-cover object-top shadow-2xl z-20">
                 <GlowingOrb />
               </div>
             </div>
@@ -112,20 +116,20 @@ export default function FeatureScrollSection() {
                 className="relative w-[300px] aspect-[9/16]"
               >
                 <img
-                  src="/app-screens/app-login.jpg"
-                  alt="Three screens from the Mint Rewards app: logging in, booking a collection, and redeeming a reward"
-                  className="relative z-1 rounded-2xl w-full drop-shadow-lg"
+                  src="/app-screens/app-signup.jpg"
+                  alt="Three screens from the Mint Rewards app: creating an account, booking a collection, and redeeming a reward"
+                  className="absolute inset-0 z-1 h-full w-full rounded-2xl object-cover object-top drop-shadow-lg"
                 />
 
                 <motion.img
                   style={{ y: tasksY, opacity: tasksOpacity }}
                   src="/app-screens/app-home.jpg"
-                  className="absolute inset-0 z-2 rounded-2xl w-full shadow-lg"
+                  className="absolute inset-0 z-2 h-full w-full rounded-2xl object-cover object-top shadow-lg"
                 />
                 <motion.img
                   style={{ y: goalsY, opacity: goalsOpacity }}
                   src="/app-screens/app-coupon.jpg"
-                  className="absolute inset-0 z-3 rounded-2xl w-full shadow-lg"
+                  className="absolute inset-0 z-3 h-full w-full rounded-2xl object-cover object-top shadow-lg"
                 />
               </motion.div>
             </div>
@@ -134,7 +138,7 @@ export default function FeatureScrollSection() {
           <div className="flex flex-col items-center md:items-start text-center md:text-left gap-30 md:gap-[60vh] py-[30vh] z-99">
             <div>
               <span className="inline-flex items-center gap-2 rounded-full bg-[#8CE4B5]/20 px-4 py-1 text-sm text-[#1D558E]">
-                🎨 Get Started
+                Get Started
               </span>
               <h2 className="mt-6 text-4xl font-bold text-black leading-tight">
                 Sign Up Free
@@ -152,7 +156,7 @@ export default function FeatureScrollSection() {
 
             <div>
               <span className="inline-flex items-center gap-2 rounded-full bg-[#3EBAB9]/20 px-4 py-1 text-sm text-[#1D558E]">
-                ✅ Schedule Pickup
+                Schedule Pickup
               </span>
               <h2 className="mt-6 text-4xl font-bold text-black leading-tight">
                 Recycle & Earn <br />
@@ -169,7 +173,7 @@ export default function FeatureScrollSection() {
 
             <div>
               <span className="inline-flex items-center gap-2 rounded-full bg-[#1D558E]/20 px-4 py-1 text-sm text-[#1D558E]">
-                🎯 Browse Rewards
+                Browse Rewards
               </span>
               <h2 className="mt-6 text-4xl font-bold text-black leading-tight">
                 Redeem Rewards

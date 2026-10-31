@@ -15,6 +15,7 @@ import {
   contactSocialLinks,
 } from "../constants";
 import Footer from "./Footer";
+import { openAppStore } from "../utils/appStore";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -469,14 +470,16 @@ const Contact = () => {
                 value. Join thousands making a difference.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <motion.a
-                  href="#"
+                {/* Was href="#", which jumps to the top of the page. */}
+                <motion.button
+                  type="button"
+                  onClick={openAppStore}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="px-8 py-4 bg-white text-[#1D558E] font-semibold rounded-xl hover:shadow-lg transition-all"
                 >
                   Download the App
-                </motion.a>
+                </motion.button>
                 <motion.a
                   href="#"
                   whileHover={{ scale: 1.05 }}

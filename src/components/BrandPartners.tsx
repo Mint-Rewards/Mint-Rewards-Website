@@ -2,6 +2,9 @@
 
 import { motion, useInView, animate } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import { BUSINESS_ROOT } from "../siteMode";
+import { openAppStore } from "../utils/appStore";
 
 const stats = [
   { value: 10000, label: "Users", suffix: "+" },
@@ -73,7 +76,7 @@ const BrandPartners = () => {
             transition={{ duration: 0.5 }}
             className="inline-block px-4 py-1.5 mb-6 text-sm font-medium rounded-full bg-gradient-to-r from-[#8CE4B5]/20 via-[#3EBAB9]/20 to-[#1D558E]/20 text-[#1D558E] border border-[#3EBAB9]/30"
           >
-            🌍 Making a Difference
+            Making a Difference
           </motion.span>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -122,13 +125,10 @@ const BrandPartners = () => {
           className="mt-16 text-center space-y-6"
         >
           <div className="space-y-4">
+            {/* It logged to the console. See src/utils/appStore.ts for why
+                a desktop visitor goes to Google Play rather than nowhere. */}
             <button
-              onClick={() => {
-                // Handle app download action
-                console.log(
-                  "Start Earning Rewards clicked - redirect to app download"
-                );
-              }}
+              onClick={openAppStore}
               className="bg-[#1D558E] hover:bg-[#15406b] text-white px-10 py-4 rounded-full font-semibold text-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#3EBAB9] focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-transform"
             >
               Start Earning Rewards
@@ -136,18 +136,17 @@ const BrandPartners = () => {
           </div>
 
           <div>
-            <button
-              onClick={() => {
-                // Handle business partnership action
-                console.log("Business partnership clicked");
-              }}
-              className="text-gray-600 hover:text-[#3EBAB9] font-medium text-lg transition-colors duration-200 group"
+            {/* A real route, not a button: the business overview is a page
+                that can be shared, bookmarked and opened in a new tab. */}
+            <Link
+              to={BUSINESS_ROOT}
+              className="inline-flex items-center text-gray-600 hover:text-[#3EBAB9] font-medium text-lg transition-colors duration-200 group"
             >
               Are you a business? Partner with us
               <span className="ml-2 group-hover:translate-x-1 transition-transform duration-200 inline-block">
                 →
               </span>
-            </button>
+            </Link>
           </div>
         </motion.div>
       </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Calculator, Recycle, TreePine, Globe } from "lucide-react";
+import { Calculator, Car, Globe, Lightbulb, Recycle, TreePine } from "lucide-react";
+import { openAppStore } from "../utils/appStore";
 
 // CO2 savings per kg for different materials (in kg CO2 saved per kg of material)
 const CO2_SAVINGS_PER_KG = {
@@ -208,7 +209,7 @@ const CO2Calculator = () => {
 
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between p-4 bg-[#1D558E]/10 rounded-lg">
                   <div className="flex items-center">
-                    <span className="text-2xl mr-3">🚗</span>
+                    <Car className="mr-3 h-6 w-6 shrink-0 text-[#3EBAB9]" aria-hidden="true" />
                     <span className="font-medium">Km of driving avoided</span>
                   </div>
                   <span className="text-2xl font-bold text-[#1D558E]">
@@ -218,7 +219,7 @@ const CO2Calculator = () => {
 
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between p-4 bg-[#3EBAB9]/10 rounded-lg">
                   <div className="flex items-center">
-                    <span className="text-2xl mr-3">💡</span>
+                    <Lightbulb className="mr-3 h-6 w-6 shrink-0 text-[#3EBAB9]" aria-hidden="true" />
                     <span className="font-medium">Hours of LED lighting</span>
                   </div>
                   <span className="text-2xl font-bold text-[#3EBAB9]">
@@ -230,7 +231,7 @@ const CO2Calculator = () => {
 
             {/* Educational Info */}
             <div className="bg-white p-6 rounded-2xl shadow-lg">
-              <h3 className="text-lg font-bold mb-4">💡 Did you know?</h3>
+              <h3 className="text-lg font-bold mb-4">Did you know?</h3>
               <ul className="space-y-2 text-sm text-gray-600">
                 <li>
                   • Recycling 1 kg of aluminum saves 9 kg of CO₂ emissions
@@ -250,7 +251,8 @@ const CO2Calculator = () => {
             Start recycling with Mint Rewards and earn points while saving the
             planet!
           </p>
-          <button className="bg-white text-[#1D558E] px-6 sm:px-8 py-3 rounded-xl font-semibold hover:bg-gray-100 transition-colors">
+          <button onClick={openAppStore}
+            className="bg-white text-[#1D558E] px-6 sm:px-8 py-3 rounded-xl font-semibold hover:bg-gray-100 transition-colors">
             Download the App
           </button>
         </div>

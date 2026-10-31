@@ -3,6 +3,7 @@
 import { motion, useInView, useSpring, useTransform } from "framer-motion";
 import { useRef, useEffect } from "react";
 import { impactStats } from "../constants";
+import { Globe, Handshake, ShieldCheck } from "lucide-react";
 
 // Custom hook for animated counter
 const useAnimatedCounter = (
@@ -146,7 +147,7 @@ const StatCard = ({
           transition: { duration: 0.4 },
         }}
       >
-        <span className="text-3xl">{stat.icon}</span>
+        <stat.icon className="h-8 w-8 text-[#1D558E]" aria-hidden="true" />
       </motion.div>
 
       <div className={`text-3xl md:text-4xl font-bold text-white mb-1`}>
@@ -316,19 +317,19 @@ const Impact = () => {
             <div className="flex flex-wrap gap-4">
               <div className="flex items-center gap-2 text-gray-600">
                 <div className="w-10 h-10 rounded-xl bg-[#8CE4B5]/20 flex items-center justify-center">
-                  <span className="text-lg">🛡️</span>
+                  <ShieldCheck className="h-5 w-5 text-[#1D558E]" aria-hidden="true" />
                 </div>
                 <span className="text-sm font-medium">Verified Impact</span>
               </div>
               <div className="flex items-center gap-2 text-gray-600">
                 <div className="w-10 h-10 rounded-xl bg-[#3EBAB9]/20 flex items-center justify-center">
-                  <span className="text-lg">🌍</span>
+                  <Globe className="h-5 w-5 text-[#1D558E]" aria-hidden="true" />
                 </div>
                 <span className="text-sm font-medium">Eco Certified</span>
               </div>
               <div className="flex items-center gap-2 text-gray-600">
                 <div className="w-10 h-10 rounded-xl bg-[#1D558E]/20 flex items-center justify-center">
-                  <span className="text-lg">🤝</span>
+                  <Handshake className="h-5 w-5 text-[#1D558E]" aria-hidden="true" />
                 </div>
                 <span className="text-sm font-medium">Community Driven</span>
               </div>
@@ -385,7 +386,7 @@ const Impact = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div className="text-center space-y-3">
                   <div className="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-br from-[#8CE4B5] to-[#3EBAB9] flex items-center justify-center shadow-lg shadow-[#8CE4B5]/30">
-                    <span className="text-2xl">🔒</span>
+                    <ShieldCheck className="h-6 w-6 text-[#1D558E]" aria-hidden="true" />
                   </div>
                   <h4 className="font-semibold text-white text-lg">
                     Secure & Safe
@@ -397,7 +398,7 @@ const Impact = () => {
 
                 <div className="text-center space-y-3">
                   <div className="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-br from-[#3EBAB9] to-[#1D558E] flex items-center justify-center shadow-lg shadow-[#3EBAB9]/30">
-                    <span className="text-2xl">🌍</span>
+                    <Globe className="h-6 w-6 text-[#1D558E]" aria-hidden="true" />
                   </div>
                   <h4 className="font-semibold text-white text-lg">
                     Real Impact
@@ -409,7 +410,7 @@ const Impact = () => {
 
                 <div className="text-center space-y-3">
                   <div className="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-br from-[#1D558E] to-[#3EBAB9] flex items-center justify-center shadow-lg shadow-[#1D558E]/30">
-                    <span className="text-2xl">🤝</span>
+                    <Handshake className="h-6 w-6 text-[#1D558E]" aria-hidden="true" />
                   </div>
                   <h4 className="font-semibold text-white text-lg">
                     Community Driven

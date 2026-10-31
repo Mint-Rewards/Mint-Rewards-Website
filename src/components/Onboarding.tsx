@@ -61,7 +61,6 @@ const AppStoreButton = ({
 //             ease: "easeInOut",
 //           }}
 //         >
-//           <div className="text-4xl text-white">🍃</div>
 //         </motion.div>
 //       ))}
 
@@ -83,7 +82,6 @@ const AppStoreButton = ({
 //             ease: "linear",
 //           }}
 //         >
-//           <div className="text-3xl text-white">♻️</div>
 //         </motion.div>
 //       ))}
 //     </div>
@@ -243,27 +241,6 @@ const Onboarding = () => {
           </div>
         </div>
 
-        {/* Bottom trust elements */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.8, delay: 1.2 }}
-          className="mt-16 text-center"
-        >
-          {/*
-            The three labels, without the padlock, phone and lightning bolt
-            that used to sit beside them at text-4xl — emoji from the
-            operating system's own font, rendered larger than the words they
-            were decorating. The words say it on their own.
-          */}
-          <div className="inline-flex flex-wrap justify-center items-center gap-x-8 gap-y-2 text-sm md:text-base text-white/85">
-            {["Secure signup", "Free app", "Instant rewards"].map((label) => (
-              <span key={label} className="font-medium">
-                {label}
-              </span>
-            ))}
-          </div>
-        </motion.div>
       </div>
     </section>
   );

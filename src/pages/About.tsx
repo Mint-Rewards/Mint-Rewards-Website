@@ -15,6 +15,7 @@ import {
   aboutServices,
   mediaOutlets,
 } from "../constants";
+import { openAppStore } from "../utils/appStore";
 
 const About = () => {
   const missionRef = useRef(null);
@@ -238,7 +239,7 @@ const About = () => {
                   <div
                     className={`w-12 h-12 rounded-xl ${stat.iconBg} flex items-center justify-center mx-auto mb-4`}
                   >
-                    <span className="text-white text-2xl">{stat.icon}</span>
+                    <stat.icon className="h-6 w-6 text-white" aria-hidden="true" />
                   </div>
                   <div className="text-3xl md:text-4xl font-bold text-white mb-2">
                     {stat.value}
@@ -437,7 +438,8 @@ const About = () => {
               earning rewards.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-white text-[#1D558E] px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-colors duration-200 shadow-lg">
+              <button onClick={openAppStore}
+            className="bg-white text-[#1D558E] px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-colors duration-200 shadow-lg">
                 Download the App
               </button>
               <button className="bg-white/20 backdrop-blur-sm text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white/30 transition-colors duration-200 border border-white/30">

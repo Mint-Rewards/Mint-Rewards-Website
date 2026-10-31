@@ -1,3 +1,6 @@
+import { Coins, Gift, Recycle } from "lucide-react";
+import { openAppStore } from "../utils/appStore";
+
 const Personal = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-teal-50 py-16">
@@ -13,7 +16,7 @@ const Personal = () => {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div className="bg-white p-6 rounded-xl shadow-lg">
-            <div className="text-4xl mb-4">♻️</div>
+            <Recycle className="mb-4 h-9 w-9 text-[#3EBAB9]" aria-hidden="true" />
             <h3 className="text-xl font-semibold mb-2">Easy Recycling</h3>
             <p className="text-gray-600">
               Schedule pickups or drop off your recyclables at convenient locations near you.
@@ -21,7 +24,7 @@ const Personal = () => {
           </div>
 
           <div className="bg-white p-6 rounded-xl shadow-lg">
-            <div className="text-4xl mb-4">💰</div>
+            <Coins className="mb-4 h-9 w-9 text-[#3EBAB9]" aria-hidden="true" />
             <h3 className="text-xl font-semibold mb-2">Instant Points</h3>
             <p className="text-gray-600">
               Earn points immediately for every item you recycle. No waiting, instant gratification.
@@ -29,7 +32,7 @@ const Personal = () => {
           </div>
 
           <div className="bg-white p-6 rounded-xl shadow-lg">
-            <div className="text-4xl mb-4">🎁</div>
+            <Gift className="mb-4 h-9 w-9 text-[#3EBAB9]" aria-hidden="true" />
             <h3 className="text-xl font-semibold mb-2">Great Rewards</h3>
             <p className="text-gray-600">
               Redeem your points for vouchers, discounts, and products from top brands.
@@ -40,7 +43,8 @@ const Personal = () => {
         <div className="mt-16 bg-green-600 text-white p-8 rounded-2xl text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Start?</h2>
           <p className="text-xl mb-6">Join thousands of users making a difference while earning rewards.</p>
-          <button className="bg-white text-green-600 px-8 py-3 rounded-xl font-semibold hover:bg-gray-100 transition-colors">
+          <button onClick={openAppStore}
+            className="bg-white text-green-600 px-8 py-3 rounded-xl font-semibold hover:bg-gray-100 transition-colors">
             Download the App
           </button>
         </div>
