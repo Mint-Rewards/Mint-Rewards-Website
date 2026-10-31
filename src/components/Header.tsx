@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { Download } from "lucide-react";
+import { ChevronRight, Download } from "lucide-react";
 import GlowingOrb from "./Orb";
 
 export default function Hero() {
@@ -71,7 +71,7 @@ export default function Hero() {
           <div className="mt-10 flex items-center gap-4 flex-wrap max-[375px]:flex-col max-[375px]:items-stretch max-[375px]:gap-3">
             <a
               href="#onboarding"
-              className="flex items-center gap-2 rounded-full bg-[#1D558E] px-6 py-3 text-white font-medium hover:bg-[#15406b] transition max-[375px]:w-full max-[375px]:justify-center"
+              className="flex h-12 items-center gap-2 rounded-full bg-[#1D558E] px-6 text-white font-medium hover:bg-[#15406b] transition max-[375px]:w-full max-[375px]:justify-center"
             >
               <Download className="font-light w-4" />
               <span>Get the App</span>
@@ -79,10 +79,15 @@ export default function Hero() {
 
             <button
               onClick={() => handleMenuClick("how-it-works")}
-              className="flex items-center gap-3 rounded-full bg-zinc-900 px-6 py-3 text-white font-medium hover:bg-zinc-800 transition max-[375px]:w-full max-[375px]:justify-center"
+              className="flex h-12 items-center gap-3 rounded-full bg-zinc-900 px-6 text-white font-medium hover:bg-zinc-800 transition max-[375px]:w-full max-[375px]:justify-center"
             >
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-black">
-                &gt;
+              {/* 28px inside a 48px button. At h-8 it was 32px, which with
+                  py-3 either side made this button 56px against the 48px of
+                  the one beside it — the padding was equal, the contents
+                  were not. Both buttons now state their height outright
+                  rather than arriving at one by addition. */}
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white text-black">
+                <ChevronRight className="h-4 w-4" aria-hidden="true" />
               </span>
               <span>Learn more</span>
             </button>
