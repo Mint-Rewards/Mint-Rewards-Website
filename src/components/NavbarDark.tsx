@@ -36,9 +36,35 @@ const MENU_BY_MODE = {
   ],
 } as const;
 
+/*
+ * Where the tabs collapse into the hamburger, per mode.
+ *
+ * THE TWO MENUS NEED DIFFERENT WIDTHS, because their labels differ. The
+ * switch is absolutely centred, so each side gets `W/2 - 95 - 24` and the
+ * right-hand group has to fit in it. Measured at 1920:
+ *
+ *   consumer  tabs 365 + gap + CTA 136 = 517  -> clears at 1320
+ *   business  tabs 440 + gap + CTA 163 = 619  -> clears at about 1500
+ *
+ * One shared breakpoint cannot serve both. 1320 applied to business
+ * overlapped the switch by 78px at 1320, 18px at 1440 and 3px at 1470 —
+ * which is how "Overview" ended up sliding under the switch on a MacBook
+ * Air. 1520 applied to consumer would take the tabs away from the same
+ * laptop, which has room for them.
+ *
+ * The strings are written out in full on purpose. Tailwind generates classes
+ * by scanning source text, so a composed `min-[${n}px]:flex` produces no CSS
+ * at all and the nav would silently never appear.
+ */
+const NAV_AT = {
+  consumer: { show: "hidden min-[1320px]:flex", hide: "min-[1320px]:hidden" },
+  business: { show: "hidden min-[1180px]:flex", hide: "min-[1180px]:hidden" },
+} as const;
+
 const NavbarDark = () => {
   const location = useLocation();
   const mode = siteModeFor(location.pathname);
+  const navAt = NAV_AT[mode];
   const brand = brandFor(location.pathname);
   const menuItems: readonly {
     name: string;
@@ -237,7 +263,7 @@ const NavbarDark = () => {
               switch stays on the centre of the screen, which is the thing
               that has to hold.
             */}
-            <nav className="hidden min-[1320px]:flex items-center gap-6">
+            <nav className={`${navAt.show} items-center gap-6`}>
               {menuItems.map((item) => (
                 <div key={item.key}>
                   {item.type === "link" ? (
@@ -278,7 +304,15 @@ const NavbarDark = () => {
               lines and overlapping the mark. The same action lives at the
               bottom of the mobile sheet instead.
             */}
-            <div className="hidden min-[1320px]:flex">
+            {/*
+              CONSUMER ONLY. The business pages carry "Talk to our team" in
+              their own hero, so repeating it here bought nothing and cost
+              179px — tabs 163 plus the gap — out of a row that has to fit
+              around a centred switch. Removing it is what lets the business
+              tabs appear on a 13" laptop at all; see NAV_AT above.
+            */}
+            {mode === "consumer" && (
+            <div className={navAt.show}>
               <a
                 /*
                  * #enquiry, not /business/contact. That route was never
@@ -290,25 +324,17 @@ const NavbarDark = () => {
                  * would duplicate that form; if one is ever built, this
                  * goes back to a route.
                  */
-                href={mode === "business" ? "#enquiry" : "#onboarding"}
+                href="#onboarding"
                 className="flex items-center gap-2 whitespace-nowrap rounded-full bg-black px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 transition"
               >
-                {mode === "business" ? (
-                  <>
-                    Talk to our team
-                    <ArrowRight size={16} />
-                  </>
-                ) : (
-                  <>
-                    <Download size={16} />
-                    Get the App
-                  </>
-                )}
+                <Download size={16} />
+                Get the App
               </a>
             </div>
+            )}
             {/* Mobile Menu Button */}
             <button
-              className="min-[1320px]:hidden text-black"
+              className={`${navAt.hide} text-black`}
               onClick={() => setOpen(!open)}
               aria-label="Toggle navigation menu"
               aria-expanded={open}
@@ -324,7 +350,7 @@ const NavbarDark = () => {
       {/* Mobile Menu */}
       {open && (
         <div
-          className="min-[1320px]:hidden border-t border-black/10 bg-white/95 backdrop-blur"
+          className={`${navAt.hide} border-t border-black/10 bg-white/95 backdrop-blur`}
           id="mobile-nav"
         >
           <div className="flex flex-col gap-4 px-6 py-6 text-black/80">
