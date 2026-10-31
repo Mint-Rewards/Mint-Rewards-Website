@@ -345,15 +345,17 @@ export default function Business() {
                 </p>
               </div>
             </div>
-            {/* STILL LOAD-BEARING, even reduced to two words: a row of
-                placeholder logos here would imply that prospects are signed
-                clients, which the spec forbids. The box stays empty of
-                marks. What the empty box MEANS is now carried by the
-                paragraph on the left — "we will only display verified
-                relationships and authorised brand assets" — so that
-                sentence has to stay where it is. */}
+            {/* LOAD-BEARING, and the wording is doing two jobs. It reads
+                forward — something is coming — rather than as a list of
+                things not being claimed, which is how it read before. But
+                "verified" and "approved" stay in it: a row of placeholder
+                logos here would imply that prospects are signed clients,
+                which the spec forbids, and the sentence is what says the
+                box will only ever hold marks we were actually given. */}
             <div className="logo-note">
-              <strong>Coming soon</strong>
+              <strong>Partner stories coming soon</strong>
+              Verified partners and approved marks will appear here once they
+              are supplied.
             </div>
           </div>
         </section>
