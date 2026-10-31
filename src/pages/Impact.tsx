@@ -78,14 +78,34 @@ const SHAPE = [
   "Review & reporting",
 ];
 
-/** Every value says what it is not. See the note at the top of this file. */
+/*
+ * SAMPLE FIGURES. INVENTED. NOT TO BE QUOTED ANYWHERE.
+ *
+ * These six read "Sample only", "Illustrative", "Example view" and so on
+ * where their numbers go. That did not read as restraint, it read as a
+ * broken component — and a view whose whole purpose is to show what
+ * programme reporting looks like cannot do that with no figures in it.
+ *
+ * THEY DESCRIBE ONE COHERENT PROGRAMME, which is the part to preserve if
+ * anyone edits them. 1,860 households across 14 locations is about 130
+ * each; 412 tonnes across those households is roughly 220kg apiece; 298
+ * of 412 tonnes recovered is the 72%; and 1,860 taking part of the ~2,740
+ * invited is the 68%. Figures that do not reconcile read as carelessness
+ * rather than as a placeholder, and a sustainability team is exactly the
+ * audience that adds them up.
+ *
+ * The frame says what they are three times over: the eyebrow calls the
+ * view conceptual, a tag sits directly above the tiles, and the line
+ * beneath the copy states plainly that no actual programme data is
+ * represented. All three stay.
+ */
 const INDICATORS: [string, string][] = [
-  ["Materials collected", "Sample only"],
-  ["Materials recovered", "Illustrative"],
-  ["Participating households", "Example view"],
-  ["Programme locations", "No live data"],
-  ["Community participation", "Illustrative"],
-  ["Environmental indicators", "Defined per programme"],
+  ["Materials collected", "412 t"],
+  ["Materials recovered", "298 t"],
+  ["Recovery rate", "72%"],
+  ["Participating households", "1,860"],
+  ["Programme locations", "14"],
+  ["Community participation", "68%"],
 ];
 
 const FOCUS = [
@@ -219,13 +239,18 @@ export default function Impact() {
                   is represented.
                 </small>
               </div>
-              <div className="dashboard-sample">
-                {INDICATORS.map(([label, value]) => (
-                  <div className="metric-light" key={label}>
-                    <span>{label}</span>
-                    <strong style={{ fontSize: 14 }}>{value}</strong>
-                  </div>
-                ))}
+              <div>
+                {/* Directly above the numbers, because that is where
+                    somebody reading them is looking. */}
+                <div className="sample-tag">Sample data &middot; not a report</div>
+                <div className="dashboard-sample">
+                  {INDICATORS.map(([label, value]) => (
+                    <div className="metric-light" key={label}>
+                      <span>{label}</span>
+                      <strong style={{ fontSize: 14 }}>{value}</strong>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
