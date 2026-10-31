@@ -22,12 +22,12 @@ const AppStoreButton = ({
       rel="noopener noreferrer"
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
-      className="flex items-center space-x-3 bg-black hover:bg-gray-800 text-white px-4 py-3 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#3EBAB9] focus:ring-offset-2 focus:ring-offset-gray-800"
+      className="flex min-w-0 flex-1 lg:flex-none items-center justify-center lg:justify-start space-x-2 sm:space-x-3 bg-black hover:bg-gray-800 text-white px-3 py-2.5 sm:px-4 sm:py-3 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#3EBAB9] focus:ring-offset-2 focus:ring-offset-gray-800"
     >
-      <div className="text-xl">{icon}</div>
-      <div className="text-left">
-        <div className="text-xs text-gray-300">{text}</div>
-        <div className="text-sm font-semibold">{subtext}</div>
+      <div className="shrink-0 text-lg sm:text-xl">{icon}</div>
+      <div className="min-w-0 text-left">
+        <div className="truncate text-[10px] sm:text-xs text-gray-300">{text}</div>
+        <div className="truncate text-xs sm:text-sm font-semibold">{subtext}</div>
       </div>
     </motion.a>
   );
@@ -47,8 +47,8 @@ const FooterColumn = ({
 }) => {
   return (
     <div>
-      <h3 className="text-white font-semibold text-lg mb-4">{title}</h3>
-      <ul className="space-y-3">
+      <h3 className="text-white font-semibold text-sm sm:text-lg mb-3 sm:mb-4">{title}</h3>
+      <ul className="space-y-2 sm:space-y-3">
         {links.map((link) => (
           <li key={link.name}>
             {link.available ? (
@@ -82,7 +82,7 @@ const Footer = () => {
     <footer className="bg-gray-900 text-white">
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+        <div className="grid grid-cols-3 lg:grid-cols-5 gap-6 lg:gap-8">
           {/* About Column */}
           <div className="lg:col-span-1">
             <FooterColumn
@@ -108,11 +108,11 @@ const Footer = () => {
           </div>
 
           {/* Get the App Column */}
-          <div className="lg:col-span-2">
+          <div className="col-span-3 lg:col-span-2">
             <h3 className="text-white font-semibold text-lg mb-4">
               Get the App
             </h3>
-            <div className="space-y-3">
+            <div className="flex flex-row gap-3 lg:flex-col">
               <AppStoreButton
                 icon={<Download />}
                 text="Download on the"
@@ -127,57 +127,9 @@ const Footer = () => {
               />
             </div>
 
-            {/* Newsletter signup */}
-            <div className="mt-8">
-              <h4 className="text-white font-medium text-base mb-3">
-                Stay Updated
-              </h4>
-              <div className="flex flex-col sm:flex-row gap-2">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="flex-1 px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3EBAB9] focus:border-transparent"
-                />
-                <button className="bg-[#1D558E] hover:bg-[#15406b] text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#3EBAB9] focus:ring-offset-2 focus:ring-offset-gray-900">
-                  Subscribe
-                </button>
-              </div>
-            </div>
           </div>
         </div>
 
-        {/* Brand Section */}
-        <div className="mt-12 pt-8 border-t border-gray-800">
-          <div className="flex flex-col lg:flex-row items-center justify-between space-y-4 lg:space-y-0">
-            {/* Logo and tagline */}
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                <div className="h-10 w-32 flex items-center justify-center">
-                  <img src="/favicon_dark.png" alt="Mint Rewards" />
-                </div>
-              </div>
-              <div className="hidden lg:block text-gray-400 text-sm">
-                Turn your trash into treasure
-              </div>
-            </div>
-
-            {/* Trust badges */}
-            <div className="flex items-center space-x-6 text-sm text-gray-400">
-              <div className="flex items-center space-x-2">
-                <div className="text-[#8CE4B5]">🔒</div>
-                <span>Secure & Safe</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <div className="text-[#3EBAB9]">🌱</div>
-                <span>Eco-Friendly</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <div className="text-[#8CE4B5]">⚡</div>
-                <span>Instant Rewards</span>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Bottom Bar */}

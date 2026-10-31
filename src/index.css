@@ -306,3 +306,109 @@ div {
   width: 80%;
   height: 80%;
 }
+
+/* ---------------------------------------------------------------------------
+   RecovLoop brand palette — the only authoritative colour system Mint has
+   supplied so far. Taken verbatim from RecovLoop_Brand_Guide_Updated.pdf:
+   Deep Forest, Forest Green and Emerald are core; Jade and lighter are accents.
+
+   Used on the business pages because it is real, documented and consistent —
+   unlike the three competing systems on the consumer side (#60cdff declared
+   but unused, #3EBAB9 / #1D558E / #8CE4B5 hardcoded in components).
+
+   NOT yet a decision that RecovLoop green IS the Mint business palette. That
+   needs the Mint brand guide, which has not arrived. See the theme task: the
+   spec asks for RecovLoop to read industrial, Rewards energetic and Impact
+   corporate, and one green across all three flattens that.
+--------------------------------------------------------------------------- */
+@theme {
+  --color-forest-deep: #0b3d2e;
+  --color-forest: #145c46;
+  --color-emerald: #1e7a5d;
+  --color-jade: #2e9d74;
+  --color-green-soft: #61b795;
+  --color-sage: #a7d6c0;
+  --color-mint-light: #eaf6f0;
+}
+
+/*
+ * Buttons get the hand cursor back.
+ *
+ * Tailwind 4's Preflight stopped setting `cursor: pointer` on buttons — it
+ * now follows the browser default, which is an arrow. Every button on the
+ * site lost the one affordance that says it can be clicked, which is why it
+ * showed up everywhere at once rather than on one component.
+ *
+ * Fixed in base rather than by adding `cursor-pointer` to each button: there
+ * are dozens, they are written by several hands, and the next one added
+ * would be wrong again.
+ *
+ * `:not(:disabled)` because a disabled control should keep the arrow — the
+ * cursor is the first hint that it will not respond.
+ */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled),
+  label[for],
+  summary {
+    cursor: pointer;
+  }
+}
+
+/*
+ * Consumer mobile type and rhythm, aligned to the business pages.
+ *
+ * The business pages were built to one scale — `h1: clamp(42px,5.4vw,68px)`,
+ * section headings `clamp(32px,4vw,46px)` with -2px tracking, body at 15px,
+ * sections at 65px of vertical padding below 900px. The consumer side grew
+ * out of Tailwind defaults instead: 36px headings with no tracking, 18px
+ * body, and 80px section padding. Side by side on a phone the consumer side
+ * reads looser and larger, which is what "the business webpage is much
+ * better on mobile" was describing.
+ *
+ * Scoped with `:not(.b2b section)` so the business pages keep their own
+ * scale, and inside a max-width query so desktop is untouched. These rules
+ * are deliberately unlayered: Tailwind v4 emits utilities into
+ * `@layer utilities`, and unlayered CSS outranks any cascade layer, which is
+ * what lets them override `text-4xl` without an `!important` anywhere.
+ */
+@media (max-width: 700px) {
+  section:not(.b2b section) :is(h1, [class*="text-5xl"], [class*="text-6xl"]) {
+    font-size: clamp(34px, 9vw, 44px);
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+  }
+
+  section:not(.b2b section) :is(h2, h3)[class*="text-4xl"] {
+    font-size: clamp(28px, 7.4vw, 34px);
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+  }
+
+  section:not(.b2b section) :is(h2, h3)[class*="text-3xl"] {
+    font-size: clamp(24px, 6.4vw, 30px);
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+  }
+
+  /* Lead paragraphs. 18-20px is a desktop measure; on a 360px screen it
+     costs two extra lines and crowds everything under it. */
+  section:not(.b2b section) p[class*="text-lg"],
+  section:not(.b2b section) p[class*="text-xl"] {
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* Section rhythm: match the business pages' 65px rather than 80-128px. */
+  section:not(.b2b section)[class*="py-20"],
+  section:not(.b2b section)[class*="py-24"],
+  section:not(.b2b section)[class*="py-32"] {
+    padding-top: 65px;
+    padding-bottom: 65px;
+  }
+
+  section:not(.b2b section)[class*="py-16"] {
+    padding-top: 56px;
+    padding-bottom: 56px;
+  }
+}

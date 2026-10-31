@@ -1,3 +1,6 @@
+import { Gift, Recycle, Smartphone } from "lucide-react";
+import { openAppStore } from "../utils/appStore";
+
 const HowItWorks = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-green-50 py-16">
@@ -24,7 +27,7 @@ const HowItWorks = () => {
               </p>
             </div>
             <div className="md:w-1/2 bg-white p-8 rounded-2xl shadow-lg">
-              <div className="text-6xl text-center">📱</div>
+              <Smartphone className="mx-auto h-12 w-12 text-[#3EBAB9]" aria-hidden="true" />
               <p className="text-center text-gray-600 mt-4">Download & Register</p>
             </div>
           </div>
@@ -41,7 +44,7 @@ const HowItWorks = () => {
               </p>
             </div>
             <div className="md:w-1/2 bg-white p-8 rounded-2xl shadow-lg">
-              <div className="text-6xl text-center">♻️</div>
+              <Recycle className="mx-auto h-12 w-12 text-[#3EBAB9]" aria-hidden="true" />
               <p className="text-center text-gray-600 mt-4">Recycle Items</p>
             </div>
           </div>
@@ -58,7 +61,7 @@ const HowItWorks = () => {
               </p>
             </div>
             <div className="md:w-1/2 bg-white p-8 rounded-2xl shadow-lg">
-              <div className="text-6xl text-center">🎁</div>
+              <Gift className="mx-auto h-12 w-12 text-[#3EBAB9]" aria-hidden="true" />
               <p className="text-center text-gray-600 mt-4">Enjoy Rewards</p>
             </div>
           </div>
@@ -67,7 +70,8 @@ const HowItWorks = () => {
         <div className="mt-16 bg-green-600 text-white p-8 rounded-2xl text-center">
           <h2 className="text-3xl font-bold mb-4">Start Your Journey Today</h2>
           <p className="text-xl mb-6">Join thousands making a difference, one recyclable at a time.</p>
-          <button className="bg-white text-green-600 px-8 py-3 rounded-xl font-semibold hover:bg-gray-100 transition-colors">
+          <button onClick={openAppStore}
+            className="bg-white text-green-600 px-8 py-3 rounded-xl font-semibold hover:bg-gray-100 transition-colors">
             Get Started Now
           </button>
         </div>

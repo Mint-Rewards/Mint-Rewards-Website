@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Smartphone, Download } from "lucide-react";
+import { Download, Gift, Recycle, Smartphone } from "lucide-react";
 
 const AppRedirect = () => {
   useEffect(() => {
@@ -91,13 +91,13 @@ const AppRedirect = () => {
         {/* Info Cards */}
         <div className="mt-8 grid grid-cols-2 gap-4">
           <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 text-center">
-            <div className="text-2xl mb-2">♻️</div>
+            <Recycle className="mx-auto mb-2 h-7 w-7 text-[#3EBAB9]" aria-hidden="true" />
             <div className="text-sm font-medium text-gray-700">
               Recycle & Earn
             </div>
           </div>
           <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 text-center">
-            <div className="text-2xl mb-2">🎁</div>
+            <Gift className="mx-auto mb-2 h-7 w-7 text-[#3EBAB9]" aria-hidden="true" />
             <div className="text-sm font-medium text-gray-700">
               Redeem Rewards
             </div>

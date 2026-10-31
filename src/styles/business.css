@@ -1,0 +1,1236 @@
+/*
+ * The B2B design system, ported from Ahsan's Replit build rather than
+ * redesigned. The blue accent (#087de5) on white, the hero grid, the industry
+ * cards, the technology band, the comparison table and the conceptual
+ * dashboard are all his.
+ *
+ * EVERY rule is scoped under .b2b. These are generic global names —
+ * .container, .hero, .card, .section, .header, .footer-top — and the consumer
+ * site is Tailwind. An earlier version of this file scoped line by line and
+ * missed the second and third rules on lines holding several, which left ten
+ * selectors applying site-wide inside media queries.
+ *
+ * Do not "modernise" this into Tailwind utilities. The design decisions live
+ * in these rules and they were made deliberately.
+ */
+
+/*
+ * VARIABLE, not a handful of static weights.
+ *
+ * His CSS asks for 400, 500, 600, 650, 700 and 800. Importing only
+ * 400/500/700 meant every 600 fell to the nearest available face or was
+ * synthesised by the browser, and 650 — which no static file can provide —
+ * snapped to 700. Synthetic bold is thicker and blunter than a real one,
+ * which is what made the type read heavy against his build.
+ *
+ * One variable file per family covers the whole range continuously and
+ * weighs less than six static cuts.
+ */
+@import '@fontsource-variable/dm-sans';
+@import '@fontsource-variable/manrope';
+@import '@fontsource/space-mono/400.css';
+
+/*
+ * His type stack. The RecovLoop guide specifies Avenir Next, a licensed face
+ * with no webfont licence here; his substitution stands until one is bought.
+ */
+/*
+ * THE ACCENT IS A TOKEN BECAUSE THERE ARE TWO BRANDS ON THIS STYLESHEET.
+ *
+ * Mint for Business is the blue #087de5 on white. RecovLoop is a sub-brand
+ * with its own guide and its own palette — a green system, whose core is
+ * Deep Forest #0B3D2E, Forest Green #145C46 and Emerald #1E7A5D, with Jade
+ * and the lighter greens as supporting accents. Emerald is the one that
+ * carries a filled button on white, so it is the accent; Forest Green is a
+ * step darker and does the hover.
+ *
+ * Earlier work in this file called the greens "leftovers from an earlier
+ * palette" and recoloured some of them blue. That was wrong, and the guide
+ * says so plainly: #1E7A5D is Emerald and #EAF6F0 is Light Mint, both
+ * straight off the palette page. On the RecovLoop page the green is the
+ * brand and the blue is the import.
+ *
+ * Custom properties inherit, so overriding them on .recov-page is enough to
+ * swing the whole page — no rule below needs to know which brand it is
+ * serving.
+ */
+.b2b {
+  --b2b-accent: #087de5;
+  --b2b-accent-hover: #0064c5;
+  /*
+   * The page margin, as a number other rules can use.
+   *
+   * `.container` bakes it into a `calc(100% - 48px)` and a
+   * `calc(100% - 34px)` below 700px, so it is 24px and then 17px a side.
+   * The carousel has to bleed past the container by exactly that much to
+   * reach the screen edge while its first item still lines up with the
+   * text above it — which it cannot do by reading a width.
+   */
+  --b2b-gutter: 24px;
+  font-synthesis-weight: none;
+  --app-font-sans: 'DM Sans Variable', 'DM Sans', system-ui, sans-serif;
+  --app-font-serif: 'Manrope Variable', 'Manrope', system-ui, sans-serif;
+  --app-font-mono: 'Space Mono', ui-monospace, monospace;
+  font-family: var(--app-font-sans);
+  background: #fff;
+  color: #14191d;
+}
+
+/* RecovLoop's own accent. See the note above. */
+.b2b .recov-page {
+  --b2b-accent: #1e7a5d;
+  --b2b-accent-hover: #145c46;
+}
+
+.b2b .shell { overflow:hidden; }
+.b2b .container { width:min(1200px, calc(100% - 48px)); margin:0 auto; }
+.b2b .header { height:78px; display:flex; align-items:center; position:sticky; top:0; z-index:50; background:rgba(255,255,255,.92); backdrop-filter:blur(16px); border-bottom:1px solid #edf1f3; }
+.b2b .nav-row { display:flex; align-items:center; justify-content:space-between; gap:28px; }
+.b2b .brand { font:800 23px var(--app-font-serif); letter-spacing:-1.3px; display:flex; align-items:center; }
+.b2b .brand small { display:block; font:500 9px var(--app-font-sans); color:#62717b; letter-spacing:1.3px; text-transform:uppercase; margin-top:-2px; }
+.b2b .nav-links { display:flex; align-items:center; gap:26px; color:#45515b; font-size:13px; font-weight:600; }
+.b2b .nav-links a:hover, .b2b .nav-links a.active { color:var(--b2b-accent); }
+.b2b .header-cta, .b2b .btn-primary { display:inline-flex; align-items:center; justify-content:center; gap:10px; border:0; border-radius:999px; background:var(--b2b-accent); color:#fff; font-size:13px; font-weight:700; padding:14px 21px; transition:transform .2s,background .2s; }
+.b2b .header-cta:hover, .b2b .btn-primary:hover { transform:translateY(-2px); background:var(--b2b-accent-hover); }
+.b2b .btn-secondary { display:inline-flex; align-items:center; gap:9px; color:#17252d; border:1px solid #dbe4e8; background:rgba(255,255,255,.8); padding:13px 20px; border-radius:999px; font-size:13px; font-weight:700; transition:transform .2s,border .2s; }
+.b2b .btn-secondary:hover { transform:translateY(-2px); border-color:#8dbbd0; }
+.b2b .mobile-toggle { display:none; background:none; border:0; padding:8px; }
+.b2b .mobile-menu { display:none; }
+.b2b .hero { position:relative; padding:96px 0 76px; background:radial-gradient(ellipse at 82% 30%,rgba(181,235,250,.55),transparent 35%),radial-gradient(ellipse at 64% 75%,rgba(219,249,245,.8),transparent 32%),#fff; }
+.b2b .hero-grid { display:grid; grid-template-columns:1fr 1fr; gap:66px; align-items:center; }
+.b2b .eyebrow { color:var(--b2b-accent); font:700 10px var(--app-font-mono); text-transform:uppercase; letter-spacing:1.2px; display:flex; align-items:center; gap:9px; margin-bottom:22px; }
+.b2b .eyebrow:before { content:''; width:22px; height:1px; background:currentColor; }
+.b2b h1, .b2b h2, .b2b h3, .b2b p { margin-top:0; }
+.b2b h1, .b2b h2, .b2b h3 { font-family:var(--app-font-serif); }
+.b2b h1 { font-size:clamp(42px,5.4vw,68px); line-height:1.03; letter-spacing:-3.7px; font-weight:700; margin-bottom:23px; }
+.b2b .hero-sub { font-size:18px; line-height:1.55; font-weight:650; max-width:570px; margin-bottom:14px; }
+.b2b .hero-copy { color:#596770; font-size:15px; line-height:1.8; max-width:570px; margin-bottom:29px; }
+.b2b .hero-actions { display:flex; gap:12px; flex-wrap:wrap; }
+.b2b .hero-art { position:relative; min-height:405px; border-radius:26px; overflow:hidden; background:#e9f7f4; }
+.b2b .hero-art img { width:100%; height:405px; object-fit:cover; display:block; }
+.b2b .photo-shade { position:absolute; inset:30% 0 0; background:linear-gradient(0deg,rgba(6,42,33,.45),transparent); }
+.b2b .art-caption { position:absolute; left:22px; bottom:20px; color:#fff; font-size:12px; font-weight:600; }
+.b2b .floating-note { position:absolute; right:18px; top:18px; border-radius:14px; padding:14px 16px; background:rgba(255,255,255,.93); box-shadow:0 16px 44px #143e3220; color:#174333; font-size:11px; line-height:1.6; }
+.b2b .floating-note strong { display:block; font-size:12px; }
+.b2b .section { padding:88px 0; }
+.b2b .section-soft { background:#f4faf9; }
+.b2b .section-dark { background:#0b3d2e; color:white; }
+.b2b .section-head { max-width:650px; margin-bottom:38px; }
+.b2b .section-head.center { text-align:center; margin-left:auto; margin-right:auto; }
+.b2b .section-head h2, .b2b .cta-copy h2 { font-size:clamp(32px,4vw,46px); line-height:1.12; letter-spacing:-2px; margin-bottom:14px; }
+.b2b .section-head p { color:#65727b; line-height:1.75; font-size:15px; margin-bottom:0; }
+.b2b .section-dark .section-head p { color:#c1d5cd; }
+.b2b .cards { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+.b2b .solution-card { border:1px solid #e4eceb; border-radius:18px; padding:26px; background:white; min-height:270px; transition:transform .22s,box-shadow .22s,border .22s; position:relative; overflow:hidden; }
+.b2b .solution-card:hover { transform:translateY(-5px); border-color:#a9d9c5; box-shadow:0 18px 44px #16493912; }
+.b2b .card-icon { width:44px;height:44px; display:grid;place-items:center;border-radius:14px;background:#eaf6f0;color:#145c46;margin-bottom:28px; }
+.b2b .solution-card h3 { font-size:22px; letter-spacing:-.7px; margin-bottom:5px; }
+.b2b .card-label { color:#16805e; font-size:11px; font-weight:700; margin-bottom:13px; }
+.b2b .solution-card p { color:#65717a; font-size:13px; line-height:1.75; margin-bottom:18px; }
+.b2b .text-link { display:inline-flex; align-items:center; gap:7px; color:var(--b2b-accent); font-size:12px; font-weight:700; }
+.b2b .benefit-list { list-style:none; padding:0; margin:0 0 22px; display:grid; gap:9px; color:#44534d; font-size:12px; }
+.b2b .benefit-list li:before { content:'↗'; color:#27936d; margin-right:9px; font-weight:700; }
+.b2b .split { display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:70px; }
+.b2b .ecosystem { background:#f2f9f7; border:1px solid #e1efea; border-radius:24px; padding:28px; position:relative; }
+.b2b .eco-center { width:136px;height:136px;border-radius:50%;background:#0b3d2e;color:white;display:grid;place-items:center;text-align:center;margin:0 auto 22px;font-weight:700;font-size:13px;box-shadow:0 0 0 12px #e0f1e9; }
+.b2b .eco-options { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+.b2b .eco-option { padding:14px 8px; border:1px solid #d7e9e0; border-radius:12px; background:white; text-align:center; font-size:11px; font-weight:700; color:#194b3a; }
+.b2b .eco-option span { display:block; font-size:9px; font-weight:500; color:#718178; margin-top:5px; }
+.b2b .tagline { font-size:11px; color:#16805e; font-weight:700; letter-spacing:.5px; text-transform:uppercase; margin-bottom:11px; }
+.b2b .body-copy { color:#647079; font-size:14px; line-height:1.85; }
+.b2b .industry-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+.b2b .industry { min-height:96px; padding:18px; background:#fff; border:1px solid #e9eff0; border-radius:14px; display:flex; flex-direction:column; justify-content:space-between; }
+.b2b .industry strong { font-size:13px; }
+.b2b .industry span { color:#7c898f; font-size:10px; }
+.b2b .technology-band { border-radius:22px; background:#0b3d2e; color:#fff; padding:40px; display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center; overflow:hidden; position:relative; }
+.b2b .technology-band:after { content:''; position:absolute; width:340px;height:340px;border:1px solid #ffffff18;border-radius:50%; right:-100px;top:-120px; box-shadow:0 0 0 42px #ffffff08,0 0 0 84px #ffffff05; }
+.b2b .tech-nodes { display:grid;grid-template-columns:1fr 1fr;gap:10px;position:relative;z-index:1; }
+.b2b .tech-node { border:1px solid #ffffff25;border-radius:13px;padding:16px;background:#ffffff0d;font-size:12px;font-weight:700; }
+.b2b .tech-node small { display:block;color:#b5d4c7;font-size:10px;font-weight:400;margin-top:7px; }
+.b2b .logo-note { border:1px dashed #b5c9c2; background:#f7fbf9; border-radius:16px; padding:28px; text-align:center; color:#53685f; font-size:13px; }
+.b2b .logo-note strong { display:block; font:700 19px var(--app-font-serif); color:#143b2d; margin-bottom:6px; }
+.b2b .cta-band { padding:54px; border-radius:24px; background:radial-gradient(ellipse at 90% 0%,#d7f4f6,transparent 40%),linear-gradient(115deg,#eef9f7,#f6fbff); display:flex; align-items:center; justify-content:space-between; gap:25px; }
+.b2b .cta-copy h2 { font-size:36px; max-width:600px; }
+.b2b .cta-copy p { color:#647079; font-size:14px; margin:0; }
+.b2b .page-hero { padding:72px 0 66px; background:radial-gradient(ellipse at 85% 20%,rgba(175,231,244,.45),transparent 36%),linear-gradient(130deg,#fff,#f7fcfc); }
+.b2b .page-hero .hero-grid { gap:46px; }
+.b2b .recov-page .page-hero { background:radial-gradient(ellipse at 88% 20%,#d7f0e4,transparent 38%),#f7fbf8; }
+.b2b .recov-page { font-family:"Avenir Next",Avenir,var(--app-font-sans); }
+.b2b .recov-page h1 { font-size:clamp(44px,5vw,62px); }
+.b2b .logo-rec { height:42px; width:auto; object-fit:contain; margin:0 0 22px; }
+.b2b .feature-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:14px; }
+.b2b .feature { padding:22px; border:1px solid #e3ebe7; border-radius:16px; background:#fff; }
+.b2b .feature h3 { font-size:17px; margin:14px 0 8px; }
+.b2b .feature p { font-size:12px;line-height:1.7;color:#66736c;margin:0; }
+.b2b .compliance-box { border-radius:20px; background:#eaf6f0; padding:28px; border-left:4px solid #1e7a5d; }
+.b2b .compliance-box h3 { font-size:21px; margin-bottom:9px; }
+.b2b .compliance-box p { color:#4f655a; line-height:1.7; font-size:13px; }
+.b2b .compliance-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:22px; }
+.b2b .compliance-item { padding:12px; background:#fff9; border-radius:10px; font-size:10px; color:#315445; }
+.b2b .services-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:14px; }
+.b2b .service-tile { padding:23px; border-radius:17px; border:1px solid #e4ece8; background:white; min-height:198px; }
+.b2b .service-tile h3 { font-size:18px; margin:15px 0 8px; }
+.b2b .service-tile p { color:#68736e; font-size:12px;line-height:1.7; }
+.b2b .service-tile .tagline { font-size:10px;margin:0; }
+.b2b .industry-waste { background:#f5faf8; border-radius:15px; padding:17px; }
+.b2b .industry-waste h3 { font-size:14px; margin-bottom:7px; }
+.b2b .industry-waste p { color:#65726c; font-size:11px; line-height:1.6; margin:0; }
+.b2b .waste-industries { display:grid;grid-template-columns:repeat(3,1fr);gap:12px; }
+.b2b .note { font-size:11px;color:#68766e;margin-top:17px; }
+.b2b .comparison { overflow:hidden; border:1px solid #e2eae6; border-radius:16px; }
+.b2b .compare-row { display:grid;grid-template-columns:1fr 1fr; }
+.b2b .compare-row > div { padding:15px 20px; font-size:12px;line-height:1.5;border-bottom:1px solid #e7eeea; }
+.b2b .compare-row:first-child { background:#eaf6f0;color:#145c46;font-weight:700; }
+.b2b .compare-row:last-child > div { border-bottom:0; }
+.b2b .compare-row > div+div { background:#f6fbf8; }
+.b2b .flow { display:flex; align-items:stretch; gap:8px; margin:28px 0; }
+.b2b .flow-step { flex:1; padding:14px 11px; border:1px solid #d8e8e0;border-radius:12px;background:#fff;font-size:11px;font-weight:700;color:#214c3b; }
+.b2b .flow-step span { display:block;color:#82928a;font:9px var(--app-font-mono);margin-bottom:8px; }
+.b2b .dashboard { border-radius:18px; border:1px solid #dce8e3; background:#fff; overflow:hidden; box-shadow:0 18px 45px #164a3910; }
+.b2b .dash-top { background:#f5faf7;padding:14px 19px;border-bottom:1px solid #e2ece7;display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:700;color:#174c38; }
+.b2b .sample-label { font:9px var(--app-font-mono);letter-spacing:.4px;color:#77867e;background:#e7efeb;padding:6px 8px;border-radius:5px; }
+.b2b .dash-content { padding:20px; }
+.b2b .dash-metrics { display:grid;grid-template-columns:repeat(3,1fr);gap:10px; }
+.b2b .metric { border:1px solid #edf1ef;border-radius:10px;padding:12px; }
+.b2b .metric span { display:block;font-size:9px;color:#7c8982; }
+.b2b .metric strong { display:block;margin-top:7px;font:700 17px var(--app-font-serif);color:#174c38; }
+.b2b .chart { height:105px;margin-top:15px;display:flex;align-items:end;gap:8px;border-bottom:1px solid #e6eeea;padding:0 8px; }
+.b2b .chart i { flex:1;background:linear-gradient(0deg,#2e9d74,#a7d6c0);border-radius:4px 4px 0 0; }
+.b2b .process-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:12px;counter-reset:steps; }
+.b2b .process-step { border-top:1px solid #9cc7b4;padding:20px 10px 0 0;position:relative; }
+.b2b .process-step:before { counter-increment:steps;content:'0' counter(steps);display:grid;place-items:center;width:34px;height:34px;background:#e5f4ec;color:#145c46;border-radius:50%;font:11px var(--app-font-mono);margin-top:-37px;margin-bottom:22px; }
+.b2b .process-step h3 { font-size:16px; }
+.b2b .process-step p { color:#67756d;font-size:12px;line-height:1.65; }
+.b2b .independent { border:1px solid #cfe5d9;border-radius:20px;background:linear-gradient(125deg,#f1faf5,#fff);padding:32px;display:grid;grid-template-columns:1fr auto;gap:26px;align-items:center; }
+.b2b .independent h3 { font-size:25px;margin:0 0 10px; }
+.b2b .independent p { color:#596d62;line-height:1.75;font-size:13px;max-width:720px; }
+.b2b .independent .disclaimer { font-size:11px;font-weight:700;color:#164f3a;margin-bottom:10px; }
+.b2b .rewards .page-hero { background:radial-gradient(ellipse at 78% 20%,#d9f2ff,transparent 36%),linear-gradient(100deg,#fff,#f5fbff); }
+.b2b .impact .page-hero { background:radial-gradient(ellipse at 85% 20%,#d8f1ed,transparent 36%),#fbfdfc; }
+.b2b .two-col-feature { display:grid;grid-template-columns:1fr 1fr;gap:16px; }
+.b2b .benefit { display:flex;gap:15px;padding:21px;border:1px solid #e5ecef;border-radius:15px;background:white; }
+.b2b .benefit .card-icon { flex:0 0 42px;margin:0; }
+.b2b .benefit h3 { font-size:16px;margin:0 0 7px; }
+.b2b .benefit p { color:#66737b;font-size:12px;line-height:1.7;margin:0; }
+.b2b .category-chips { display:flex;gap:9px;flex-wrap:wrap; }
+.b2b .chip { background:#f0f8f6;border:1px solid #dcece5;color:#315a49;border-radius:999px;padding:10px 15px;font-size:11px;font-weight:600; }
+.b2b .visual-dashboard { padding:28px; border-radius:20px;background:#103e30;color:#fff;display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center; }
+.b2b .visual-dashboard h3 { font-size:24px; }
+.b2b .visual-dashboard p { color:#c5d8d0;font-size:12px;line-height:1.7; }
+.b2b .metric-light { padding:14px;border-radius:11px;background:#ffffff12;border:1px solid #ffffff1b; }
+.b2b .metric-light span { display:block;color:#bfdbcf;font-size:9px; }
+.b2b .metric-light strong { font:700 18px var(--app-font-serif);display:block;margin-top:8px; }
+.b2b .dashboard-sample { display:grid;grid-template-columns:1fr 1fr;gap:9px; }
+.b2b .faq-list { display:grid;gap:10px; }
+.b2b details { border:1px solid #e3ece8;border-radius:13px;padding:17px 19px;background:#fff; }
+.b2b summary { cursor:pointer;font-weight:700;font-size:13px; }
+.b2b details p { margin:12px 0 0;color:#64716a;font-size:12px;line-height:1.7; }
+.b2b .form-section { background:#0b3d2e;color:white;padding:84px 0; }
+.b2b .form-grid { display:grid;grid-template-columns:.8fr 1.2fr;gap:56px;align-items:start; }
+.b2b .form-intro h2 { font-size:40px;letter-spacing:-2px;line-height:1.13; }
+.b2b .form-intro p { color:#c3d7ce;line-height:1.8;font-size:14px; }
+.b2b .form-contact { margin-top:36px;color:#a8c7b8;font-size:11px;line-height:1.8; }
+.b2b .enquiry-form { background:#fff;color:#17201d;border-radius:20px;padding:27px; }
+.b2b .form-title { display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;gap:15px; }
+.b2b .form-title h3 { font-size:20px;margin:0; }
+.b2b .form-title span { font-size:10px;color:#75837c; }
+.b2b .form-fields { display:grid;grid-template-columns:1fr 1fr;gap:13px; }
+.b2b .field { display:grid;gap:6px; }
+.b2b .field.full { grid-column:1/-1; }
+.b2b .field label { font-size:10px;font-weight:700;color:#34443c; }
+.b2b .field input, .b2b .field select, .b2b .field textarea { border:1px solid #dce6e1;border-radius:8px;padding:11px 12px;color:#1b2822;background:#fff;outline:none;font-size:12px;width:100%; }
+.b2b .field input:focus, .b2b .field select:focus, .b2b .field textarea:focus { border-color:#2e9d74;box-shadow:0 0 0 3px #2e9d741b; }
+.b2b .field textarea { min-height:94px;resize:vertical; }
+.b2b .field-error { color:#b42318;font-size:10px; }
+.b2b .consent { display:flex;align-items:flex-start;gap:9px;color:#627068;font-size:10px;line-height:1.5;margin:14px 0; }
+.b2b .consent input { margin-top:2px;accent-color:#1e7a5d; }
+.b2b .form-error, .b2b .form-success { border-radius:9px;padding:12px;margin-bottom:13px;font-size:12px;line-height:1.5; }
+.b2b .form-error { background:#fff0ef;color:#9d251f; }
+.b2b .form-success { background:#e8f7ef;color:#17563c; }
+.b2b .submit-btn { width:100%;border:0;border-radius:9px;padding:14px;background:var(--b2b-accent);color:#fff;font-weight:700;font-size:13px;display:flex;justify-content:center;gap:8px;align-items:center; }
+.b2b .submit-btn:disabled { opacity:.7;cursor:wait; }
+.b2b .privacy-copy { text-align:center;color:#849089;font-size:9px;margin:12px 0 0; }
+.b2b .footer { padding:46px 0 25px;background:#f6f9f9; }
+.b2b .footer-top { display:flex;justify-content:space-between;gap:30px;padding-bottom:30px;border-bottom:1px solid #e5ebed; }
+.b2b .footer-links { display:flex;gap:26px;flex-wrap:wrap;color:#56636c;font-size:12px; }
+.b2b .footer-bottom { padding-top:18px;display:flex;justify-content:space-between;gap:14px;color:#879299;font-size:10px; }
+.b2b .footer-note { max-width:600px; }
+.b2b .mobile-sticky { display:none; }
+.b2b .not-found { min-height:65vh;display:grid;place-items:center;text-align:center;padding:30px; }
+.b2b .not-found h1 { font-size:45px; }
+.b2b .not-found p { color:#647079; }
+@media(max-width:900px) {
+ .b2b .nav-links { gap:15px; }.b2b .hero-grid, .b2b .page-hero .hero-grid { gap:35px; }.b2b .industry-grid { grid-template-columns:repeat(3,1fr); }
+ .b2b .cards, .b2b .services-grid { grid-template-columns:repeat(2,1fr); }.b2b .form-grid { gap:30px; }
+}
+@media(max-width:700px) {
+ .b2b { --b2b-gutter: 17px; }
+ .b2b .container { width:min(100% - 34px,560px); }.b2b .header { height:66px; }.b2b .nav-links, .b2b .header-cta { display:none; }.b2b .mobile-toggle { display:block; }
+ .b2b .mobile-menu { display:grid;position:absolute;top:66px;left:0;right:0;background:#fff;border-bottom:1px solid #e7eeef;padding:12px 22px 18px;box-shadow:0 14px 20px #10252b0d; }
+ .b2b .mobile-menu a { padding:12px 3px;font-size:14px;font-weight:600;border-bottom:1px solid #f0f3f4; }
+ .b2b .hero { padding:61px 0 48px; }.b2b .hero-grid, .b2b .split, .b2b .form-grid, .b2b .technology-band, .b2b .independent, .b2b .visual-dashboard { grid-template-columns:1fr; }
+ .b2b h1 { font-size:46px;letter-spacing:-2.7px; }.b2b .hero-sub { font-size:16px; }.b2b .hero-art, .b2b .hero-art img { min-height:300px;height:300px; }.b2b .section { padding:65px 0; }
+ .b2b .cards, .b2b .services-grid, .b2b .feature-grid, .b2b .two-col-feature { grid-template-columns:1fr; }.b2b .industry-grid { grid-template-columns:repeat(2,1fr); }.b2b .waste-industries { grid-template-columns:repeat(2,1fr); }
+ .b2b .cta-band { padding:29px 23px;align-items:flex-start;flex-direction:column; }.b2b .cta-copy h2 { font-size:30px; }.b2b .process-grid { grid-template-columns:repeat(2,1fr);gap:28px 16px; }
+ .b2b .flow { display:grid;grid-template-columns:repeat(2,1fr); }.b2b .form-section { padding:64px 0; }.b2b .form-intro h2 { font-size:34px; }.b2b .footer-top, .b2b .footer-bottom { flex-direction:column; }.b2b .independent { padding:24px; }
+ .b2b .page-hero { padding:52px 0; }.b2b .page-hero .hero-art { order:2; }.b2b .compliance-grid { grid-template-columns:repeat(2,1fr); }
+ .b2b .mobile-sticky { display:flex;position:fixed;z-index:40;bottom:10px;left:12px;right:12px;justify-content:center;pointer-events:none; }.b2b .mobile-sticky a { pointer-events:auto;box-shadow:0 8px 24px #06467a35; }
+ .b2b .footer { padding-bottom:80px; }
+}
+@media(prefers-reduced-motion:reduce) { .b2b *, .b2b *::before, .b2b *::after { scroll-behavior:auto!important;transition:none!important;animation:none!important; } }
+
+/*
+ * His header is position:sticky, so it sits in the flow and pushes the hero
+ * down by its own height. Ours is position:fixed and does not, which is why
+ * the hero read as cramped against the Replit original: it was losing the
+ * header's 78px of air at the top.
+ */
+/*
+ * Both hero kinds, not just .hero. The overview uses .hero and the three
+ * service pages use .page-hero, so fixing one left the others sitting under
+ * the navigation — the same cramped top, one class along.
+ */
+.b2b .hero { padding-top: 174px; }
+.b2b .page-hero { padding-top: 150px; }
+@media (max-width: 900px) {
+  .b2b .hero { padding-top: 125px; }
+  .b2b .page-hero { padding-top: 116px; }
+}
+
+/*
+ * OURS, not his — the sector cards.
+ *
+ * His `.industry` is justify-content:space-between over a min-height, which
+ * pins the name to the top and the label to the bottom and leaves the middle
+ * empty. That reads as an unfinished card, and the label it was spacing out
+ * ("Business sector · 01") restated the section heading seven times over.
+ *
+ * Now each card carries a line of real content, so it is filled by substance
+ * rather than by distributing two short strings across a fixed height.
+ */
+.b2b .industry { justify-content: flex-start; gap: 6px; position: relative; padding-right: 46px; }
+.b2b .industry strong { font-size: 14px; line-height: 1.3; }
+.b2b .industry .industry-note { color: #65726c; font-size: 11px; line-height: 1.6; }
+.b2b .industry .industry-index {
+  position: absolute; top: 14px; right: 16px;
+  font-family: var(--app-font-mono); font-size: 11px; color: #c3d2cc;
+}
+
+/* The eighth cell: an invitation rather than an empty slot. Deliberately
+   quieter than a card and louder than nothing — it is a way in, not an offer. */
+.b2b .industry-invite { background: #f5faf8; border-style: dashed; padding-right: 18px; }
+.b2b .industry-invite strong { color: #17252d; }
+.b2b .industry-invite-cue {
+  display: inline-flex; align-items: center; gap: 5px;
+  margin-top: 2px; color: var(--b2b-accent); font-size: 11px; font-weight: 700;
+}
+
+/*
+ * OURS. His markup uses .sr-only on the Tracifai link — "(opens in a new
+ * tab)" for screen readers — but his stylesheet never defines it, so on his
+ * build that text renders visibly beside the button.
+ *
+ * The standard visually-hidden pattern: out of sight, still announced. Not a
+ * deviation from his design; it is the rule his markup assumed existed.
+ */
+.b2b .sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/*
+ * The compliance section — structure, and one deliberate departure from his
+ * build.
+ *
+ * THE STRIPE IS HIS, AND IT GOES — but not for the reason first given here.
+ * `.compliance-box` was a mint-green panel with a 4px bar down its left edge
+ * (#1e7a5d on #eaf6f0). An earlier version of this comment called those
+ * greens off-brand leftovers. They are not: the RecovLoop brand guide lists
+ * #1E7A5D as Emerald and #EAF6F0 as Light Mint, so Ahsan was using the
+ * sub-brand's palette correctly and this page is green by right.
+ *
+ * The bar goes on the remaining ground, which stands on its own: it carries
+ * no meaning, and nothing else on the page marks a block that way, so it
+ * reads as decoration applied to a panel rather than as part of the system.
+ * The panel earns its distinction from a tint and a hairline border like
+ * every other card. The `border` shorthand resets all four sides, which is
+ * what removes the stripe.
+ *
+ * THE STRUCTURE. Three things made the section read as unbuilt:
+ *
+ *   - `.split` centres its columns, and the left column is far taller than
+ *     the panel, so the panel floated at the midpoint with unequal space
+ *     above and below. A modifier top-aligns this one; the other pages'
+ *     splits pair items of similar height and still want centring.
+ *   - The six capability cards hold an icon and a label and no paragraph,
+ *     but `.feature h3` carries a 14px/8px margin sized for a card that has
+ *     body copy under it. That left a band of dead space beneath every
+ *     label and made six short items look like six empty boxes. Icon and
+ *     label now sit on one line.
+ *   - The licence fields were 10px text in three columns, so the longer
+ *     ones wrapped and the rows went ragged. Two columns at 11px fit each
+ *     on one line, and solid white over a near-white panel is legible where
+ *     60%-alpha white was not.
+ */
+.b2b .split-top { align-items: start; }
+
+/*
+ * The compliance split, and why the left column has a top inset.
+ *
+ * `.compliance-box` carries 28px of padding, so its first line of text
+ * starts 28px below its border. The column beside it has no such box, so
+ * setting both columns to the same top left the left-hand copy sitting
+ * visibly higher than the panel's heading — the two sides aligned by their
+ * edges and not by the thing a reader actually sees, which is the text.
+ * The inset matches the panel's padding so the two first lines start level.
+ */
+.b2b .compliance-split { align-items: start; }
+.b2b .compliance-split > :first-child { padding-top: 28px; }
+
+/*
+ * The six capability boxes, below the split rather than inside it.
+ *
+ * They were stacked two abreast inside the left column, which gave each one
+ * about 280px and wrapped the longer labels while the panel beside them ran
+ * out of content — the section read as one tall column and one short one.
+ * As a band under the split they get the full width, and a centred wrapping
+ * row sizes each box to its own label instead of forcing six very uneven
+ * strings into equal columns.
+ */
+.b2b .feature-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 46px;
+}
+.b2b .feature-row .feature { flex: 0 1 auto; }
+
+@media (max-width: 700px) {
+  .b2b .compliance-split > :first-child { padding-top: 0; }
+  .b2b .feature-row { margin-top: 32px; }
+  .b2b .feature-row .feature { flex: 1 1 100%; }
+}
+
+.b2b .compliance-box {
+  background: #f7fafc;
+  border: 1px solid #e3eaf0;
+}
+
+.b2b .feature {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+}
+.b2b .feature svg { color: var(--b2b-accent); }
+.b2b .feature h3 {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.b2b .compliance-grid {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+.b2b .compliance-item {
+  background: #fff;
+  border: 1px solid #e8eef4;
+  color: #41566b;
+  font-size: 11px;
+}
+
+/*
+ * The partner orbit. See src/components/business/BrandOrbit.tsx for what the
+ * logos are and why the motion is built in two cancelling halves.
+ *
+ * The square is sized in `min()` against the viewport so the whole figure
+ * scales as one object. Everything inside is positioned in percentages of
+ * that square, so there is no breakpoint that re-lays-out the orbit — it
+ * just gets smaller, and the chips have their own clamp so they stop
+ * shrinking before they stop being recognisable.
+ */
+.b2b .orbit {
+  position: relative;
+  width: min(660px, 100%);
+  aspect-ratio: 1;
+  margin: 0 auto;
+  /* Isolates the chips' stacking from the page, so a hovered chip lifts
+     above its neighbours without escaping the section. */
+  isolation: isolate;
+
+  /*
+   * THE CHIPS ARE SIZED IN cqw, AND THAT IS WHAT STOPS THEM COLLIDING.
+   *
+   * The rings sit 8.67% of the diameter apart. A chip is centred on its
+   * ring, so two chips on neighbouring rings collide the moment the chip is
+   * wider than that gap — and because the rings turn at different speeds,
+   * every pair gets its turn to prove it. Sized in `vw` the chip tracked the
+   * viewport while the gap tracked the orbit, so the two drifted apart and
+   * the figure overlapped at some widths and not others.
+   *
+   * In container units both track the same box: 9cqw against a 10% gap
+   * leaves one percent of clearance at EVERY size, which is a property of
+   * the ratio rather than something that happens to hold at the width it
+   * was eyeballed at.
+   */
+  container-type: inline-size;
+}
+
+/*
+ * THE SECTION CLIPS, NOT THE ORBIT — AND A ROTATING SQUARE IS WHY ANY OF
+ * THIS IS NEEDED.
+ *
+ * Each ring is a square the size of the orbit, and a square rotated 45° has
+ * a bounding box 1.41 times its side: a 660px ring claims about 930px while
+ * it turns, ~135px past each edge. Nothing is drawn out there — the corners
+ * are empty — but transforms contribute to scrollable overflow, so those
+ * empty corners gave the whole PAGE a horizontal scrollbar.
+ *
+ * That was always true and simply did not show. Centred in a 1200px
+ * container the orbit had ~220px of slack each side and the corners fit
+ * inside it; in a 70% column there is ~73px and they do not.
+ *
+ * CLIPPING THE ORBIT ITSELF WAS THE FIRST ATTEMPT AND IT WAS WRONG. The
+ * tooltips legitimately sit outside the orbit box — above a chip at the top
+ * of a ring — so the clip needed a margin to let them through, and that
+ * margin then overflowed on its own account at 1024px, where the column is
+ * narrow enough that 44px of slop reaches past the viewport.
+ *
+ * Clipping the SECTION has no such problem: the section is already the
+ * width of the viewport, so the boundary is exactly the one that matters.
+ * The empty corners are cut at the screen edge where nobody can see them,
+ * and everything inside — tooltips included — is untouched.
+ *
+ * `clip`, not `hidden`: hidden would make a scroll container, which is the
+ * thing being avoided. Clipping one axis leaves the other visible.
+ */
+.b2b .network-section {
+  overflow-x: clip;
+}
+
+.b2b .orbit-ring {
+  position: absolute;
+  inset: 0;
+  animation: b2b-orbit var(--dur) linear infinite;
+}
+.b2b .orbit-ring.reverse {
+  animation-direction: reverse;
+}
+
+/* The faint guide that makes a ring read as an orbit rather than as logos
+   that happen to sit in a curve. Centred by its own negative half-size. */
+.b2b .orbit-path {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--r) * 2);
+  height: calc(var(--r) * 2);
+  margin-left: calc(var(--r) * -1);
+  margin-top: calc(var(--r) * -1);
+  border: 1px dashed color-mix(in srgb, var(--b2b-accent) 22%, transparent);
+  border-radius: 50%;
+}
+
+/*
+ * Placement: turn to the slot's angle, push out by the radius, then turn
+ * back so the contents are upright with respect to the ring. translateY is
+ * negative because 0deg should read as the top of the circle.
+ *
+ * THE SLOT IS FULL-SIZE, AND THAT IS LOAD-BEARING, NOT LAZY. A percentage
+ * translate resolves against the element's OWN box, not its parent's — so
+ * when this was a 0x0 point, `translateY(-20%)` was twenty percent of zero
+ * and all twenty-nine logos stacked silently in the centre behind the core.
+ * At `inset: 0` the slot is the size of the ring, so `--r` reads as a
+ * percentage of the orbit's diameter, which is what the radii were written
+ * as. Give this element a size and the orbit collapses again.
+ */
+.b2b .orbit-slot {
+  position: absolute;
+  inset: 0;
+  transform: rotate(var(--angle)) translateY(calc(var(--r) * -1))
+    rotate(calc(var(--angle) * -1));
+}
+
+/* The other half of the cancellation: same duration, opposite direction. If
+   this ever disagrees with its ring's --dur, logos will slowly tumble.
+   Sized and centred so the chip inside it lands on the slot's midpoint. */
+.b2b .orbit-counter {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  z-index: 1;
+  animation: b2b-orbit var(--dur) linear infinite reverse;
+}
+.b2b .orbit-ring.reverse .orbit-counter {
+  animation-direction: normal;
+}
+
+/*
+ * Big enough to recognise, small enough to stay a network rather than a
+ * logo wall. The floor matters more than the ceiling: below about 38px most
+ * of these marks stop being identifiable.
+ */
+.b2b .orbit-chip {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 9cqw;
+  height: 9cqw;
+  margin: -4.5cqw;
+  background: #fff;
+  border: 1px solid #e4ece8;
+  border-radius: 50%;
+  box-shadow: 0 6px 16px #10252b0f;
+  transition: transform .25s, box-shadow .25s, border-color .25s;
+  /* Several of these logos ship with an opaque dark background baked into
+     the file rather than transparency. Without clipping they render as a
+     dark SQUARE sitting inside a round chip, which is the one thing that
+     makes the set look unfinished. Clipped, they read as a dark disc and
+     the circular motif holds. */
+  overflow: hidden;
+}
+
+/*
+ * The logos are mixed aspect ratios — one is nearly 5:1 — so they are fitted
+ * rather than filled, and the padding is small because a wide mark inside a
+ * circle has little vertical room to give away.
+ */
+.b2b .orbit-chip img {
+  /*
+   * 86% IS A COMPROMISE BETWEEN TWO BROKEN SOURCE SHAPES, not a round
+   * number someone liked.
+   *
+   * These files are inconsistent: most are a mark on transparent or white
+   * with generous padding, but several bake in an opaque dark background,
+   * and a couple run their content edge to edge.
+   *
+   * A square inscribed in a circle is about 70% of its diameter, so:
+   * at 100% a dark-background file reads as a proper disc, but an
+   * edge-to-edge mark loses its outer letters to the clip (IBA lost its
+   * "I"); at 70% nothing clips but every mark is shrunk twice, once by its
+   * own padding and again by ours, which is what cost recognisability.
+   *
+   * 86% keeps the padded majority large, trims only the corners of the
+   * dark-background few, and leaves edge-to-edge marks legible. The real
+   * fix is to normalise the assets — see the orbit note on the task.
+   */
+  width: 86%;
+  height: 86%;
+  object-fit: contain;
+}
+
+/* Hovering holds the whole figure still, which is the only way to actually
+   look at one logo, and lifts the one under the cursor. */
+.b2b .orbit:hover .orbit-ring,
+.b2b .orbit:hover .orbit-counter {
+  animation-play-state: paused;
+}
+.b2b .orbit-chip:hover,
+.b2b .orbit-chip:focus-visible {
+  transform: scale(1.14);
+  border-color: var(--b2b-accent);
+  box-shadow: 0 10px 22px #10252b1f;
+  outline: none;
+}
+
+/*
+ * A chip for a logo drawn for dark backgrounds. TriFit's wordmark is white
+ * and its mark is gold, with no dark-background variant published — on a
+ * white chip the name simply is not there. Filling the chip is the only way
+ * to show that logo as its owner draws it.
+ */
+.b2b .orbit-chip.dark {
+  background: #16181b;
+  border-color: #2a2e33;
+}
+
+/*
+ * The name, on hover or keyboard focus.
+ *
+ * It sits OUTSIDE the chip, as a sibling: the chip clips its overflow to a
+ * circle to round off square artwork, and a tooltip inside it would be
+ * clipped to that circle too.
+ *
+ * It is aria-hidden because it repeats the image's alt text, which already
+ * carries the name to assistive technology — announcing both would say every
+ * brand twice.
+ */
+.b2b .orbit-tip {
+  position: absolute;
+  left: 50%;
+  bottom: calc(4.5cqw + 10px);
+  transform: translate(-50%, 4px);
+  padding: 5px 9px;
+  border-radius: 7px;
+  background: #16242c;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s, transform .18s;
+}
+.b2b .orbit-chip:hover + .orbit-tip,
+.b2b .orbit-chip:focus-visible + .orbit-tip {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* The hovered slot rises above its neighbours so neither the enlarged chip
+   nor its tooltip is overlapped by the next ring. */
+.b2b .orbit-counter:hover,
+.b2b .orbit-counter:focus-within {
+  z-index: 3;
+}
+
+.b2b .orbit-core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  /* Container units here too, so the core keeps its clearance from the
+     inner ring at every size rather than only at the one it was set at. */
+  width: 19cqw;
+  height: 19cqw;
+  margin: -9.5cqw;
+  display: grid;
+  place-items: center;
+  background: #fff;
+  border-radius: 50%;
+  /* The ring echoes the accent without competing with the marks around it. */
+  box-shadow:
+    0 0 0 1px #e4ece8,
+    0 0 0 10px color-mix(in srgb, var(--b2b-accent) 7%, transparent),
+    0 14px 34px #10252b14;
+}
+/* The Mint lockup is a wide horizontal; inside a circle it is width-bound,
+   so it is sized against the width and left to take whatever height it
+   needs. */
+/*
+ * THE WIDTH GOES ON THE <picture>, NOT THE <img>.
+ *
+ * The core holds a <picture> so the RecovLoop mark can ship as WebP. That
+ * wrapper, not the core, is the grid item and the img's containing block —
+ * so `width: 72%` on the img resolved against a shrink-to-fit picture
+ * rather than against the circle, and the mark sat left of centre.
+ *
+ * Sizing the picture and letting the img fill it puts one box in the grid
+ * with a width `place-items: center` can actually centre.
+ */
+.b2b .orbit-core picture {
+  display: block;
+  width: 72%;
+}
+.b2b .orbit-core img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@keyframes b2b-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/*
+ * The network section: copy on the left, orbit on the right.
+ *
+ * 30/70 because the two halves want opposite things. The copy is three
+ * short blocks and reads better in a narrow measure; the orbit is a
+ * fixed-ratio square whose logos shrink with every pixel taken off it, so
+ * the space is worth more on the right.
+ *
+ * The heading is stepped down from the page's `clamp(32px, 4vw, 46px)`.
+ * That size is set for a full-width heading; at 46px in a 340px column
+ * "31 organisations in the network." breaks across four lines and stops
+ * looking like a heading.
+ */
+.b2b .network-split {
+  display: grid;
+  grid-template-columns: 30fr 70fr;
+  gap: 48px;
+  align-items: center;
+}
+.b2b .network-split .section-head {
+  margin-bottom: 0;
+}
+.b2b .network-split .section-head h2 {
+  font-size: clamp(28px, 2.6vw, 36px);
+  letter-spacing: -1.4px;
+}
+
+/*
+ * BELOW 900px THE ORBIT BECOMES A CAROUSEL, because it cannot be both
+ * ring-shaped and legible in a narrow column.
+ *
+ * Every measurement in the orbit is a proportion of its box, so a narrow
+ * box scales the figure — and the logos with it. The ring survives and the
+ * only thing the section exists to show, which is WHICH organisations
+ * these are, does not. A grid was the earlier answer; a carousel is better
+ * on a phone because it keeps the logos at a readable size without turning
+ * the section into eight rows of scrolling.
+ *
+ * It is a scroll-snap strip, not a scripted slider: the browser already
+ * does momentum, snapping, keyboard and assistive-technology scrolling
+ * correctly, and none of that has to be rebuilt or kept working.
+ *
+ * The tooltip becomes a visible caption here. There is no hover on a
+ * touchscreen, so a name that only appears on hover is a name nobody sees.
+ * It stays aria-hidden because the image's alt already carries it — the
+ * caption is for eyes, the alt for everything else.
+ */
+@media (max-width: 900px) {
+  .b2b .network-split {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .b2b .orbit {
+    /*
+     * `auto`, NOT `100%`. With an explicit width the negative margins below
+     * only SHIFT the box — it moved a gutter to the left, started off the
+     * screen edge and stopped a gutter short on the right, which is not a
+     * bleed, it is a misalignment. Letting the width resolve from the box
+     * lets the negative margins widen it on both sides instead.
+     */
+    width: auto;
+    aspect-ratio: auto;
+    display: flex;
+    flex-wrap: nowrap;
+    /* Both axes, so the desktop `clip` above cannot leave overflow-y
+       clipped while x scrolls — mixing the two computes in ways nobody
+       should have to reason about. */
+    overflow: auto hidden;
+    scroll-snap-type: x proximity;
+    gap: 14px;
+    /* Full-bleed: the strip runs to the screen edge so it reads as
+       scrollable, while the first and last items still line up with the
+       page's margin. */
+    margin-inline: calc(var(--b2b-gutter, 24px) * -1);
+    padding-inline: var(--b2b-gutter, 24px);
+    padding-bottom: 4px;
+    scroll-padding-inline: var(--b2b-gutter, 24px);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .b2b .orbit::-webkit-scrollbar {
+    display: none;
+  }
+
+  .b2b .orbit-ring {
+    display: contents;
+  }
+  .b2b .orbit-path {
+    display: none;
+  }
+
+  /* Every transform, animation and absolute position unwound — which is
+     why this reads as a list of undos. */
+  .b2b .orbit-slot,
+  .b2b .orbit-counter {
+    position: static;
+    width: auto;
+    height: auto;
+    transform: none;
+    animation: none;
+  }
+  .b2b .orbit-slot {
+    flex: 0 0 auto;
+    width: 92px;
+    /*
+     * `start`, not `center`. With centre snapping the browser picks a snap
+     * position on load, and the nearest one centred the FIRST logo — which
+     * scrolled the strip 50px on arrival and cut the RecovLoop mark in
+     * half before anyone had touched it. Snapping to the start means the
+     * resting position is the start.
+     */
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .b2b .orbit-counter {
+    display: contents;
+  }
+
+  .b2b .orbit-chip {
+    position: static;
+    width: 64px;
+    height: 64px;
+    margin: 0;
+  }
+
+  .b2b .orbit-tip {
+    position: static;
+    opacity: 1;
+    transform: none;
+    background: none;
+    color: #65727b;
+    padding: 0;
+    margin-top: 9px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.3;
+    white-space: normal;
+    text-align: center;
+  }
+
+  /* RecovLoop leads the strip rather than sitting in the middle of it. */
+  .b2b .orbit-core {
+    position: static;
+    order: -1;
+    flex: 0 0 auto;
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0 18px 0 0;
+    border-radius: 0;
+    box-shadow: none;
+    align-self: center;
+    scroll-snap-align: start;
+  }
+  .b2b .orbit-core picture {
+    width: 150px;
+  }
+}
+
+/*
+ * The enquiry form: tighter, and its intro aligned to it.
+ *
+ * THE FORM GOT LONGER WHEN THE PER-SERVICE FIELDS CAME BACK — a waste
+ * enquiry now asks eleven questions instead of five, and at Ahsan's
+ * original spacing that ran to over 900px of white card. The spacing was
+ * set for a five-field form and did not survive doubling the field count.
+ *
+ * Nothing here changes a font size: the labels are already 10px and the
+ * inputs 12px, and shrinking text to fit more in is how a form becomes
+ * unreadable. What comes out is padding and gaps, which is space that was
+ * doing nothing.
+ *
+ * THE INTRO COLUMN is centred against the form rather than pinned to its
+ * top. `.form-grid` is `align-items: start`, which was right when the two
+ * columns were a similar height; beside an eleven-field form the heading
+ * sat alone at the top with a long run of empty green beneath it.
+ */
+.b2b .form-grid {
+  align-items: center;
+}
+
+.b2b .enquiry-form {
+  padding: 24px;
+}
+.b2b .form-title {
+  margin-bottom: 15px;
+}
+.b2b .form-fields {
+  gap: 10px;
+}
+.b2b .field {
+  gap: 4px;
+}
+.b2b .field input,
+.b2b .field select,
+.b2b .field textarea {
+  padding: 9px 11px;
+}
+.b2b .field textarea {
+  min-height: 76px;
+}
+.b2b .consent {
+  margin: 11px 0;
+}
+
+@media (max-width: 700px) {
+  /* Stacked, so there is nothing to centre against — the intro is simply
+     above the form and should start where its text starts. */
+  .b2b .form-grid {
+    align-items: start;
+  }
+}
+
+/*
+ * The eyebrows on a phone.
+ *
+ * `.eyebrow` is a flex row of a 22px rule and some uppercase mono. At full
+ * width every one of them fits on a single line, which is what
+ * `align-items: center` was written for. On a phone the long ones wrap —
+ * "RecovLoop | Industrial & Commercial Waste Management" takes two lines at
+ * 393px — and centring then floats the rule in the middle of a two-line
+ * block instead of sitting on the first line, which reads as a stray dash.
+ *
+ * So: align to the top and push the rule down to the optical centre of the
+ * first line. The rule also stops shrinking — as a flex item it was free to
+ * be squeezed to nothing by the text beside it — and the tracking comes in,
+ * because 1.2px across fifty uppercase characters is most of why the long
+ * ones wrapped in the first place.
+ */
+@media (max-width: 700px) {
+  .b2b .eyebrow {
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.5;
+    letter-spacing: 0.7px;
+    margin-bottom: 16px;
+  }
+  .b2b .eyebrow:before {
+    flex: 0 0 18px;
+    width: 18px;
+    margin-top: 7px;
+  }
+}
+
+/*
+ * The process steps, as a directional pathway.
+ *
+ * They were a four-column grid of cards with a rule along the top of each,
+ * which showed the stops but not the journey — and with five steps it put
+ * the last one alone on a second row, a pathway with a stranded final stop.
+ * The column count now comes from the data (`--steps`, set in the markup),
+ * so four steps make four columns and five make five.
+ *
+ * The direction is carried by the path itself: a run of line from each
+ * marker to the next, ending in a chevron. The last step has no run, which
+ * is what makes it read as the end rather than as a step whose connector
+ * went missing.
+ *
+ * The markers are still generated by a CSS counter, so the numbering cannot
+ * drift from the order of the markup the way a hand-written list would.
+ */
+.b2b .process-grid {
+  grid-template-columns: repeat(var(--steps, 4), minmax(0, 1fr));
+  gap: 0 18px;
+  align-items: start;
+}
+
+.b2b .process-step {
+  /* The rule along the top goes: the path runs THROUGH the markers now,
+     and a second horizontal line above them read as a table. */
+  border-top: 0;
+  padding: 0 14px 0 0;
+  position: relative;
+}
+
+.b2b .process-step:before {
+  /* Back into the flow, at the head of its own column, rather than hung
+     above a border with a negative margin. */
+  margin: 0 0 18px;
+}
+
+/* The run of path to the next stop. Vertically centred on the marker. */
+.b2b .process-link {
+  position: absolute;
+  top: 17px;
+  left: 44px;
+  right: -8px;
+  height: 1px;
+  background: #cfe6da;
+}
+.b2b .process-link:after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: -3px;
+  width: 7px;
+  height: 7px;
+  border-top: 1px solid #a9d0bd;
+  border-right: 1px solid #a9d0bd;
+  transform: rotate(45deg);
+}
+
+.b2b .process-step h3 {
+  font-size: 15px;
+  line-height: 1.35;
+  margin: 0 0 6px;
+}
+
+/*
+ * ON A PHONE THE PATH TURNS DOWN. Five columns of anything is unreadable at
+ * 390px, and the obvious fallback — a two-column grid — breaks the one
+ * thing this section is for, which is that the steps happen in an order.
+ * A vertical path keeps the sequence and gives the copy the full width.
+ */
+@media (max-width: 700px) {
+  .b2b .process-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .b2b .process-step {
+    padding: 0 0 26px 48px;
+    min-height: 56px;
+  }
+  .b2b .process-step:before {
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 0;
+  }
+  .b2b .process-link {
+    left: 17px;
+    top: 42px;
+    right: auto;
+    bottom: 6px;
+    width: 1px;
+    height: auto;
+  }
+  .b2b .process-link:after {
+    right: -3px;
+    top: auto;
+    bottom: 0;
+    transform: rotate(135deg);
+  }
+  .b2b .process-step h3 {
+    font-size: 16px;
+  }
+}
+
+/*
+ * A screen from the app, shown as an artefact rather than as a mock-up in a
+ * drawn phone. The screenshots already carry their own status bar and home
+ * indicator, so a drawn bezel around them is a second device frame on top of
+ * the one in the image.
+ *
+ * Capped and centred because the source is phone-shaped — a 393px still or
+ * a 1080x1920 recording. Stretched to fill a half-width column either one
+ * would be upscaled and soft, and the recording would also be decoding far
+ * more pixels than it displays.
+ */
+.b2b .app-shot {
+  margin: 0 auto;
+  max-width: 300px;
+  text-align: center;
+}
+.b2b .app-shot img,
+.b2b .app-shot video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+  border: 1px solid #e4ece8;
+  box-shadow: 0 24px 50px #10252b1a;
+}
+.b2b .app-shot figcaption {
+  margin-top: 14px;
+  color: #68766e;
+  font-size: 11px;
+}
+
+/*
+ * The marker above a panel of sample numbers.
+ *
+ * `.sample-label` already does this job on the RecovLoop dashboard, but it
+ * is drawn for that panel's light ground — grey on #e7efeb — and would be a
+ * pale chip floating on the dark green workspace. Same role, the colours
+ * the surface needs.
+ *
+ * It sits above the tiles rather than beside the heading on purpose: once
+ * the tiles hold real-looking figures, the caveat has to be where the eye
+ * reading the figures already is.
+ */
+.b2b .sample-tag {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 5px 8px;
+  border-radius: 5px;
+  background: #ffffff14;
+  border: 1px solid #ffffff20;
+  color: #bfdbcf;
+  font: 9px var(--app-font-mono);
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+/*
+ * Phones: keep the short-form grids horizontal, and stop `1fr` overflowing.
+ *
+ * Two separate things were wrong here.
+ *
+ * FIRST, the overflow. Every multi-column grid is `repeat(N, 1fr)`, and
+ * `1fr` is shorthand for `minmax(auto, 1fr)` — whose auto minimum, for a box
+ * holding text, is min-content. A single long word therefore refuses to let
+ * its column shrink to its share and pushes the grid past the viewport,
+ * which is where the 25px of horizontal scroll on /business at 320px came
+ * from. `minmax(0, 1fr)` lets the column shrink and the text wrap instead.
+ *
+ * SECOND, collapsing these to one column was the wrong fix for it. Measured
+ * at 390px, each cell in these grids holds between 23 and 104 characters —
+ * a label and a line, not a paragraph — so one per row produced a very tall
+ * page of mostly empty space. They stay two across; `minmax(0, 1fr)` is
+ * what keeps them inside the screen.
+ *
+ * The grids NOT listed here are deliberate omissions: `.hero-grid`,
+ * `.split`, `.form-grid`, `.technology-band`, `.independent`,
+ * `.visual-dashboard`, `.network-split`, `.cards` and `.services-grid` all
+ * carry 126-683 characters per cell. Two columns of that on a phone is
+ * unreadable, so they stay stacked.
+ *
+ * `.two-col-feature` was tried here and measured WORSE: at 390px it went
+ * from 815px to 940px, because its copy wrapped into more lines than the
+ * halved row count saved. Height, not column count, is the thing being
+ * optimised, so it stays one across.
+ */
+@media (max-width: 700px) {
+  .b2b .industry-grid,
+  .b2b .waste-industries,
+  .b2b .compliance-grid,
+  .b2b .process-grid,
+  .b2b .flow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .b2b .industry,
+  .b2b .industry-waste {
+    overflow-wrap: anywhere;
+  }
+
+  /* The cells get narrow enough that the stock padding is most of them. */
+  .b2b .industry {
+    min-height: 0;
+    padding: 12px;
+  }
+}
+
+/*
+ * The CTA band's button, which went bulky on tablets.
+ *
+ * `.cta-band` is a flex row down to 700px, so between there and the desktop
+ * layout the button is a shrinkable flex item competing with a 36px heading
+ * for the same line. It lost: labels like "Request a Waste Assessment" broke
+ * across two lines inside a pill sized for one, which is what reads as a
+ * fat, lopsided block on an iPad.
+ *
+ * `flex-shrink: 0` stops the heading squeezing it, and `white-space: nowrap`
+ * means the pill is always exactly as wide as its own label. Scoped to the
+ * band so the header's own CTA, which shares this class, is untouched.
+ */
+.b2b .cta-band .btn-primary {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/*
+ * Tablets specifically: 54px of padding on every side is a desktop measure.
+ * At 768px it leaves the two children fighting over what is left, which is
+ * the other half of why the button was being squeezed.
+ */
+@media (max-width: 900px) {
+  .b2b .cta-band {
+    padding: 34px 30px;
+    gap: 20px;
+  }
+
+  .b2b .cta-copy h2 {
+    font-size: 28px;
+  }
+}

@@ -38,21 +38,22 @@ const ScrollToTop = () => {
           aria-label="Back to top"
           className="fixed bottom-6 right-4 sm:bottom-8 sm:right-8 z-50 group"
         >
-          <div className="relative overflow-hidden rounded-full">
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-br from-[#1D558E] via-[#3EBAB9] to-[#8CE4B5] blur-2xl opacity-70"
-              animate={{ scale: [1, 1.2, 1], opacity: [0.4, 0.7, 0.4] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
-            <div className="relative flex items-center gap-3 rounded-full bg-white/90 px-4 py-3 shadow-2xl shadow-[#1D558E]/30 ring-2 ring-white/50 backdrop-blur">
-              <span className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#1D558E] via-[#3EBAB9] to-[#8CE4B5] text-white transition-transform group-hover:scale-110">
-                <ArrowUp className="h-6 w-6" />
-              </span>
-              <div className="text-left">
-                <p className="text-lg font-semibold text-gray-900">Top</p>
-              </div>
-            </div>
-          </div>
+          {/*
+            ONE BUTTON, NOT A BADGE. This was a 48px gradient disc, a
+            large "Top" label and a pulsing blurred halo behind the lot —
+            a control the size of a call to action, parked over the
+            content, pulsing forever. Back-to-top is a convenience; it
+            should be findable and otherwise quiet.
+
+            44px square, which is the smallest comfortable touch target,
+            and the label moves into aria-label — the arrow says "top" to
+            anyone who can see it, and the name says it to anyone who
+            cannot. The halo is gone: nothing that animates indefinitely
+            earns a place in the corner of every page.
+          */}
+          <span className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-[#1D558E] to-[#3EBAB9] text-white shadow-lg shadow-[#1D558E]/25 ring-1 ring-white/60 transition-transform group-hover:scale-105">
+            <ArrowUp className="h-5 w-5" />
+          </span>
         </motion.button>
       )}
     </AnimatePresence>

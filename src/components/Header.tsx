@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { Download } from "lucide-react";
+import { ChevronRight, Download } from "lucide-react";
 import GlowingOrb from "./Orb";
 
 export default function Hero() {
@@ -68,10 +68,10 @@ export default function Hero() {
             while earning discounts at your favorite brands.
           </p>
 
-          <div className="mt-10 flex items-center gap-4 flex-wrap max-[375px]:flex-col max-[375px]:items-stretch max-[375px]:gap-3">
+          <div className="mt-10 flex items-center gap-3 sm:gap-4">
             <a
               href="#onboarding"
-              className="flex items-center gap-2 rounded-full bg-[#1D558E] px-6 py-3 text-white font-medium hover:bg-[#15406b] transition max-[375px]:w-full max-[375px]:justify-center"
+              className="flex h-12 shrink-0 items-center justify-center gap-2 rounded-full bg-[#1D558E] px-4 sm:px-6 text-sm sm:text-base text-white font-medium hover:bg-[#15406b] transition"
             >
               <Download className="font-light w-4" />
               <span>Get the App</span>
@@ -79,22 +79,43 @@ export default function Hero() {
 
             <button
               onClick={() => handleMenuClick("how-it-works")}
-              className="flex items-center gap-3 rounded-full bg-zinc-900 px-6 py-3 text-white font-medium hover:bg-zinc-800 transition max-[375px]:w-full max-[375px]:justify-center"
+              className="flex h-12 shrink-0 items-center justify-center gap-2 sm:gap-3 rounded-full bg-zinc-900 px-4 sm:px-6 text-sm sm:text-base text-white font-medium hover:bg-zinc-800 transition"
             >
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-black">
-                &gt;
+              {/* 28px inside a 48px button. At h-8 it was 32px, which with
+                  py-3 either side made this button 56px against the 48px of
+                  the one beside it — the padding was equal, the contents
+                  were not. Both buttons now state their height outright
+                  rather than arriving at one by addition. */}
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white text-black">
+                <ChevronRight className="h-4 w-4" aria-hidden="true" />
               </span>
               <span>Learn more</span>
             </button>
           </div>
         </div>
 
-        <div className="relative p-30 flex justify-center lg:justify-end max-[480px]:mt-10 max-[480px]:p-0">
+        <div className="relative p-0 sm:p-10 lg:p-30 flex justify-center lg:justify-end max-[480px]:mt-10">
           <GlowingOrb />
 
           <div className="relative w-[200px] aspect-[9/16] [perspective:1000px] [transform-style:preserve-3d] -translate-x-24 max-[480px]:w-[150px] max-[480px]:-translate-x-0 max-[480px]:scale-90 max-[480px]:mx-auto">
+            {/*
+              REAL SCREENS, FROM THE PRODUCT. These three were pulled out of
+              the launch recording frame by frame, so what the hero shows is
+              the app as it actually renders — the earlier images were
+              mock-ups that had drifted from it.
+
+              Back to front they read as the loop the product is for: a
+              redeemed coupon, the deals you can spend on, and the home
+              screen with the points you earned. The front one carries the
+              alt text for all three, because a screen reader announcing
+              three overlapping images describes a pile, not a phone; the
+              two behind it are decorative and partly hidden.
+
+              Not lazy-loaded: this is the hero, above the fold on arrival.
+            */}
             <img
-              src="/Coupon Detail 15.png"
+              src="/app-screens/app-coupon.jpg"
+              alt=""
               style={{
                 transform: getTransform(imageTransforms.img3, 15),
               }}
@@ -102,7 +123,8 @@ export default function Hero() {
             />
 
             <img
-              src="/img_2.jpg"
+              src="/app-screens/app-deals.jpg"
+              alt=""
               style={{
                 transform: getTransform(imageTransforms.img2, 30),
               }}
@@ -110,7 +132,8 @@ export default function Hero() {
             />
 
             <img
-              src="/img_1.jpg"
+              src="/app-screens/app-home.jpg"
+              alt="The Mint Rewards app: a home screen showing points earned, recycled waste and CO2 saved, with deals from partner brands behind it"
               style={{
                 transform: getTransform(imageTransforms.img1, 45),
               }}

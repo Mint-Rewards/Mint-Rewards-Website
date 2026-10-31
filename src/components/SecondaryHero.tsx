@@ -71,19 +71,19 @@ const FeatureCard = ({
         scale: 1.05,
         transition: { duration: 0.2 },
       }}
-      className="flex flex-col items-center text-center p-6 bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 group"
+      className="flex flex-col items-center text-center p-4 sm:p-6 bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 group"
     >
       <motion.div
-        className={`mb-4 p-3 rounded-full bg-gradient-to-br from-[#8CE4B5]/10 to-[#3EBAB9]/10 ${card.color} group-hover:scale-110 transition-transform duration-300`}
+        className={`mb-2 p-2 sm:mb-4 sm:p-3 rounded-full bg-gradient-to-br from-[#8CE4B5]/10 to-[#3EBAB9]/10 ${card.color} group-hover:scale-110 transition-transform duration-300`}
         whileHover={{ rotate: [0, -10, 10, 0] }}
         transition={{ duration: 0.5 }}
       >
-        <Icon size={32} strokeWidth={1.5} />
+        <Icon className="h-6 w-6 sm:h-8 sm:w-8" strokeWidth={1.5} />
       </motion.div>
-      <h3 className="text-lg font-semibold text-gray-900 mb-2">
+      <h3 className="text-sm sm:text-lg font-semibold tracking-tight text-gray-900 mb-1 sm:mb-2">
         {card.headline}
       </h3>
-      <p className="text-gray-600 text-sm leading-relaxed">{card.text}</p>
+      <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">{card.text}</p>
     </motion.div>
   );
 };
@@ -145,23 +145,11 @@ export default function SecondaryHero() {
         </motion.div>
 
         {/* Feature Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 lg:gap-8">
           {cards.map((card, index) => (
             <FeatureCard key={card.id} card={card} index={index} />
           ))}
         </div>
-
-        {/* Call to Action */}
-        <motion.div
-          className="text-center mt-12 md:mt-16"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-        >
-          <button className="bg-[#1D558E] hover:bg-[#15406b] text-white px-8 py-3 rounded-full font-semibold text-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#3EBAB9] focus:ring-offset-2">
-            Get Started Today
-          </button>
-        </motion.div>
       </div>
     </section>
   );

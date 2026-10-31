@@ -14,6 +14,10 @@ import FAQs from "./pages/FAQs";
 import About from "./pages/About";
 import Story from "./pages/Story";
 import Careers from "./pages/Careers";
+import NotFound from "./pages/NotFound";
+import WasteManagement from "./pages/WasteManagement";
+import Rewards from "./pages/Rewards";
+import Impact from "./pages/Impact";
 import Contact from "./components/Contact";
 
 const AppContent = () => {
@@ -36,10 +40,16 @@ const AppContent = () => {
         <Route path="/contact" element={<Contact />} />
 
         <Route path="/business" element={<Business />} />
+        <Route path="/business/waste-management" element={<WasteManagement />} />
+        <Route path="/business/rewards" element={<Rewards />} />
+        <Route path="/business/impact" element={<Impact />} />
         <Route path="/how-it-works" element={<HowItWorks />} />
         <Route path="/co2-calculator" element={<CO2Calculator />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/app" element={<AppRedirect />} />
+        {/* Last, and a real page: an unmatched route used to render the
+            navigation over nothing at all. */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
     </div>

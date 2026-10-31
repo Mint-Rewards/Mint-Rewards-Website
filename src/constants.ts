@@ -1,3 +1,9 @@
+/*
+ * `icon` holds a COMPONENT, not a glyph. These were emoji — rendered in
+ * whatever face the reader's operating system ships, at a size the
+ * stylesheet could not control, and in colours that were never ours.
+ * Both render sites spread it as <stat.icon />.
+ */
 import type { LucideIcon } from "lucide-react";
 import {
   AlertTriangle,
@@ -129,7 +135,7 @@ export const impactStats = [
     unit: "KG",
     label: "of waste recycled",
     description: "Keeping our cities cleaner",
-    icon: "♻️",
+    icon: Recycle,
     gradient: "from-green-400 to-emerald-500",
     iconBg: "bg-gradient-to-br from-green-100 to-emerald-100",
     accentColor: "green",
@@ -141,7 +147,7 @@ export const impactStats = [
     unit: "KG",
     label: "CO₂ saved",
     description: "Fighting climate change together",
-    icon: "🌱",
+    icon: Leaf,
     gradient: "from-teal-400 to-cyan-500",
     iconBg: "bg-gradient-to-br from-teal-100 to-cyan-100",
     accentColor: "teal",
@@ -153,7 +159,7 @@ export const impactStats = [
     unit: "",
     label: "Households already on board",
     description: "Growing community of eco-heroes",
-    icon: "🏠",
+    icon: Home,
     gradient: "from-blue-400 to-indigo-500",
     iconBg: "bg-gradient-to-br from-blue-100 to-indigo-100",
     accentColor: "blue",
@@ -165,7 +171,7 @@ export const impactStats = [
     unit: "",
     label: "Brands joined",
     description: "Partnering for a sustainable future",
-    icon: "👨‍👩‍👧‍👦",
+    icon: Users,
     gradient: "from-purple-400 to-pink-500",
     iconBg: "bg-gradient-to-br from-purple-100 to-pink-100",
     accentColor: "purple",
@@ -918,3 +924,33 @@ export const activeBrands = [
   "/brand-logos/29.png",
   "/brand-logos/30.png",
 ];
+
+
+/**
+ * Open roles.
+ *
+ * EMPTY IS THE HONEST STATE RIGHT NOW. The page is built around this list
+ * rather than around hard-coded markup, so opening a role is adding an
+ * entry here — and closing one is changing its `status`, which keeps it on
+ * the page under the Closed filter instead of deleting the evidence that
+ * it existed.
+ *
+ * Keeping closed roles visible is deliberate: a careers page with nothing
+ * on it reads as a company that is not hiring, while one that shows what
+ * it recently closed reads as a company that hires.
+ */
+export type JobStatus = "open" | "closed";
+
+export interface JobOpening {
+  id: string;
+  title: string;
+  team: string;
+  location: string;
+  /** Full-time, Part-time, Contract, Internship. */
+  type: string;
+  status: JobStatus;
+  /** Where an application goes. Falls back to the careers inbox. */
+  applyHref?: string;
+}
+
+export const careerOpenings: JobOpening[] = [];

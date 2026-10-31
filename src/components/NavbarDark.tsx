@@ -1,58 +1,63 @@
 import React, { useState } from "react";
-import { Download, Menu, X } from "lucide-react";
+import { ArrowRight, Download, Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import { BUSINESS_ROOT, brandFor, RECOVLOOP_ROOT, siteModeFor } from "../siteMode";
+
+/*
+ * One nav, two sets of destinations.
+ *
+ * "Personal" used to be a nav item pointing at "/" with "Business" commented
+ * out beside it — which could only ever have read as two links to the same
+ * place. The two audiences are now a switch, and the items below it belong to
+ * whichever side you are on.
+ *
+ * The scroll items only work on the home page they anchor into, which is why
+ * each carries its own `path`: the handler navigates there first when you are
+ * somewhere else, and "somewhere else" now includes the other site.
+ */
+const MENU_BY_MODE = {
+  consumer: [
+    { name: "How it Works", path: "/", key: "how-it-works", type: "scroll", scrollTarget: "how-it-works" },
+    { name: "Partners", path: "/", key: "partners", type: "scroll", scrollTarget: "partners" },
+    { name: "Impact", path: "/", key: "impact", type: "scroll", scrollTarget: "impact" },
+    { name: "CO2 Calculator", path: "/co2-calculator", key: "co2-calculator", type: "link" },
+  ],
+  /*
+   * Ahsan's business nav, matching the Replit build: four destinations, one
+   * per page, rather than the scroll anchors I guessed at first. Those pointed
+   * at #what-we-do and #why-mint, which exist on no page — they silently did
+   * nothing.
+   */
+  business: [
+    { name: "Overview", path: BUSINESS_ROOT, key: "b-overview", type: "link" },
+    { name: "RecovLoop", path: `${BUSINESS_ROOT}/waste-management`, key: "b-waste", type: "link" },
+    { name: "Rewards partners", path: `${BUSINESS_ROOT}/rewards`, key: "b-rewards", type: "link" },
+    { name: "Impact solutions", path: `${BUSINESS_ROOT}/impact`, key: "b-impact", type: "link" },
+  ],
+} as const;
 
 const NavbarDark = () => {
   const location = useLocation();
-
-  const menuItems = [
-    {
-      name: "Personal",
-      path: "/",
-      key: "personal",
-      type: "link",
-    },
-    // {
-    //   name: "Business",
-    //   path: "/",
-    //   key: "business",
-    //   type: "link",
-    // },
-    {
-      name: "How it Works",
-      path: "/",
-      key: "how-it-works",
-      type: "scroll",
-      scrollTarget: "how-it-works",
-    },
-    {
-      name: "Partners",
-      path: "/",
-      key: "partners",
-      type: "scroll",
-      scrollTarget: "partners",
-    },
-    {
-      name: "Impact",
-      path: "/",
-      key: "impact",
-      type: "scroll",
-      scrollTarget: "impact",
-    },
-    {
-      name: "CO2 Calculator",
-      path: "/co2-calculator",
-      key: "co2-calculator",
-      type: "link",
-    },
-  ];
+  const mode = siteModeFor(location.pathname);
+  const brand = brandFor(location.pathname);
+  const menuItems: readonly {
+    name: string;
+    path: string;
+    key: string;
+    type: string;
+    scrollTarget?: string;
+  }[] = MENU_BY_MODE[mode];
 
   const handleMenuClick = (item: (typeof menuItems)[number]) => {
     if (item.type === "scroll" && item.scrollTarget) {
-      // If not on homepage, navigate to homepage first
-      if (location.pathname !== "/") {
-        // Navigate to homepage and then scroll
-        window.location.href = `/#${item.scrollTarget}`;
+      /*
+       * `item.path` rather than a hardcoded "/": each site has its own home to
+       * scroll within, and the business anchors do not exist on the consumer
+       * one. Assuming "/" here would have sent a business visitor to the
+       * consumer page and then failed to find the section.
+       */
+      if (location.pathname !== item.path) {
+        window.location.href = `${item.path}#${item.scrollTarget}`;
       } else {
         // Already on homepage, just scroll
         const section = document.getElementById(item.scrollTarget);
@@ -62,49 +67,183 @@ const NavbarDark = () => {
     }
   };
 
-  const handleDownloadApp = () => {
-    // Handle download app action
-    console.log("Download app clicked");
-  };
 
   const [open, setOpen] = useState(false);
 
   const isActiveLink = (item: (typeof menuItems)[number]) =>
     item.type === "link" && location.pathname === item.path;
 
-  const baseNavItemStyles =
-    "text-sm font-medium transition text-black/70 hover:text-black";
+  /*
+   * No colour in the base. Putting `text-black/70` here and the active colour
+   * alongside it meant two utilities of equal specificity in one attribute,
+   * where the generated stylesheet's order decides the winner rather than the
+   * order written — and Tailwind emitted black last, so the active tab came
+   * out bold and black instead of blue.
+   */
+  /* `whitespace-nowrap`: a nav label that wraps is a nav label that has
+     been squeezed, and the business tabs were folding onto two lines
+     rather than letting their row be as wide as it needs to be. */
+  const baseNavItemStyles = "text-sm font-medium transition whitespace-nowrap";
+
+  /*
+   * The selected tab was `text-black` against a base of `text-black/70` — a
+   * 30% opacity difference that reads as no difference at all, so Overview
+   * looked unselected while sitting on /business.
+   *
+   * Business takes his accent, as the Replit build does. Consumer has no
+   * accent of its own yet (see the theme task), so it leans on weight and
+   * full-strength ink instead of inventing a colour.
+   */
+  const navItemColour = (active: boolean) =>
+    active
+      ? mode === "business"
+        ? /*
+           * Which business accent: the header is outside .b2b, so the
+           * --b2b-accent token the pages use cannot reach it and the brand
+           * has to be read here instead. RecovLoop is a sub-brand with its
+           * own palette; Emerald #1E7A5D is its accent, Mint for Business
+           * keeps the blue.
+           */
+          brand === "recovloop"
+          ? "text-[#1e7a5d] font-semibold"
+          : "text-[#087de5] font-semibold"
+        : "text-black font-semibold"
+      : "text-black/70 hover:text-black";
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 backdrop-blur">
-      <div className="mx-auto max-w-6xl px-6 gap-16 ">
-        <div className="flex h-16 items-center justify-between">
+      {/*
+        FULL WIDTH, WITH THE SWITCH TAKEN OUT OF THE FLOW.
+        `justify-between` cannot centre the middle of three items — it
+        spaces them by whatever is left over, so the switch drifted with
+        the width of the logo and the tabs, and moved again on every page
+        whose labels were a different length.
+
+        A THREE-COLUMN GRID WAS THE SECOND ATTEMPT AND ALSO WRONG. `1fr`
+        means `minmax(auto, 1fr)`, and the auto minimum for text is
+        MIN-CONTENT — so when the business tabs needed more than their
+        third, the column did not grow, it wrapped: "Rewards partners",
+        "Impact solutions" and "Talk to our team" each folded onto two
+        lines. The consumer nav escaped it only because its labels are
+        shorter.
+
+        Absolute centring has neither problem. The switch is positioned
+        against the header rather than sized by it, so it sits on the
+        centre of the SCREEN whatever the logo and tabs measure, and the
+        two sides are free to be whatever width their content needs.
+      */}
+      <div className="w-full px-6">
+        <div className="relative flex h-16 items-center justify-between gap-4">
           {/* Logo */}
           <div className="flex items-center gap-2">
-            <div className="h-10 w-32 overflow-hidden">
-              <img src="/favicon.png" alt="Mint Rewards" />
-            </div>
+            {/* Home of the site you are on. A logo that always went to "/"
+                would quietly drop a business visitor onto the consumer site. */}
+            {/* On a RecovLoop page the header wears RecovLoop's mark, and it
+                leads to RecovLoop's own page rather than to the business
+                overview — the mark and the destination have to agree. */}
+            <Link
+              to={
+                brand === "recovloop"
+                  ? RECOVLOOP_ROOT
+                  : mode === "business"
+                    ? BUSINESS_ROOT
+                    : "/"
+              }
+              className="h-10 w-32 flex items-center overflow-hidden"
+            >
+              {brand === "recovloop" ? (
+                <picture>
+                  <source
+                    srcSet="/images/recovloop-logo.webp"
+                    type="image/webp"
+                  />
+                  <img
+                    src="/images/recovloop-logo.png"
+                    alt="RecovLoop, from Mint Rewards"
+                    width={560}
+                    height={147}
+                    className="h-auto w-full"
+                  />
+                </picture>
+              ) : (
+                <img
+                  src="/favicon.png"
+                  alt={
+                    mode === "business"
+                      ? "Mint Rewards for Business"
+                      : "Mint Rewards"
+                  }
+                />
+              )}
+            </Link>
           </div>
 
-          <div className="flex items-center justify-end md:justify-between gap-6">
+          {/*
+            THE SWITCH BETWEEN THE TWO SITES.
+            Beside the logo rather than among the nav items: it changes which
+            site you are on, while everything to its right changes where you
+            are within one. Putting it in the same row as "Impact" would have
+            made a change of audience look like a change of page.
+
+            Two links, not a button — each side is a real URL that can be
+            shared, bookmarked and opened in a new tab. `aria-current` is what
+            tells a screen reader which of the two you are reading, since the
+            visual answer is a background colour.
+          */}
+          <div
+            className="absolute left-1/2 -translate-x-1/2 hidden sm:flex items-center rounded-full bg-black/5 p-0.5 text-sm"
+            role="group"
+            aria-label="Choose Mint Rewards for consumer or business use"
+          >
+            {([
+              { label: "Consumer", to: "/", value: "consumer" },
+              { label: "Business", to: BUSINESS_ROOT, value: "business" },
+            ] as const).map((opt) => (
+              <Link
+                key={opt.value}
+                to={opt.to}
+                onClick={() => setOpen(false)}
+                aria-current={mode === opt.value ? "page" : undefined}
+                className={`rounded-full px-3.5 py-1.5 font-medium transition ${
+                  mode === opt.value
+                    ? "bg-white text-black shadow-sm"
+                    : "text-black/55 hover:text-black"
+                }`}
+              >
+                {opt.label}
+              </Link>
+            ))}
+          </div>
+
+          <div className="flex items-center justify-end gap-4">
             {/* Desktop Nav */}
-            <nav className="hidden lg:flex items-center gap-8">
+            {/*
+              `xl`, not `lg`. At 1024 the tabs and the CTA together need
+              more than their third of the row, so the right-hand column
+              grew past its `1fr` share and shoved the switch 99px off
+              centre — a grid column will not shrink below its content.
+              Collapsing the tabs one breakpoint earlier keeps the switch
+              on the centre of the screen, which is the thing that has to
+              hold; the tabs are still one tap away in the menu.
+            */}
+            <nav className="hidden 2xl:flex items-center gap-6">
               {menuItems.map((item) => (
                 <div key={item.key}>
                   {item.type === "link" ? (
                     <Link
                       to={item.path}
                       onClick={() => setOpen(false)}
-                      className={`${baseNavItemStyles} ${
-                        isActiveLink(item) ? "text-black" : ""
-                      }`}
+                      aria-current={isActiveLink(item) ? "page" : undefined}
+                      className={`${baseNavItemStyles} ${navItemColour(
+                        isActiveLink(item),
+                      )}`}
                     >
                       {item.name}
                     </Link>
                   ) : (
                     <button
                       onClick={() => handleMenuClick(item)}
-                      className={baseNavItemStyles}
+                      className={`${baseNavItemStyles} ${navItemColour(false)}`}
                       type="button"
                     >
                       {item.name}
@@ -114,19 +253,51 @@ const NavbarDark = () => {
               ))}
             </nav>
 
-            {/* CTA */}
-            <div className="flex">
+            {/*
+              THE CTA BELONGS TO THE SIDE YOU ARE ON.
+              It swapped nowhere when the nav items did, so a procurement
+              manager reading about waste contracts was being asked to
+              download a consumer recycling app. The one thing a business
+              visitor is here to do is start a conversation.
+            */}
+            {/*
+              DESKTOP ONLY. Below `lg` the nav items are already collapsed
+              into the hamburger, but this stayed visible — a full-size pill
+              wedged between the logo and the menu button, wrapping onto two
+              lines and overlapping the mark. The same action lives at the
+              bottom of the mobile sheet instead.
+            */}
+            <div className="hidden 2xl:flex">
               <a
-                href={"#onboarding"}
-                className="flex items-center gap-2 rounded-full bg-black px-5 py-2 text-sm font-medium text-white hover:bg-gray-800 transition"
+                /*
+                 * #enquiry, not /business/contact. That route was never
+                 * built, so this button — the primary call to action, on
+                 * every business page — fell through to the catch-all and
+                 * showed a 404. Each business page renders EnquiryForm,
+                 * which carries id="enquiry", so the anchor resolves
+                 * everywhere this button appears. A dedicated contact page
+                 * would duplicate that form; if one is ever built, this
+                 * goes back to a route.
+                 */
+                href={mode === "business" ? "#enquiry" : "#onboarding"}
+                className="flex items-center gap-2 whitespace-nowrap rounded-full bg-black px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 transition"
               >
-                <Download size={16} />
-                Get the App
+                {mode === "business" ? (
+                  <>
+                    Talk to our team
+                    <ArrowRight size={16} />
+                  </>
+                ) : (
+                  <>
+                    <Download size={16} />
+                    Get the App
+                  </>
+                )}
               </a>
             </div>
             {/* Mobile Menu Button */}
             <button
-              className="lg:hidden text-black"
+              className="2xl:hidden text-black"
               onClick={() => setOpen(!open)}
               aria-label="Toggle navigation menu"
               aria-expanded={open}
@@ -142,10 +313,46 @@ const NavbarDark = () => {
       {/* Mobile Menu */}
       {open && (
         <div
-          className="lg:hidden border-t border-black/10 bg-white/95 backdrop-blur"
+          className="2xl:hidden border-t border-black/10 bg-white/95 backdrop-blur"
           id="mobile-nav"
         >
           <div className="flex flex-col gap-4 px-6 py-6 text-black/80">
+            {/*
+              The switch again, because the desktop one is `hidden sm:flex`.
+              Without this a phone visitor has no route to the business site at
+              all — the whole feature would be invisible on the device most
+              people arrive on.
+
+              First in the sheet, and separated by a rule: it changes which
+              site you are on, and the items below it belong to whichever you
+              pick, so reading it after them would be reading them twice.
+            */}
+            <div
+              className="flex items-center rounded-full bg-black/5 p-0.5 text-sm"
+              role="group"
+              aria-label="Choose Mint Rewards for consumer or business use"
+            >
+              {([
+                { label: "Consumer", to: "/", value: "consumer" },
+                { label: "Business", to: BUSINESS_ROOT, value: "business" },
+              ] as const).map((opt) => (
+                <Link
+                  key={`${opt.value}-mobile`}
+                  to={opt.to}
+                  onClick={() => setOpen(false)}
+                  aria-current={mode === opt.value ? "page" : undefined}
+                  className={`flex-1 rounded-full px-3.5 py-2 text-center font-medium transition ${
+                    mode === opt.value
+                      ? "bg-white text-black shadow-sm"
+                      : "text-black/55"
+                  }`}
+                >
+                  {opt.label}
+                </Link>
+              ))}
+            </div>
+            <hr className="border-black/10" />
+
             {menuItems.map((item) => (
               <div key={`${item.key}-mobile`}>
                 {item.type === "link" ? (
@@ -154,16 +361,17 @@ const NavbarDark = () => {
                     onClick={() => {
                       setOpen(false);
                     }}
-                    className={`${baseNavItemStyles} block text-base ${
-                      isActiveLink(item) ? "text-black" : ""
-                    }`}
+                    aria-current={isActiveLink(item) ? "page" : undefined}
+                    className={`${baseNavItemStyles} block text-base ${navItemColour(
+                      isActiveLink(item),
+                    )}`}
                   >
                     {item.name}
                   </Link>
                 ) : (
                   <button
                     onClick={() => handleMenuClick(item)}
-                    className={`${baseNavItemStyles} block text-left text-base w-full`}
+                    className={`${baseNavItemStyles} ${navItemColour(false)} block text-left text-base w-full`}
                     type="button"
                   >
                     {item.name}
@@ -171,16 +379,30 @@ const NavbarDark = () => {
                 )}
               </div>
             ))}
-            {/* <button
-              onClick={() => {
-                handleDownloadApp();
-                setOpen(false);
-              }}
+            {/*
+              The CTA, which the header no longer shows at this width. It
+              had been commented out here, which is why the header one was
+              left on to collide with the logo — the action has to live
+              somewhere, and full width at the end of the sheet is where a
+              thumb already is.
+            */}
+            <a
+              href={mode === "business" ? "#enquiry" : "#onboarding"}
+              onClick={() => setOpen(false)}
               className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-black px-5 py-3 text-base font-semibold text-white hover:bg-gray-900 transition"
             >
-              <Download size={18} />
-              Get the App
-            </button> */}
+              {mode === "business" ? (
+                <>
+                  Talk to our team
+                  <ArrowRight size={18} />
+                </>
+              ) : (
+                <>
+                  <Download size={18} />
+                  Get the App
+                </>
+              )}
+            </a>
           </div>
         </div>
       )}

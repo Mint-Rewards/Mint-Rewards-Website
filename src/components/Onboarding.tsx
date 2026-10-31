@@ -2,7 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Smartphone, Download, Star } from "lucide-react";
+import { Smartphone, Download } from "lucide-react";
 
 const AppStoreButton = ({
   store,
@@ -19,7 +19,7 @@ const AppStoreButton = ({
     <motion.button
       whileHover={{ scale: 1.08, y: -4 }}
       whileTap={{ scale: 0.95 }}
-      className="flex items-center space-x-3 bg-white hover:bg-gray-50 text-gray-900 px-6 py-3 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 shadow-xl hover:shadow-2xl"
+      className="flex min-w-0 flex-1 sm:flex-none items-center justify-center space-x-2 sm:space-x-3 bg-white hover:bg-gray-50 text-gray-900 px-3 py-2.5 sm:px-6 sm:py-3 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 shadow-xl hover:shadow-2xl"
       onClick={() => {
         if (store === "ios") {
           window.location.href =
@@ -30,10 +30,10 @@ const AppStoreButton = ({
         }
       }}
     >
-      <div className="text-2xl">{icon}</div>
-      <div className="text-left">
-        <div className="text-xs text-gray-500">{text}</div>
-        <div className="text-sm font-semibold">{subtext}</div>
+      <div className="shrink-0 text-xl sm:text-2xl">{icon}</div>
+      <div className="min-w-0 text-left">
+        <div className="truncate text-[10px] sm:text-xs text-gray-500">{text}</div>
+        <div className="truncate text-xs sm:text-sm font-semibold">{subtext}</div>
       </div>
     </motion.button>
   );
@@ -61,7 +61,6 @@ const AppStoreButton = ({
 //             ease: "easeInOut",
 //           }}
 //         >
-//           <div className="text-4xl text-white">🍃</div>
 //         </motion.div>
 //       ))}
 
@@ -83,7 +82,6 @@ const AppStoreButton = ({
 //             ease: "linear",
 //           }}
 //         >
-//           <div className="text-3xl text-white">♻️</div>
 //         </motion.div>
 //       ))}
 //     </div>
@@ -100,15 +98,15 @@ const PhoneMockup = () => {
     >
       <div className="relative w-[260px] sm:w-[320px] h-full">
         <img
-          src="/Onboardings 5.png"
-          alt="Mint Rewards onboarding preview"
-          className="absolute top-0 left-1/2 z-20 w-[72%] sm:w-[62%] -translate-x-[100%] origin-bottom -rotate-10 rounded-3xl shadow-2xl transition-transform duration-700 ease-out"
+          src="/app-screens/app-deals.jpg"
+          alt=""
+          className="absolute top-0 left-1/2 z-20 w-[62%] sm:w-[62%] -translate-x-[75%] sm:-translate-x-[100%] origin-bottom -rotate-10 rounded-3xl shadow-2xl transition-transform duration-700 ease-out"
         />
 
         <img
-          src="/Homescreen 8.png"
-          alt="Mint Rewards signup screen"
-          className="absolute top-15 left-1/2 z-30 w-[72%] sm:w-[62%] -translate-x-[50%] origin-bottom rotate-10 rounded-3xl shadow-2xl transition-transform duration-700 ease-out outline outline-1 outline-white/20"
+          src="/app-screens/app-home.jpg"
+          alt="The Mint Rewards app home screen, showing points earned, waste recycled and CO2 saved, with partner deals behind it"
+          className="absolute top-15 left-1/2 z-30 w-[62%] sm:w-[62%] -translate-x-[25%] sm:-translate-x-[50%] origin-bottom rotate-10 rounded-3xl shadow-2xl transition-transform duration-700 ease-out outline outline-1 outline-white/20"
         />
       </div>
     </motion.div>
@@ -198,7 +196,7 @@ const Onboarding = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+              className="flex flex-row gap-3 sm:gap-4 justify-center lg:justify-start"
             >
               <AppStoreButton
                 store="ios"
@@ -215,40 +213,6 @@ const Onboarding = () => {
             </motion.div>
 
             {/* Social Proof */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-              className="flex items-center justify-center lg:justify-start space-x-4 text-sm text-white/90"
-            >
-              <div className="flex items-center space-x-1">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    size={16}
-                    className="fill-yellow-400 text-yellow-400"
-                  />
-                ))}
-              </div>
-              <span>5/5 rating</span>
-              {/* <span>•</span> */}
-              {/* <span>50,000+ downloads</span> */}
-            </motion.div>
-
-            {/* Additional CTA */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.8, delay: 1.0 }}
-              className="pt-4"
-            >
-              <p className="text-sm text-white/80 mb-4">
-                Already have the app?
-              </p>
-              <button className="text-white hover:text-[#8CE4B5] font-semibold transition-colors duration-200 underline underline-offset-4">
-                Sign In →
-              </button>
-            </motion.div>
           </motion.div>
 
           {/* Right Phone Mockup */}
@@ -257,28 +221,6 @@ const Onboarding = () => {
           </div>
         </div>
 
-        {/* Bottom trust elements */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.8, delay: 1.2 }}
-          className="mt-16 text-center"
-        >
-          <div className="inline-flex flex-wrap justify-center items-center gap-8 md:gap-12 text-lg md:text-xl text-white">
-            <div className="flex items-center space-x-3">
-              <div className="text-3xl md:text-4xl">🔒</div>
-              <span className="font-medium">Secure signup</span>
-            </div>
-            <div className="flex items-center space-x-3">
-              <div className="text-3xl md:text-4xl">📱</div>
-              <span className="font-medium">Free app</span>
-            </div>
-            <div className="flex items-center space-x-3">
-              <div className="text-3xl md:text-4xl">⚡</div>
-              <span className="font-medium">Instant rewards</span>
-            </div>
-          </div>
-        </motion.div>
       </div>
     </section>
   );
