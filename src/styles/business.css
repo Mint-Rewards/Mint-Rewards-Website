@@ -1149,3 +1149,10 @@
   letter-spacing: 0.4px;
   text-transform: uppercase;
 }
+
+/* A logo-note reduced to its title has nothing under it for the title's
+   bottom margin to separate it from, which otherwise sits the two words
+   off-centre in the box. */
+.b2b .logo-note strong:only-child {
+  margin-bottom: 0;
+}

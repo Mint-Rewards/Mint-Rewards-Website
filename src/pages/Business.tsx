@@ -345,13 +345,15 @@ export default function Business() {
                 </p>
               </div>
             </div>
-            {/* LOAD-BEARING: a row of placeholder logos would imply that
-                prospects are signed clients, which the spec forbids. */}
+            {/* STILL LOAD-BEARING, even reduced to two words: a row of
+                placeholder logos here would imply that prospects are signed
+                clients, which the spec forbids. The box stays empty of
+                marks. What the empty box MEANS is now carried by the
+                paragraph on the left — "we will only display verified
+                relationships and authorised brand assets" — so that
+                sentence has to stay where it is. */}
             <div className="logo-note">
-              <strong>Partner stories belong here</strong>
-              Verified partner categories and approved marks will be added when
-              supplied. No client or endorsement claims are implied in this
-              preview.
+              <strong>Coming soon</strong>
             </div>
           </div>
         </section>
