@@ -150,18 +150,6 @@ export default function SecondaryHero() {
             <FeatureCard key={card.id} card={card} index={index} />
           ))}
         </div>
-
-        {/* Call to Action */}
-        <motion.div
-          className="text-center mt-12 md:mt-16"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-        >
-          <button className="bg-[#1D558E] hover:bg-[#15406b] text-white px-8 py-3 rounded-full font-semibold text-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#3EBAB9] focus:ring-offset-2">
-            Get Started Today
-          </button>
-        </motion.div>
       </div>
     </section>
   );
