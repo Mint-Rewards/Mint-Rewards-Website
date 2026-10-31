@@ -73,16 +73,20 @@ export default function FeatureScrollSection() {
             everywhere else), so no web or Android render shows the pair of
             buttons this screen is here to show.
 
-            RATIOS ARE RECONCILED BY `object-cover`, NOT BY PADDING. The
-            signup frame is 9:20 — a real phone — against the 9:16 of the
-            video frames. Padding it to 9:16 was the first attempt and it
-            read as a stretched, too-wide screen, because the UI then
-            occupied only the middle of a frame whose edges were invented.
-            Letting the browser crop the overflow keeps the pixels honest:
-            every card is the same shape and no image is distorted.
-            `object-center` so the crop is shared top and bottom: taking it all
-            off the bottom cut away the Google and Apple buttons, which are
-            the reason this particular frame was chosen.
+            THE CARDS MATCH ON HEIGHT, NOT ON SHAPE, and nothing is cropped.
+
+            The signup frame is 9:20 — a real phone — against the 9:16 the
+            video renders at. Three earlier attempts each paid for that
+            mismatch somewhere: padding it to 9:16 made it read as a
+            stretched, too-wide screen; cropping from the bottom removed the
+            Google and Apple buttons it was chosen for; cropping from the
+            centre cut the headline instead. The arithmetic is unforgiving
+            either way — 12.6% of one dimension has to go.
+
+            So the shapes are allowed to differ. The cards are set to one
+            HEIGHT and each keeps its own width, which is what a stack of
+            real phones looks like anyway. Nothing is cropped, nothing is
+            padded and nothing is stretched.
           */}
           {/* Mobile */}
           <div className="relative flex justify-center md:hidden pt-24 pb-16">
@@ -90,28 +94,36 @@ export default function FeatureScrollSection() {
               <img
                 src="/app-screens/app-signup.jpg"
                 alt=""
-                className="absolute left-1/2 top-1/2 z-30 -translate-x-[20px] -translate-y-[120px] h-[300px] w-[169px] opacity-90 rounded-2xl object-cover object-center shadow-lg z-0"
+                className="absolute left-1/2 top-1/2 z-30 -translate-x-[20px] -translate-y-[120px] h-[300px] w-auto max-w-none opacity-90 rounded-2xl shadow-lg z-0"
               />
 
               <img
                 src="/app-screens/app-home.jpg"
                 alt=""
-                className="absolute left-1/2 top-1/2 z-30 -translate-x-[120px] -translate-y-[80px] h-[320px] w-[180px] -rotate-25 rounded-2xl object-cover object-center shadow-xl z-10"
+                className="absolute left-1/2 top-1/2 z-30 -translate-x-[120px] -translate-y-[80px] h-[320px] w-auto max-w-none -rotate-25 rounded-2xl shadow-xl z-10"
               />
 
               <img
                 src="/app-screens/app-coupon.jpg"
                 alt=""
-                className="absolute left-1/2 top-1/2 z-30 -translate-x-1/2 h-[340px] w-[191px] -rotate-5 rounded-2xl object-cover object-center shadow-2xl z-20"
+                className="absolute left-1/2 top-1/2 z-30 -translate-x-1/2 h-[340px] w-auto max-w-none -rotate-5 rounded-2xl shadow-2xl z-20"
               />
-              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 h-[340px] w-[191px] -rotate-5 rounded-2xl object-cover object-center shadow-2xl z-20">
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 h-[340px] w-auto max-w-none -rotate-5 rounded-2xl shadow-2xl z-20">
                 <GlowingOrb />
               </div>
             </div>
           </div>
           {/* Desktop */}
           <div className="relative hidden md:block">
-            <div className="sticky top-40 hidden md:flex justify-center items-start h-screen">
+            {/*
+              `h-[620px]`, not `h-screen`. A sticky element releases when its
+              own bottom reaches the bottom of its container, so a taller box
+              releases EARLIER — at full viewport height the phone unstuck
+              and rode up behind the header while the third step was still
+              being read. Sized just past the card itself, it stays put until
+              the copy beside it is done.
+            */}
+            <div className="sticky top-40 hidden md:flex justify-center items-start h-[620px]">
               {/*
                 `overflow-hidden` clips the stack to the phone.
 
@@ -127,23 +139,23 @@ export default function FeatureScrollSection() {
               */}
               <motion.div
                 style={{ rotate }}
-                className="relative w-[300px] aspect-[9/16] overflow-hidden rounded-2xl"
+                className="relative h-[533px] w-[300px] overflow-hidden"
               >
                 <img
                   src="/app-screens/app-signup.jpg"
                   alt="Three screens from the Mint Rewards app: creating an account, booking a collection, and redeeming a reward"
-                  className="absolute inset-0 z-1 h-full w-full rounded-2xl object-cover object-center drop-shadow-lg"
+                  className="absolute inset-y-0 left-1/2 z-1 h-full w-auto max-w-none -translate-x-1/2 rounded-2xl drop-shadow-lg"
                 />
 
                 <motion.img
                   style={{ y: tasksY, opacity: tasksOpacity }}
                   src="/app-screens/app-home.jpg"
-                  className="absolute inset-0 z-2 h-full w-full rounded-2xl object-cover object-center shadow-lg"
+                  className="absolute inset-y-0 left-1/2 z-2 h-full w-auto max-w-none -translate-x-1/2 rounded-2xl shadow-lg"
                 />
                 <motion.img
                   style={{ y: goalsY, opacity: goalsOpacity }}
                   src="/app-screens/app-coupon.jpg"
-                  className="absolute inset-0 z-3 h-full w-full rounded-2xl object-cover object-center shadow-lg"
+                  className="absolute inset-y-0 left-1/2 z-3 h-full w-auto max-w-none -translate-x-1/2 rounded-2xl shadow-lg"
                 />
               </motion.div>
             </div>
