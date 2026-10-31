@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Download, Smartphone } from "lucide-react";
+import { Download, Leaf, ShieldCheck, Smartphone, Zap } from "lucide-react";
 import { contactSocialLinks, footerLinks } from "../constants";
 
 const AppStoreButton = ({
@@ -166,20 +166,27 @@ const Footer = () => {
               </div>
             </div>
 
-            {/* Trust badges */}
-            <div className="flex items-center space-x-6 text-sm text-gray-400">
-              <div className="flex items-center space-x-2">
-                <div className="text-[#8CE4B5]">🔒</div>
-                <span>Secure & Safe</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <div className="text-[#3EBAB9]">🌱</div>
-                <span>Eco-Friendly</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <div className="text-[#8CE4B5]">⚡</div>
-                <span>Instant Rewards</span>
-              </div>
+            {/*
+              DRAWN ICONS, NOT EMOJI. These were a padlock, a seedling
+              and a lightning bolt, straight from the font, which render in
+              whatever the operating system ships — a different weight,
+              colour and shape on every machine, none of them ours, and all
+              three sitting at a different optical size from the text beside
+              them. The site already depends on lucide; these are the same
+              stroke weight as every other icon on the page and take the
+              brand colour because they are drawn, not painted by the font.
+            */}
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-gray-400">
+              {[
+                { Icon: ShieldCheck, label: "Secure & Safe" },
+                { Icon: Leaf, label: "Eco-Friendly" },
+                { Icon: Zap, label: "Instant Rewards" },
+              ].map(({ Icon, label }) => (
+                <div key={label} className="flex items-center gap-2">
+                  <Icon className="h-4 w-4 text-[#3EBAB9]" aria-hidden="true" />
+                  <span>{label}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
