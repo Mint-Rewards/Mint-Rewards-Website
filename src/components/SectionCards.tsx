@@ -66,23 +66,24 @@ export default function FeatureScrollSection() {
       <div className="mx-auto mt-10 max-w-7xl px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 md:gap-4">
           {/*
-            REAL SCREENS FOR STEPS TWO AND THREE, pulled frame by frame out
-            of the launch recording, so these are the app as it renders.
+            ALL THREE ARE REAL SCREENS. Two and three were pulled frame by
+            frame out of the launch recording; one is an iOS screenshot,
+            supplied, because it could not be captured the same way — Apple
+            sign-in is iOS-only (the shared AppleSignInButton returns null
+            everywhere else), so no web or Android render shows the pair of
+            buttons this screen is here to show.
 
-            STEP ONE IS STILL A MOCK-UP, and deliberately so rather than by
-            oversight. The sign-up screen's social buttons cannot be
-            captured the way these were: Apple sign-in is iOS-only — the
-            shared AppleSignInButton returns null everywhere else — and
-            Google's sits behind a PostHog flag, so a web render shows
-            neither. A real screenshot of that screen has to come off an
-            iOS device. Swapping it blind would put a screen on the page
-            that no user ever sees.
+            It arrived at 9:19.5, a real phone, against the 9:16 of the
+            video frames, and these three are stacked with `inset-0` so a
+            different ratio misaligns them. It is padded rather than
+            cropped: cropping to 9:16 clipped the Google and Apple buttons,
+            which defeats the point of using it.
           */}
           {/* Mobile */}
           <div className="relative flex justify-center md:hidden pt-24 pb-16">
             <div className="relative w-[280px] h-[340px]">
               <img
-                src="/Sign up Screen.png"
+                src="/app-screens/app-login.jpg"
                 alt=""
                 className="absolute left-1/2 top-1/2 z-30 -translate-x-[20px] -translate-y-[120px] h-[300px] opacity-90 rounded-2xl shadow-lg object-cover z-0"
               />
@@ -111,8 +112,8 @@ export default function FeatureScrollSection() {
                 className="relative w-[300px] aspect-[9/16]"
               >
                 <img
-                  src="/Sign up Screen.png"
-                  alt="Three screens from the Mint Rewards app: signing up, booking a collection, and redeeming a reward"
+                  src="/app-screens/app-login.jpg"
+                  alt="Three screens from the Mint Rewards app: logging in, booking a collection, and redeeming a reward"
                   className="relative z-1 rounded-2xl w-full drop-shadow-lg"
                 />
 
