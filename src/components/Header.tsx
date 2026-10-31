@@ -68,10 +68,10 @@ export default function Hero() {
             while earning discounts at your favorite brands.
           </p>
 
-          <div className="mt-10 flex items-center gap-4 flex-wrap max-[375px]:flex-col max-[375px]:items-stretch max-[375px]:gap-3">
+          <div className="mt-10 flex items-center gap-3 sm:gap-4">
             <a
               href="#onboarding"
-              className="flex h-12 items-center gap-2 rounded-full bg-[#1D558E] px-6 text-white font-medium hover:bg-[#15406b] transition max-[375px]:w-full max-[375px]:justify-center"
+              className="flex h-12 shrink-0 items-center justify-center gap-2 rounded-full bg-[#1D558E] px-4 sm:px-6 text-sm sm:text-base text-white font-medium hover:bg-[#15406b] transition"
             >
               <Download className="font-light w-4" />
               <span>Get the App</span>
@@ -79,7 +79,7 @@ export default function Hero() {
 
             <button
               onClick={() => handleMenuClick("how-it-works")}
-              className="flex h-12 items-center gap-3 rounded-full bg-zinc-900 px-6 text-white font-medium hover:bg-zinc-800 transition max-[375px]:w-full max-[375px]:justify-center"
+              className="flex h-12 shrink-0 items-center justify-center gap-2 sm:gap-3 rounded-full bg-zinc-900 px-4 sm:px-6 text-sm sm:text-base text-white font-medium hover:bg-zinc-800 transition"
             >
               {/* 28px inside a 48px button. At h-8 it was 32px, which with
                   py-3 either side made this button 56px against the 48px of
@@ -94,7 +94,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="relative p-30 flex justify-center lg:justify-end max-[480px]:mt-10 max-[480px]:p-0">
+        <div className="relative p-0 sm:p-10 lg:p-30 flex justify-center lg:justify-end max-[480px]:mt-10">
           <GlowingOrb />
 
           <div className="relative w-[200px] aspect-[9/16] [perspective:1000px] [transform-style:preserve-3d] -translate-x-24 max-[480px]:w-[150px] max-[480px]:-translate-x-0 max-[480px]:scale-90 max-[480px]:mx-auto">

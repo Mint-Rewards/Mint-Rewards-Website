@@ -246,7 +246,13 @@ const Contact = () => {
       {/* Contact Form & Map Section */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* `overflow-x-clip` is load-bearing on phones. Both columns enter
+              with a horizontal offset (x: -30 and x: 30), and until they
+              scroll into view they sit that far outside the grid — which
+              widened the page by 14px and gave the whole site a horizontal
+              scrollbar at 320-390px. Clip rather than hidden: clip does not
+              create a scroll container, so it cannot break sticky children. */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 overflow-x-clip">
             {/* Contact Form */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}

@@ -1149,3 +1149,54 @@
   letter-spacing: 0.4px;
   text-transform: uppercase;
 }
+
+/*
+ * Phones: keep the short-form grids horizontal, and stop `1fr` overflowing.
+ *
+ * Two separate things were wrong here.
+ *
+ * FIRST, the overflow. Every multi-column grid is `repeat(N, 1fr)`, and
+ * `1fr` is shorthand for `minmax(auto, 1fr)` — whose auto minimum, for a box
+ * holding text, is min-content. A single long word therefore refuses to let
+ * its column shrink to its share and pushes the grid past the viewport,
+ * which is where the 25px of horizontal scroll on /business at 320px came
+ * from. `minmax(0, 1fr)` lets the column shrink and the text wrap instead.
+ *
+ * SECOND, collapsing these to one column was the wrong fix for it. Measured
+ * at 390px, each cell in these grids holds between 23 and 104 characters —
+ * a label and a line, not a paragraph — so one per row produced a very tall
+ * page of mostly empty space. They stay two across; `minmax(0, 1fr)` is
+ * what keeps them inside the screen.
+ *
+ * The grids NOT listed here are deliberate omissions: `.hero-grid`,
+ * `.split`, `.form-grid`, `.technology-band`, `.independent`,
+ * `.visual-dashboard`, `.network-split`, `.cards` and `.services-grid` all
+ * carry 126-683 characters per cell. Two columns of that on a phone is
+ * unreadable, so they stay stacked.
+ *
+ * `.two-col-feature` was tried here and measured WORSE: at 390px it went
+ * from 815px to 940px, because its copy wrapped into more lines than the
+ * halved row count saved. Height, not column count, is the thing being
+ * optimised, so it stays one across.
+ */
+@media (max-width: 700px) {
+  .b2b .industry-grid,
+  .b2b .waste-industries,
+  .b2b .compliance-grid,
+  .b2b .process-grid,
+  .b2b .flow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .b2b .industry,
+  .b2b .industry-waste {
+    overflow-wrap: anywhere;
+  }
+
+  /* The cells get narrow enough that the stock padding is most of them. */
+  .b2b .industry {
+    min-height: 0;
+    padding: 12px;
+  }
+}

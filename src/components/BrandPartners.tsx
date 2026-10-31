@@ -105,14 +105,14 @@ const BrandPartners = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.8, delay: 0.8 }}
-          className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-center"
+          className="mt-10 sm:mt-16 grid grid-cols-3 gap-3 sm:gap-8 text-center"
         >
           {stats.map((stat, index) => (
             <div key={stat.label}>
-              <div className="text-3xl md:text-4xl font-bold text-[#1D558E] mb-2">
+              <div className="text-xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[#1D558E] mb-1 sm:mb-2">
                 {formatStatValue(counts[index], stat)}
               </div>
-              <p className="text-gray-600">{stat.label}</p>
+              <p className="text-[11px] sm:text-base leading-snug text-gray-600">{stat.label}</p>
             </div>
           ))}
         </motion.div>

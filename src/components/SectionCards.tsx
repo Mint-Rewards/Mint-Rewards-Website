@@ -1,6 +1,5 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import GlowingOrb from "./SingularOrb";
 
 export default function FeatureScrollSection() {
   const containerRef = useRef(null);
@@ -17,6 +16,48 @@ export default function FeatureScrollSection() {
 
   const tasksOpacity = useTransform(scrollYProgress, [0.15, 0.48], [0, 1]);
   const goalsOpacity = useTransform(scrollYProgress, [0.66, 0.82], [0, 1]);
+
+  /*
+   * One source for the three steps, rendered twice.
+   *
+   * The sticky stack beside a scrolling column is a desktop effect — it needs
+   * a second column to scroll past. On a phone everything is one column, so
+   * there is nothing for the frame to sit beside and the pinned version just
+   * pushed the copy under the header. Below `md` each step is therefore its
+   * own block: the screen it describes, with its heading right next to it.
+   */
+  const steps = [
+    {
+      eyebrow: "Get Started",
+      eyebrowClass: "bg-[#8CE4B5]/20 text-[#1D558E]",
+      title: "Sign Up Free",
+      tagline: "Create your account in seconds.",
+      taglineClass: "text-[#3EBAB9]",
+      body: "Join thousands of users who are already earning rewards while making a positive impact on the environment. Quick and easy signup process.",
+      image: "/app-screens/app-signup.jpg",
+      alt: "The Mint Rewards signup screen, with email, Google and Apple sign-in",
+    },
+    {
+      eyebrow: "Schedule Pickup",
+      eyebrowClass: "bg-[#3EBAB9]/20 text-[#1D558E]",
+      title: "Recycle & Earn",
+      tagline: "We collect recyclables from your doorstep weekly.",
+      taglineClass: "text-[#1E7A5D]",
+      body: "Convenient weekly collection service. Simply place your recyclables at your doorstep and we'll handle the rest while you earn points.",
+      image: "/app-screens/app-home.jpg",
+      alt: "The Mint Rewards home screen, showing points earned and waste recycled",
+    },
+    {
+      eyebrow: "Browse Rewards",
+      eyebrowClass: "bg-[#1D558E]/20 text-[#1D558E]",
+      title: "Redeem Rewards",
+      tagline: "Use points instantly at top brands.",
+      taglineClass: "text-[#1D558E]",
+      body: "Access exclusive discounts and vouchers from your favorite brands. Instant redemption with no waiting periods or complicated processes.",
+      image: "/app-screens/app-coupon.jpg",
+      alt: "A redeemed Mint Rewards coupon, ready to use in store",
+    },
+  ];
 
   return (
     <section ref={containerRef} className="relative ">
@@ -60,10 +101,42 @@ export default function FeatureScrollSection() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.4 }}
-          className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[200px] bg-gradient-to-r from-[#8CE4B5]/10 via-[#3EBAB9]/10 to-[#1D558E]/10 blur-3xl rounded-full"
+          className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[400px] h-[200px] bg-gradient-to-r from-[#8CE4B5]/10 via-[#3EBAB9]/10 to-[#1D558E]/10 blur-3xl rounded-full"
         />
       </div>
-      <div className="mx-auto mt-10 max-w-7xl px-6">
+      {/* Phones: each screen with its own heading beside it. */}
+      <div className="mx-auto mt-10 max-w-7xl px-6 md:hidden">
+        <ol className="flex flex-col gap-14">
+          {steps.map((step, i) => (
+            <li key={step.title} className="flex items-start gap-4">
+              <img
+                src={step.image}
+                alt={step.alt}
+                loading="lazy"
+                className="h-[210px] w-auto max-w-none shrink-0 rounded-2xl shadow-lg"
+              />
+              <div className="min-w-0">
+                <span
+                  className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs ${step.eyebrowClass}`}
+                >
+                  {i + 1}. {step.eyebrow}
+                </span>
+                <h3 className="mt-3 text-xl font-bold leading-tight tracking-tight text-black">
+                  {step.title}
+                  <br />
+                  <span className={step.taglineClass}>{step.tagline}</span>
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-black/60">
+                  {step.body}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      {/* Desktop: the sticky stack beside the scrolling copy. */}
+      <div className="mx-auto mt-10 max-w-7xl px-6 hidden md:block">
         <div className="grid grid-cols-1 md:grid-cols-2 md:gap-4">
           {/*
             ALL THREE ARE REAL SCREENS. Two and three were pulled frame by
@@ -88,32 +161,6 @@ export default function FeatureScrollSection() {
             real phones looks like anyway. Nothing is cropped, nothing is
             padded and nothing is stretched.
           */}
-          {/* Mobile */}
-          <div className="relative flex justify-center md:hidden pt-24 pb-16">
-            <div className="relative w-[280px] h-[340px]">
-              <img
-                src="/app-screens/app-signup.jpg"
-                alt=""
-                className="absolute left-1/2 top-1/2 z-30 -translate-x-[20px] -translate-y-[120px] h-[300px] w-auto max-w-none opacity-90 rounded-2xl shadow-lg z-0"
-              />
-
-              <img
-                src="/app-screens/app-home.jpg"
-                alt=""
-                className="absolute left-1/2 top-1/2 z-30 -translate-x-[120px] -translate-y-[80px] h-[320px] w-auto max-w-none -rotate-25 rounded-2xl shadow-xl z-10"
-              />
-
-              <img
-                src="/app-screens/app-coupon.jpg"
-                alt=""
-                className="absolute left-1/2 top-1/2 z-30 -translate-x-1/2 h-[340px] w-auto max-w-none -rotate-5 rounded-2xl shadow-2xl z-20"
-              />
-              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 h-[340px] w-auto max-w-none -rotate-5 rounded-2xl shadow-2xl z-20">
-                <GlowingOrb />
-              </div>
-            </div>
-          </div>
-          {/* Desktop */}
           <div className="relative hidden md:block">
             {/*
               `h-[620px]`, not `h-screen`. A sticky element releases when its
@@ -123,7 +170,7 @@ export default function FeatureScrollSection() {
               being read. Sized just past the card itself, it stays put until
               the copy beside it is done.
             */}
-            <div className="sticky top-40 hidden md:flex justify-center items-start h-[620px]">
+            <div className="sticky top-40 flex justify-center items-start h-[620px]">
               {/*
                 `overflow-hidden` clips the stack to the phone.
 
@@ -161,59 +208,22 @@ export default function FeatureScrollSection() {
             </div>
           </div>
 
-          <div className="flex flex-col items-center md:items-start text-center md:text-left gap-30 md:gap-[60vh] py-[30vh] z-99">
-            <div>
-              <span className="inline-flex items-center gap-2 rounded-full bg-[#8CE4B5]/20 px-4 py-1 text-sm text-[#1D558E]">
-                Get Started
-              </span>
-              <h2 className="mt-6 text-4xl font-bold text-black leading-tight">
-                Sign Up Free
-                <br />
-                <span className="text-[#3EBAB9]">
-                  Create your account in seconds.
+          <div className="flex flex-col items-start text-left gap-[60vh] py-[30vh] z-99">
+            {steps.map((step) => (
+              <div key={step.title}>
+                <span
+                  className={`inline-flex items-center gap-2 rounded-full px-4 py-1 text-sm ${step.eyebrowClass}`}
+                >
+                  {step.eyebrow}
                 </span>
-              </h2>
-              <p className="mt-4 max-w-md text-black/60">
-                Join thousands of users who are already earning rewards while
-                making a positive impact on the environment. Quick and easy
-                signup process.
-              </p>
-            </div>
-
-            <div>
-              <span className="inline-flex items-center gap-2 rounded-full bg-[#3EBAB9]/20 px-4 py-1 text-sm text-[#1D558E]">
-                Schedule Pickup
-              </span>
-              <h2 className="mt-6 text-4xl font-bold text-black leading-tight">
-                Recycle & Earn <br />
-                <span className="text-[#8CE4B5]">
-                  We collect recyclables from your doorstep weekly.
-                </span>
-              </h2>
-              <p className="mt-4 max-w-md text-black/60">
-                Convenient weekly collection service. Simply place your
-                recyclables at your doorstep and we'll handle the rest while you
-                earn points.
-              </p>
-            </div>
-
-            <div>
-              <span className="inline-flex items-center gap-2 rounded-full bg-[#1D558E]/20 px-4 py-1 text-sm text-[#1D558E]">
-                Browse Rewards
-              </span>
-              <h2 className="mt-6 text-4xl font-bold text-black leading-tight">
-                Redeem Rewards
-                <br />
-                <span className="text-[#1D558E]">
-                  Use points instantly at top brands.
-                </span>
-              </h2>
-              <p className="mt-4 max-w-md text-black/60">
-                Access exclusive discounts and vouchers from your favorite
-                brands. Instant redemption with no waiting periods or
-                complicated processes.
-              </p>
-            </div>
+                <h3 className="mt-6 text-4xl font-bold leading-tight text-black">
+                  {step.title}
+                  <br />
+                  <span className={step.taglineClass}>{step.tagline}</span>
+                </h3>
+                <p className="mt-4 max-w-md text-black/60">{step.body}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>

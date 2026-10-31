@@ -133,7 +133,7 @@ const StatCard = ({
         scale: 1.03,
         transition: { duration: 0.3 },
       }}
-      className={`relative bg-gradient-to-br ${stat.gradient}  rounded-3xl p-6 text-center shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 group cursor-pointer overflow-hidden`}
+      className={`relative bg-gradient-to-br ${stat.gradient}  rounded-3xl p-4 sm:p-6 text-center shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 group cursor-pointer overflow-hidden`}
     >
       {/* Gradient accent line at top */}
       <div
@@ -141,28 +141,28 @@ const StatCard = ({
       />
 
       <motion.div
-        className={`${stat.iconBg} w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm`}
+        className={`${stat.iconBg} w-11 h-11 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mx-auto mb-2 sm:mb-4 shadow-sm`}
         whileHover={{
           scale: 1.1,
           rotate: [0, -5, 5, 0],
           transition: { duration: 0.4 },
         }}
       >
-        <stat.icon className="h-8 w-8 text-[#1D558E]" aria-hidden="true" />
+        <stat.icon className="h-5 w-5 sm:h-8 sm:w-8 text-[#1D558E]" aria-hidden="true" />
       </motion.div>
 
-      <div className={`text-3xl md:text-4xl font-bold text-white mb-1`}>
+      <div className={`text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-white mb-1`}>
         <AnimatedCounter
           target={stat.value}
           suffix={stat.suffix}
           isInView={isInView}
         />
         {stat.unit && (
-          <span className="text-xl ml-1 text-white/80">{stat.unit}</span>
+          <span className="text-sm sm:text-xl ml-1 text-white/80">{stat.unit}</span>
         )}
       </div>
-      <h3 className="text-base font-semibold text-white mb-1">{stat.label}</h3>
-      <p className="text-sm text-white/70">{stat.description}</p>
+      <h3 className="text-xs sm:text-base font-semibold text-white mb-1">{stat.label}</h3>
+      <p className="text-[11px] sm:text-sm leading-snug text-white/70">{stat.description}</p>
     </motion.div>
   );
 };
@@ -362,7 +362,7 @@ const Impact = () => {
           </motion.div>
 
           {/* Right Stats Grid */}
-          <div ref={statsRef} className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div ref={statsRef} className="grid grid-cols-2 gap-3 sm:gap-5">
             {impactStats.map((stat) => (
               <StatCard key={stat.id} stat={stat} isInView={statsInView} />
             ))}
@@ -374,9 +374,9 @@ const Impact = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.8, delay: 0.8 }}
-          className="mt-20"
+          className="mt-12 sm:mt-20"
         >
-          <div className="relative bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 rounded-3xl p-8 md:p-10 overflow-hidden">
+          <div className="relative bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 rounded-3xl p-6 sm:p-8 md:p-10 overflow-hidden">
             {/* Decorative elements inside the dark card */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#8CE4B5]/10 to-transparent rounded-full blur-3xl" />
             <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-[#3EBAB9]/10 to-transparent rounded-full blur-3xl" />
@@ -386,39 +386,39 @@ const Impact = () => {
                 Trusted by Communities Across the Country
               </h3>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div className="text-center space-y-3">
-                  <div className="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-br from-[#8CE4B5] to-[#3EBAB9] flex items-center justify-center shadow-lg shadow-[#8CE4B5]/30">
-                    <ShieldCheck className="h-6 w-6 text-[#1D558E]" aria-hidden="true" />
+              <div className="grid grid-cols-3 gap-2 sm:gap-5 md:gap-8">
+                <div className="text-center space-y-1.5 sm:space-y-3">
+                  <div className="w-10 h-10 sm:w-14 sm:h-14 mx-auto rounded-2xl bg-gradient-to-br from-[#8CE4B5] to-[#3EBAB9] flex items-center justify-center shadow-lg shadow-[#8CE4B5]/30">
+                    <ShieldCheck className="h-4 w-4 sm:h-6 sm:w-6 text-[#1D558E]" aria-hidden="true" />
                   </div>
-                  <h4 className="font-semibold text-white text-lg">
+                  <h4 className="font-semibold tracking-tight text-white text-xs sm:text-lg">
                     Secure & Safe
                   </h4>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-[10px] sm:text-sm leading-snug text-gray-400">
                     Your data and rewards are protected with bank-level security
                   </p>
                 </div>
 
-                <div className="text-center space-y-3">
-                  <div className="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-br from-[#3EBAB9] to-[#1D558E] flex items-center justify-center shadow-lg shadow-[#3EBAB9]/30">
-                    <Globe className="h-6 w-6 text-[#1D558E]" aria-hidden="true" />
+                <div className="text-center space-y-1.5 sm:space-y-3">
+                  <div className="w-10 h-10 sm:w-14 sm:h-14 mx-auto rounded-2xl bg-gradient-to-br from-[#3EBAB9] to-[#1D558E] flex items-center justify-center shadow-lg shadow-[#3EBAB9]/30">
+                    <Globe className="h-4 w-4 sm:h-6 sm:w-6 text-[#1D558E]" aria-hidden="true" />
                   </div>
-                  <h4 className="font-semibold text-white text-lg">
+                  <h4 className="font-semibold tracking-tight text-white text-xs sm:text-lg">
                     Real Impact
                   </h4>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-[10px] sm:text-sm leading-snug text-gray-400">
                     Every action contributes to measurable environmental change
                   </p>
                 </div>
 
-                <div className="text-center space-y-3">
-                  <div className="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-br from-[#1D558E] to-[#3EBAB9] flex items-center justify-center shadow-lg shadow-[#1D558E]/30">
-                    <Handshake className="h-6 w-6 text-[#1D558E]" aria-hidden="true" />
+                <div className="text-center space-y-1.5 sm:space-y-3">
+                  <div className="w-10 h-10 sm:w-14 sm:h-14 mx-auto rounded-2xl bg-gradient-to-br from-[#1D558E] to-[#3EBAB9] flex items-center justify-center shadow-lg shadow-[#1D558E]/30">
+                    <Handshake className="h-4 w-4 sm:h-6 sm:w-6 text-[#1D558E]" aria-hidden="true" />
                   </div>
-                  <h4 className="font-semibold text-white text-lg">
+                  <h4 className="font-semibold tracking-tight text-white text-xs sm:text-lg">
                     Community Driven
                   </h4>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-[10px] sm:text-sm leading-snug text-gray-400">
                     Join a growing movement of environmentally conscious
                     families
                   </p>

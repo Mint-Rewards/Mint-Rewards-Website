@@ -139,9 +139,145 @@ export const PARTNER_COUNT = RINGS.reduce(
   0,
 );
 
+import { useEffect, useRef } from "react";
+
+/**
+ * Auto-advance for the phone carousel.
+ *
+ * Below 900px the orbit becomes a horizontal scroll-snap strip (see
+ * business.css). A strip that only moves when you swipe it reads as a static
+ * row of three logos — most people never discover the other twenty-eight.
+ * This nudges it along so the strip announces itself as scrollable.
+ *
+ * It drives the native scroll position rather than a transform, so every
+ * behaviour the CSS already gets for free — momentum, keyboard, assistive
+ * technology, the snap points — keeps working. Three things switch it off:
+ *
+ *   - `prefers-reduced-motion`, because this is decorative movement;
+ *   - the viewport being above the carousel breakpoint, where the strip is
+ *     a ring again and scrollLeft means nothing;
+ *   - the person touching it. Auto-scroll that fights a finger is worse
+ *     than none, so any interaction stops it and it only resumes after
+ *     they have been idle for a few seconds.
+ *
+ * It also stops while scrolled out of view, so an off-screen section is not
+ * running a rAF loop for nobody.
+ *
+ * It ping-pongs at the ends instead of wrapping to zero: a seamless wrap
+ * needs the list duplicated, and a hard jump back to the start is the one
+ * thing that reads as broken rather than as motion.
+ */
+function useCarouselAutoScroll(ref: React.RefObject<HTMLDivElement | null>) {
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const carousel = window.matchMedia("(max-width: 900px)");
+
+    let frame = 0;
+    let direction = 1;
+    let position = 0;
+    let idleUntil = 0;
+    let visible = true;
+    let last = 0;
+
+    const PX_PER_SECOND = 24;
+    const RESUME_AFTER_MS = 2500;
+
+    const step = (now: number) => {
+      frame = requestAnimationFrame(step);
+      const elapsed = last ? now - last : 0;
+      last = now;
+
+      if (!visible || now < idleUntil) return;
+
+      const max = el.scrollWidth - el.clientWidth;
+      if (max <= 1) return;
+
+      /* Snapping fights a continuous scroll of a fraction of a pixel per
+         frame, so it is off while we are driving and restored the moment
+         the person takes over. */
+      el.style.scrollSnapType = "none";
+
+      /*
+       * `position` is kept as a float and is the source of truth, NOT
+       * `el.scrollLeft`. At 24px/s a frame advances about 0.38px, and
+       * reading the position back from the element rounds that away — so
+       * `scrollLeft = scrollLeft + 0.38` lands on the same integer every
+       * frame and the strip never moves at all. Accumulating here and
+       * writing the total is what makes sub-pixel speeds possible.
+       */
+      position += (direction * PX_PER_SECOND * elapsed) / 1000;
+      if (position >= max) {
+        position = max;
+        direction = -1;
+      } else if (position <= 0) {
+        position = 0;
+        direction = 1;
+      }
+      el.scrollLeft = position;
+    };
+
+    const pause = () => {
+      idleUntil = performance.now() + RESUME_AFTER_MS;
+      el.style.scrollSnapType = "";
+    };
+
+    /* Wherever they leave it is where we carry on from. Without this the
+       strip jumps back to our own stale position when auto-scroll resumes. */
+    const syncPosition = () => {
+      if (performance.now() < idleUntil) position = el.scrollLeft;
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting;
+      },
+      { threshold: 0 },
+    );
+
+    const stop = () => {
+      if (frame) cancelAnimationFrame(frame);
+      frame = 0;
+      observer.disconnect();
+      for (const event of ["pointerdown", "touchstart", "wheel", "keydown"]) {
+        el.removeEventListener(event, pause);
+      }
+      el.removeEventListener("scroll", syncPosition);
+      el.style.scrollSnapType = "";
+    };
+
+    const start = () => {
+      stop();
+      if (reduced.matches || !carousel.matches) return;
+      observer.observe(el);
+      for (const event of ["pointerdown", "touchstart", "wheel", "keydown"]) {
+        el.addEventListener(event, pause, { passive: true });
+      }
+      el.addEventListener("scroll", syncPosition, { passive: true });
+      position = el.scrollLeft;
+      last = 0;
+      frame = requestAnimationFrame(step);
+    };
+
+    start();
+    reduced.addEventListener("change", start);
+    carousel.addEventListener("change", start);
+    return () => {
+      stop();
+      reduced.removeEventListener("change", start);
+      carousel.removeEventListener("change", start);
+    };
+  }, [ref]);
+}
+
 export default function BrandOrbit() {
+  const stripRef = useRef<HTMLDivElement>(null);
+  useCarouselAutoScroll(stripRef);
+
   return (
-    <div className="orbit">
+    <div className="orbit" ref={stripRef}>
       {RINGS.map((ring, ringIndex) => (
         <div
           key={ring.radius}

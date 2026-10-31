@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Download, Leaf, ShieldCheck, Smartphone, Zap } from "lucide-react";
+import { Download, Smartphone } from "lucide-react";
 import { contactSocialLinks, footerLinks } from "../constants";
 
 const AppStoreButton = ({
@@ -22,12 +22,12 @@ const AppStoreButton = ({
       rel="noopener noreferrer"
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
-      className="flex items-center space-x-3 bg-black hover:bg-gray-800 text-white px-4 py-3 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#3EBAB9] focus:ring-offset-2 focus:ring-offset-gray-800"
+      className="flex min-w-0 flex-1 lg:flex-none items-center justify-center lg:justify-start space-x-2 sm:space-x-3 bg-black hover:bg-gray-800 text-white px-3 py-2.5 sm:px-4 sm:py-3 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#3EBAB9] focus:ring-offset-2 focus:ring-offset-gray-800"
     >
-      <div className="text-xl">{icon}</div>
-      <div className="text-left">
-        <div className="text-xs text-gray-300">{text}</div>
-        <div className="text-sm font-semibold">{subtext}</div>
+      <div className="shrink-0 text-lg sm:text-xl">{icon}</div>
+      <div className="min-w-0 text-left">
+        <div className="truncate text-[10px] sm:text-xs text-gray-300">{text}</div>
+        <div className="truncate text-xs sm:text-sm font-semibold">{subtext}</div>
       </div>
     </motion.a>
   );
@@ -47,8 +47,8 @@ const FooterColumn = ({
 }) => {
   return (
     <div>
-      <h3 className="text-white font-semibold text-lg mb-4">{title}</h3>
-      <ul className="space-y-3">
+      <h3 className="text-white font-semibold text-sm sm:text-lg mb-3 sm:mb-4">{title}</h3>
+      <ul className="space-y-2 sm:space-y-3">
         {links.map((link) => (
           <li key={link.name}>
             {link.available ? (
@@ -82,7 +82,7 @@ const Footer = () => {
     <footer className="bg-gray-900 text-white">
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+        <div className="grid grid-cols-3 lg:grid-cols-5 gap-6 lg:gap-8">
           {/* About Column */}
           <div className="lg:col-span-1">
             <FooterColumn
@@ -108,11 +108,11 @@ const Footer = () => {
           </div>
 
           {/* Get the App Column */}
-          <div className="lg:col-span-2">
+          <div className="col-span-3 lg:col-span-2">
             <h3 className="text-white font-semibold text-lg mb-4">
               Get the App
             </h3>
-            <div className="space-y-3">
+            <div className="flex flex-row gap-3 lg:flex-col">
               <AppStoreButton
                 icon={<Download />}
                 text="Download on the"
@@ -130,45 +130,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Brand Section */}
-        <div className="mt-12 pt-8 border-t border-gray-800">
-          <div className="flex flex-col lg:flex-row items-center justify-between space-y-4 lg:space-y-0">
-            {/* Logo and tagline */}
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                <div className="h-10 w-32 flex items-center justify-center">
-                  <img src="/favicon_dark.png" alt="Mint Rewards" />
-                </div>
-              </div>
-              <div className="hidden lg:block text-gray-400 text-sm">
-                Turn your trash into treasure
-              </div>
-            </div>
-
-            {/*
-              DRAWN ICONS, NOT EMOJI. These were a padlock, a seedling
-              and a lightning bolt, straight from the font, which render in
-              whatever the operating system ships — a different weight,
-              colour and shape on every machine, none of them ours, and all
-              three sitting at a different optical size from the text beside
-              them. The site already depends on lucide; these are the same
-              stroke weight as every other icon on the page and take the
-              brand colour because they are drawn, not painted by the font.
-            */}
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-gray-400">
-              {[
-                { Icon: ShieldCheck, label: "Secure & Safe" },
-                { Icon: Leaf, label: "Eco-Friendly" },
-                { Icon: Zap, label: "Instant Rewards" },
-              ].map(({ Icon, label }) => (
-                <div key={label} className="flex items-center gap-2">
-                  <Icon className="h-4 w-4 text-[#3EBAB9]" aria-hidden="true" />
-                  <span>{label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Bottom Bar */}

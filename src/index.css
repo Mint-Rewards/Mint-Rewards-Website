@@ -354,3 +354,61 @@ div {
     cursor: pointer;
   }
 }
+
+/*
+ * Consumer mobile type and rhythm, aligned to the business pages.
+ *
+ * The business pages were built to one scale — `h1: clamp(42px,5.4vw,68px)`,
+ * section headings `clamp(32px,4vw,46px)` with -2px tracking, body at 15px,
+ * sections at 65px of vertical padding below 900px. The consumer side grew
+ * out of Tailwind defaults instead: 36px headings with no tracking, 18px
+ * body, and 80px section padding. Side by side on a phone the consumer side
+ * reads looser and larger, which is what "the business webpage is much
+ * better on mobile" was describing.
+ *
+ * Scoped with `:not(.b2b section)` so the business pages keep their own
+ * scale, and inside a max-width query so desktop is untouched. These rules
+ * are deliberately unlayered: Tailwind v4 emits utilities into
+ * `@layer utilities`, and unlayered CSS outranks any cascade layer, which is
+ * what lets them override `text-4xl` without an `!important` anywhere.
+ */
+@media (max-width: 700px) {
+  section:not(.b2b section) :is(h1, [class*="text-5xl"], [class*="text-6xl"]) {
+    font-size: clamp(34px, 9vw, 44px);
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+  }
+
+  section:not(.b2b section) :is(h2, h3)[class*="text-4xl"] {
+    font-size: clamp(28px, 7.4vw, 34px);
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+  }
+
+  section:not(.b2b section) :is(h2, h3)[class*="text-3xl"] {
+    font-size: clamp(24px, 6.4vw, 30px);
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+  }
+
+  /* Lead paragraphs. 18-20px is a desktop measure; on a 360px screen it
+     costs two extra lines and crowds everything under it. */
+  section:not(.b2b section) p[class*="text-lg"],
+  section:not(.b2b section) p[class*="text-xl"] {
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* Section rhythm: match the business pages' 65px rather than 80-128px. */
+  section:not(.b2b section)[class*="py-20"],
+  section:not(.b2b section)[class*="py-24"],
+  section:not(.b2b section)[class*="py-32"] {
+    padding-top: 65px;
+    padding-bottom: 65px;
+  }
+
+  section:not(.b2b section)[class*="py-16"] {
+    padding-top: 56px;
+    padding-bottom: 56px;
+  }
+}

@@ -19,7 +19,7 @@ const AppStoreButton = ({
     <motion.button
       whileHover={{ scale: 1.08, y: -4 }}
       whileTap={{ scale: 0.95 }}
-      className="flex items-center space-x-3 bg-white hover:bg-gray-50 text-gray-900 px-6 py-3 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 shadow-xl hover:shadow-2xl"
+      className="flex min-w-0 flex-1 sm:flex-none items-center justify-center space-x-2 sm:space-x-3 bg-white hover:bg-gray-50 text-gray-900 px-3 py-2.5 sm:px-6 sm:py-3 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 shadow-xl hover:shadow-2xl"
       onClick={() => {
         if (store === "ios") {
           window.location.href =
@@ -30,10 +30,10 @@ const AppStoreButton = ({
         }
       }}
     >
-      <div className="text-2xl">{icon}</div>
-      <div className="text-left">
-        <div className="text-xs text-gray-500">{text}</div>
-        <div className="text-sm font-semibold">{subtext}</div>
+      <div className="shrink-0 text-xl sm:text-2xl">{icon}</div>
+      <div className="min-w-0 text-left">
+        <div className="truncate text-[10px] sm:text-xs text-gray-500">{text}</div>
+        <div className="truncate text-xs sm:text-sm font-semibold">{subtext}</div>
       </div>
     </motion.button>
   );
@@ -100,13 +100,13 @@ const PhoneMockup = () => {
         <img
           src="/app-screens/app-deals.jpg"
           alt=""
-          className="absolute top-0 left-1/2 z-20 w-[72%] sm:w-[62%] -translate-x-[100%] origin-bottom -rotate-10 rounded-3xl shadow-2xl transition-transform duration-700 ease-out"
+          className="absolute top-0 left-1/2 z-20 w-[62%] sm:w-[62%] -translate-x-[75%] sm:-translate-x-[100%] origin-bottom -rotate-10 rounded-3xl shadow-2xl transition-transform duration-700 ease-out"
         />
 
         <img
           src="/app-screens/app-home.jpg"
           alt="The Mint Rewards app home screen, showing points earned, waste recycled and CO2 saved, with partner deals behind it"
-          className="absolute top-15 left-1/2 z-30 w-[72%] sm:w-[62%] -translate-x-[50%] origin-bottom rotate-10 rounded-3xl shadow-2xl transition-transform duration-700 ease-out outline outline-1 outline-white/20"
+          className="absolute top-15 left-1/2 z-30 w-[62%] sm:w-[62%] -translate-x-[25%] sm:-translate-x-[50%] origin-bottom rotate-10 rounded-3xl shadow-2xl transition-transform duration-700 ease-out outline outline-1 outline-white/20"
         />
       </div>
     </motion.div>
@@ -196,7 +196,7 @@ const Onboarding = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+              className="flex flex-row gap-3 sm:gap-4 justify-center lg:justify-start"
             >
               <AppStoreButton
                 store="ios"
