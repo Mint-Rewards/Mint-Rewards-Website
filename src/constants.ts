@@ -924,3 +924,33 @@ export const activeBrands = [
   "/brand-logos/29.png",
   "/brand-logos/30.png",
 ];
+
+
+/**
+ * Open roles.
+ *
+ * EMPTY IS THE HONEST STATE RIGHT NOW. The page is built around this list
+ * rather than around hard-coded markup, so opening a role is adding an
+ * entry here — and closing one is changing its `status`, which keeps it on
+ * the page under the Closed filter instead of deleting the evidence that
+ * it existed.
+ *
+ * Keeping closed roles visible is deliberate: a careers page with nothing
+ * on it reads as a company that is not hiring, while one that shows what
+ * it recently closed reads as a company that hires.
+ */
+export type JobStatus = "open" | "closed";
+
+export interface JobOpening {
+  id: string;
+  title: string;
+  team: string;
+  location: string;
+  /** Full-time, Part-time, Contract, Internship. */
+  type: string;
+  status: JobStatus;
+  /** Where an application goes. Falls back to the careers inbox. */
+  applyHref?: string;
+}
+
+export const careerOpenings: JobOpening[] = [];

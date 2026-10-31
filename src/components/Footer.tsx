@@ -127,27 +127,6 @@ const Footer = () => {
               />
             </div>
 
-            {/* Newsletter signup */}
-            <div className="mt-8">
-              <h4 className="text-white font-medium text-base mb-3">
-                Stay Updated
-              </h4>
-              <div className="flex flex-col sm:flex-row gap-2">
-                {/* `min-w-0` is load-bearing. A flex item defaults to
-                    `min-width: auto`, which for an input is its intrinsic
-                    size — so this refused to shrink and pushed the Subscribe
-                    button 33px past the right edge, giving the whole site a
-                    horizontal scrollbar between 640px and about 820px. */}
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="flex-1 min-w-0 px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3EBAB9] focus:border-transparent"
-                />
-                <button className="shrink-0 bg-[#1D558E] hover:bg-[#15406b] text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#3EBAB9] focus:ring-offset-2 focus:ring-offset-gray-900">
-                  Subscribe
-                </button>
-              </div>
-            </div>
           </div>
         </div>
 

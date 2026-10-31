@@ -1,10 +1,11 @@
 import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   Briefcase,
   Rocket,
   Mail,
-  Send,
+  MapPin,
+  Clock,
   ChevronRight,
   Sparkles,
 } from "lucide-react";
@@ -14,10 +15,26 @@ import {
   careersTraits,
   careersTeams,
   careersPerks,
+  careerOpenings,
+  type JobStatus,
 } from "../constants";
 
+const CAREERS_INBOX = "careers@mymintrewards.com";
+
+/**
+ * The two filters, in the order they are shown.
+ *
+ * Open is first and is the default, because it is what somebody came to the
+ * page to find. Closed exists so a role that has been filled still has a
+ * place to appear rather than vanishing — see the note on `careerOpenings`.
+ */
+const FILTERS: { value: JobStatus; label: string }[] = [
+  { value: "open", label: "Open" },
+  { value: "closed", label: "Closed" },
+];
+
 const Careers = () => {
-  const [email, setEmail] = useState("");
+  const [filter, setFilter] = useState<JobStatus>("open");
   const whyRef = useRef(null);
   const valuesRef = useRef(null);
   const teamsRef = useRef(null);
@@ -26,11 +43,18 @@ const Careers = () => {
   const valuesInView = useInView(valuesRef, { once: true, margin: "-100px" });
   const teamsInView = useInView(teamsRef, { once: true, margin: "-100px" });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Talent community signup:", email);
-    setEmail("");
-  };
+  const counts = useMemo(
+    () => ({
+      open: careerOpenings.filter((job) => job.status === "open").length,
+      closed: careerOpenings.filter((job) => job.status === "closed").length,
+    }),
+    [],
+  );
+
+  const visible = useMemo(
+    () => careerOpenings.filter((job) => job.status === filter),
+    [filter],
+  );
 
   return (
     <div className="min-h-screen bg-white">
@@ -80,9 +104,7 @@ const Careers = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6"
           >
-            Join the Movement for
-            <br />
-            <span className="text-white/90">Cleaner Cities</span>
+            Join Mint Rewards
           </motion.h1>
 
           <motion.p
@@ -91,8 +113,9 @@ const Careers = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-xl md:text-2xl text-white/90 max-w-2xl mx-auto"
           >
-            We're building more than a platform.{" "}
-            <span className="font-semibold">We're building a movement.</span>
+            Help us build the system that makes recycling{" "}
+            <span className="font-semibold">worth doing</span> — for every
+            household, every street, every city.
           </motion.p>
 
           <motion.p
@@ -101,10 +124,10 @@ const Careers = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="text-lg text-white/80 max-w-3xl mx-auto mt-6 leading-relaxed"
           >
-            At Mint Rewards, we're tackling one of the developing world's
-            biggest challenges: waste. We believe technology, sustainability,
-            and human-centered design can transform how societies manage
-            resources—and we're proving it every day.
+            We're tackling one of the developing world's hardest problems:
+            waste. We believe technology, sustainability and human-centered
+            design can change how societies handle their resources — and we're
+            proving it, one collection at a time.
           </motion.p>
         </div>
       </section>
@@ -350,7 +373,7 @@ const Careers = () => {
         </div>
       </section>
 
-      {/* Open Positions Section */}
+      {/* Open Positions */}
       <section className="py-16 md:py-24 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -363,23 +386,151 @@ const Careers = () => {
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Open Positions
             </h2>
-            <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 mt-8">
-              <div className="w-16 h-16 rounded-full bg-[#8CE4B5]/20 flex items-center justify-center mx-auto mb-4">
-                <Rocket className="w-8 h-8 text-[#3EBAB9]" />
-              </div>
-              <p className="text-gray-600 text-lg mb-6">
-                We're always looking for exceptional people. Check back soon for
-                new opportunities, or reach out if you think you can contribute.
-              </p>
-              <a
-                href="mailto:careers@mymintrewards.com"
-                className="inline-flex items-center gap-2 bg-[#1D558E] hover:bg-[#15406b] text-white px-6 py-3 rounded-full font-semibold transition-colors duration-200"
-              >
-                <Mail className="w-5 h-5" />
-                careers@mymintrewards.com
-              </a>
-            </div>
+            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+              Every role here is a chance to build something that did not exist
+              before.
+            </p>
           </motion.div>
+
+          {/* Filters. Two buttons rather than a <select>: with this few
+              options a dropdown hides the counts, which are the useful part. */}
+          <div
+            role="tablist"
+            aria-label="Filter positions by status"
+            className="mt-8 flex justify-center gap-2"
+          >
+            {FILTERS.map((option) => {
+              const active = filter === option.value;
+              return (
+                <button
+                  key={option.value}
+                  role="tab"
+                  type="button"
+                  aria-selected={active}
+                  onClick={() => setFilter(option.value)}
+                  className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3EBAB9] focus-visible:ring-offset-2 ${
+                    active
+                      ? "bg-[#1D558E] text-white"
+                      : "bg-white text-gray-600 border border-gray-200 hover:border-[#3EBAB9] hover:text-[#1D558E]"
+                  }`}
+                >
+                  {option.label}
+                  <span
+                    className={`rounded-full px-2 py-0.5 text-xs font-bold ${
+                      active ? "bg-white/20 text-white" : "bg-gray-100 text-gray-500"
+                    }`}
+                  >
+                    {counts[option.value]}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="mt-8">
+            {visible.length > 0 ? (
+              <ul className="space-y-4">
+                {visible.map((job) => {
+                  const isOpen = job.status === "open";
+                  const body = (
+                    <>
+                      <div className="min-w-0">
+                        <h3 className="text-lg font-semibold text-gray-900">
+                          {job.title}
+                        </h3>
+                        <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-gray-500">
+                          <span className="inline-flex items-center gap-1.5">
+                            <Briefcase className="w-4 h-4 shrink-0" />
+                            {job.team}
+                          </span>
+                          <span className="inline-flex items-center gap-1.5">
+                            <MapPin className="w-4 h-4 shrink-0" />
+                            {job.location}
+                          </span>
+                          <span className="inline-flex items-center gap-1.5">
+                            <Clock className="w-4 h-4 shrink-0" />
+                            {job.type}
+                          </span>
+                        </div>
+                      </div>
+                      {isOpen ? (
+                        <ChevronRight className="w-5 h-5 shrink-0 text-[#1D558E] transition-transform duration-200 group-hover:translate-x-1" />
+                      ) : (
+                        <span className="shrink-0 rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-500">
+                          Closed
+                        </span>
+                      )}
+                    </>
+                  );
+
+                  /* A closed role is not a link. Styling one to look
+                     clickable and then doing nothing is worse than it
+                     plainly reading as closed. */
+                  return (
+                    <li key={job.id}>
+                      {isOpen ? (
+                        <a
+                          href={
+                            job.applyHref ??
+                            `mailto:${CAREERS_INBOX}?subject=${encodeURIComponent(
+                              `Application: ${job.title}`,
+                            )}`
+                          }
+                          className="group flex items-center justify-between gap-4 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm transition-shadow duration-200 hover:border-[#3EBAB9] hover:shadow-md"
+                        >
+                          {body}
+                        </a>
+                      ) : (
+                        <div className="flex items-center justify-between gap-4 rounded-2xl border border-gray-100 bg-white/60 p-6">
+                          {body}
+                        </div>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            ) : (
+              <motion.div
+                key={filter}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="rounded-2xl border border-gray-100 bg-white p-8 text-center shadow-lg"
+              >
+                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#8CE4B5]/20">
+                  <Rocket className="h-8 w-8 text-[#3EBAB9]" />
+                </div>
+                {filter === "open" ? (
+                  <>
+                    <h3 className="mb-2 text-xl font-semibold text-gray-900">
+                      No open positions right now
+                    </h3>
+                    <p className="mx-auto mb-6 max-w-lg text-lg text-gray-600">
+                      We're not hiring for a specific role at the moment — but
+                      we're always glad to hear from people who want to build
+                      this with us.
+                    </p>
+                    <a
+                      href={`mailto:${CAREERS_INBOX}`}
+                      className="inline-flex max-w-full items-center justify-center gap-2 break-all rounded-full bg-[#1D558E] px-5 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-[#15406b] sm:px-6 sm:text-base"
+                    >
+                      <Mail className="h-5 w-5 shrink-0" />
+                      {CAREERS_INBOX}
+                    </a>
+                  </>
+                ) : (
+                  <>
+                    <h3 className="mb-2 text-xl font-semibold text-gray-900">
+                      No closed positions to show
+                    </h3>
+                    <p className="mx-auto max-w-lg text-lg text-gray-600">
+                      Roles we have filled will appear here.
+                    </p>
+                  </>
+                )}
+              </motion.div>
+            )}
+          </div>
         </div>
       </section>
 
@@ -410,35 +561,13 @@ const Careers = () => {
                 Rewards.
               </p>
 
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-                <h3 className="font-semibold mb-4 text-lg">
-                  Join Our Talent Community
-                </h3>
-                <p className="text-white/80 text-sm mb-4">
-                  Not hiring for your role yet? Join our talent community to
-                  hear about new opportunities first.
-                </p>
-                <form
-                  onSubmit={handleSubmit}
-                  className="flex flex-col sm:flex-row gap-3"
-                >
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email"
-                    className="flex-1 px-4 py-3 rounded-xl bg-white/20 border border-white/30 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50"
-                    required
-                  />
-                  <button
-                    type="submit"
-                    className="bg-white text-[#1D558E] px-6 py-3 rounded-xl font-semibold hover:bg-gray-100 transition-colors duration-200 flex items-center justify-center gap-2"
-                  >
-                    <Send className="w-4 h-4" />
-                    Subscribe
-                  </button>
-                </form>
-              </div>
+              <a
+                href={`mailto:${CAREERS_INBOX}`}
+                className="inline-flex max-w-full items-center justify-center gap-2 break-all rounded-full bg-white px-5 py-3 text-sm font-semibold text-[#1D558E] transition-colors duration-200 hover:bg-gray-100 sm:px-6 sm:text-base"
+              >
+                <Mail className="h-5 w-5 shrink-0" />
+                {CAREERS_INBOX}
+              </a>
             </div>
           </motion.div>
         </div>
