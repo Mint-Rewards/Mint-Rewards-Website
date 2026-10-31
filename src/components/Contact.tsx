@@ -16,7 +16,7 @@ import {
 } from "../constants";
 import Footer from "./Footer";
 import { openAppStore } from "../utils/appStore";
-import { API_BASE } from "../utils/appStore";
+import { API_BASE } from "../utils/apiBase";
 
 const Contact = () => {
   const [formData, setFormData] = useState({

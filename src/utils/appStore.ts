@@ -51,17 +51,3 @@ export function storeUrlForDevice(
 export function openAppStore(): void {
   window.open(storeUrlForDevice(), "_blank", "noopener,noreferrer");
 }
-
-
-/**
- * Where the backend lives, shared by both public forms.
- *
- * The website is a static build and the API a separate deployment, so every
- * submission is a cross-origin POST and the backend's ALLOWED_ORIGINS has
- * to name this site. Falls back to localhost for `npm run dev`, which that
- * list already permits — and which is why an unset value in production
- * sends a visitor's browser to its own machine rather than to us.
- */
-export const API_BASE = (
-  import.meta.env.VITE_API_BASE_URL || "http://localhost:3000"
-).replace(/\/$/, "");
