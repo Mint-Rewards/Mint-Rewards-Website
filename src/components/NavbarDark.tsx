@@ -218,15 +218,26 @@ const NavbarDark = () => {
           <div className="flex items-center justify-end gap-4">
             {/* Desktop Nav */}
             {/*
-              `xl`, not `lg`. At 1024 the tabs and the CTA together need
-              more than their third of the row, so the right-hand column
-              grew past its `1fr` share and shoved the switch 99px off
-              centre — a grid column will not shrink below its content.
-              Collapsing the tabs one breakpoint earlier keeps the switch
-              on the centre of the screen, which is the thing that has to
-              hold; the tabs are still one tap away in the menu.
+              1320px, which is not a Tailwind breakpoint, because the real
+              threshold is not a round number — it is the width at which
+              this row's contents stop fitting around a centred switch.
+              Measured at 1920: logo 128, switch 190, tabs 365, CTA 136.
+              The switch is absolutely centred, so the right-hand group has
+              only `W/2 - 95 - 24` to live in, and tabs + gap + CTA need
+              517. That resolves to W >= ~1320.
+
+              `2xl` (1536) was too cautious and cost every 13" laptop its
+              navigation — a MacBook Air is 1470 logical and was getting the
+              hamburger at 100% zoom. `xl` (1280) is about 20px too small,
+              and the failure is not graceful: the right-hand group grows
+              past its share and shoves the switch off centre, because a
+              grid column will not shrink below its content.
+
+              Below this the tabs are one tap away in the menu, and the
+              switch stays on the centre of the screen, which is the thing
+              that has to hold.
             */}
-            <nav className="hidden 2xl:flex items-center gap-6">
+            <nav className="hidden min-[1320px]:flex items-center gap-6">
               {menuItems.map((item) => (
                 <div key={item.key}>
                   {item.type === "link" ? (
@@ -267,7 +278,7 @@ const NavbarDark = () => {
               lines and overlapping the mark. The same action lives at the
               bottom of the mobile sheet instead.
             */}
-            <div className="hidden 2xl:flex">
+            <div className="hidden min-[1320px]:flex">
               <a
                 /*
                  * #enquiry, not /business/contact. That route was never
@@ -297,7 +308,7 @@ const NavbarDark = () => {
             </div>
             {/* Mobile Menu Button */}
             <button
-              className="2xl:hidden text-black"
+              className="min-[1320px]:hidden text-black"
               onClick={() => setOpen(!open)}
               aria-label="Toggle navigation menu"
               aria-expanded={open}
@@ -313,7 +324,7 @@ const NavbarDark = () => {
       {/* Mobile Menu */}
       {open && (
         <div
-          className="2xl:hidden border-t border-black/10 bg-white/95 backdrop-blur"
+          className="min-[1320px]:hidden border-t border-black/10 bg-white/95 backdrop-blur"
           id="mobile-nav"
         >
           <div className="flex flex-col gap-4 px-6 py-6 text-black/80">
