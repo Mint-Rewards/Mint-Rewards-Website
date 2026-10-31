@@ -93,8 +93,24 @@ export default function Hero() {
           <GlowingOrb />
 
           <div className="relative w-[200px] aspect-[9/16] [perspective:1000px] [transform-style:preserve-3d] -translate-x-24 max-[480px]:w-[150px] max-[480px]:-translate-x-0 max-[480px]:scale-90 max-[480px]:mx-auto">
+            {/*
+              REAL SCREENS, FROM THE PRODUCT. These three were pulled out of
+              the launch recording frame by frame, so what the hero shows is
+              the app as it actually renders — the earlier images were
+              mock-ups that had drifted from it.
+
+              Back to front they read as the loop the product is for: a
+              redeemed coupon, the deals you can spend on, and the home
+              screen with the points you earned. The front one carries the
+              alt text for all three, because a screen reader announcing
+              three overlapping images describes a pile, not a phone; the
+              two behind it are decorative and partly hidden.
+
+              Not lazy-loaded: this is the hero, above the fold on arrival.
+            */}
             <img
-              src="/Coupon Detail 15.png"
+              src="/app-screens/app-coupon.jpg"
+              alt=""
               style={{
                 transform: getTransform(imageTransforms.img3, 15),
               }}
@@ -102,7 +118,8 @@ export default function Hero() {
             />
 
             <img
-              src="/img_2.jpg"
+              src="/app-screens/app-deals.jpg"
+              alt=""
               style={{
                 transform: getTransform(imageTransforms.img2, 30),
               }}
@@ -110,7 +127,8 @@ export default function Hero() {
             />
 
             <img
-              src="/img_1.jpg"
+              src="/app-screens/app-home.jpg"
+              alt="The Mint Rewards app: a home screen showing points earned, recycled waste and CO2 saved, with deals from partner brands behind it"
               style={{
                 transform: getTransform(imageTransforms.img1, 45),
               }}

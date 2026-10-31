@@ -108,12 +108,30 @@ const CATEGORIES = [
   "Lifestyle & services",
 ];
 
-/** Every value says what it is not. See the note at the top of this file. */
+/*
+ * SAMPLE FIGURES. INVENTED. NOT TO BE QUOTED ANYWHERE.
+ *
+ * These four read "Illustrative", "Sample view", "Not live data" and "No
+ * metric supplied" where their numbers go. That did not read as restraint,
+ * it read as a broken component — and a workspace mock that shows no
+ * numbers stops demonstrating the one thing it is on the page to
+ * demonstrate, which is what a brand team would actually look at.
+ *
+ * They hold figures now and the labelling moves to the frame: the eyebrow
+ * says illustrative, a tag sits directly above the tiles, and the body
+ * copy repeats it in full. Same trade as the RecovLoop dashboard.
+ *
+ * THE NUMBERS INTERLOCK, which is the part worth preserving if anyone
+ * edits them: four of the six campaigns are live, and 2,310 redemptions
+ * against 18,400 reached is about one in eight. Sample numbers that do not
+ * add up read as carelessness rather than as a placeholder, and a brand
+ * team is exactly the audience that checks.
+ */
 const WORKSPACE: [string, string][] = [
-  ["Offer status", "Illustrative"],
-  ["Campaign activity", "Sample view"],
-  ["Redemptions", "Not live data"],
-  ["Audience reach", "No metric supplied"],
+  ["Offers live", "4 of 6"],
+  ["Campaigns this quarter", "6"],
+  ["Redemptions", "2,310"],
+  ["Audience reached", "18,400"],
 ];
 
 export default function Rewards() {
@@ -301,13 +319,18 @@ export default function Rewards() {
                   performance report.
                 </p>
               </div>
-              <div className="dashboard-sample">
-                {WORKSPACE.map(([label, value]) => (
-                  <div className="metric-light" key={label}>
-                    <span>{label}</span>
-                    <strong>{value}</strong>
-                  </div>
-                ))}
+              <div>
+                {/* Directly above the numbers, because that is where
+                    somebody reading them is looking. */}
+                <div className="sample-tag">Sample data &middot; not a report</div>
+                <div className="dashboard-sample">
+                  {WORKSPACE.map(([label, value]) => (
+                    <div className="metric-light" key={label}>
+                      <span>{label}</span>
+                      <strong>{value}</strong>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

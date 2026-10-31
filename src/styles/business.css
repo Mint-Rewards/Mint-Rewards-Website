@@ -1124,3 +1124,28 @@
   color: #68766e;
   font-size: 11px;
 }
+
+/*
+ * The marker above a panel of sample numbers.
+ *
+ * `.sample-label` already does this job on the RecovLoop dashboard, but it
+ * is drawn for that panel's light ground — grey on #e7efeb — and would be a
+ * pale chip floating on the dark green workspace. Same role, the colours
+ * the surface needs.
+ *
+ * It sits above the tiles rather than beside the heading on purpose: once
+ * the tiles hold real-looking figures, the caveat has to be where the eye
+ * reading the figures already is.
+ */
+.b2b .sample-tag {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 5px 8px;
+  border-radius: 5px;
+  background: #ffffff14;
+  border: 1px solid #ffffff20;
+  color: #bfdbcf;
+  font: 9px var(--app-font-mono);
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
