@@ -2,7 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Smartphone, Download, Star } from "lucide-react";
+import { Smartphone, Download } from "lucide-react";
 
 const AppStoreButton = ({
   store,
@@ -213,26 +213,6 @@ const Onboarding = () => {
             </motion.div>
 
             {/* Social Proof */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-              className="flex items-center justify-center lg:justify-start space-x-4 text-sm text-white/90"
-            >
-              <div className="flex items-center space-x-1">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    size={16}
-                    className="fill-yellow-400 text-yellow-400"
-                  />
-                ))}
-              </div>
-              <span>5/5 rating</span>
-              {/* <span>•</span> */}
-              {/* <span>50,000+ downloads</span> */}
-            </motion.div>
-
           </motion.div>
 
           {/* Right Phone Mockup */}

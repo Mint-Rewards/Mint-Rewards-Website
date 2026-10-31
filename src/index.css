@@ -330,3 +330,27 @@ div {
   --color-sage: #a7d6c0;
   --color-mint-light: #eaf6f0;
 }
+
+/*
+ * Buttons get the hand cursor back.
+ *
+ * Tailwind 4's Preflight stopped setting `cursor: pointer` on buttons — it
+ * now follows the browser default, which is an arrow. Every button on the
+ * site lost the one affordance that says it can be clicked, which is why it
+ * showed up everywhere at once rather than on one component.
+ *
+ * Fixed in base rather than by adding `cursor-pointer` to each button: there
+ * are dozens, they are written by several hands, and the next one added
+ * would be wrong again.
+ *
+ * `:not(:disabled)` because a disabled control should keep the arrow — the
+ * cursor is the first hint that it will not respond.
+ */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled),
+  label[for],
+  summary {
+    cursor: pointer;
+  }
+}

@@ -1,9 +1,10 @@
 "use client";
 
 import { motion, useInView, useSpring, useTransform } from "framer-motion";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { impactStats } from "../constants";
 import { Globe, Handshake, ShieldCheck } from "lucide-react";
+import JoinModal from "./JoinModal";
 
 // Custom hook for animated counter
 const useAnimatedCounter = (
@@ -167,6 +168,7 @@ const StatCard = ({
 };
 
 const Impact = () => {
+  const [joinOpen, setJoinOpen] = useState(false);
   const sectionRef = useRef(null);
   const statsRef = useRef(null);
 
@@ -181,6 +183,7 @@ const Impact = () => {
   });
 
   return (
+    <>
     <section
       ref={sectionRef}
       className="relative bg-white py-20 md:py-32 overflow-hidden"
@@ -342,7 +345,10 @@ const Impact = () => {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="flex flex-wrap gap-4"
             >
-              <button className="group bg-[#1D558E] hover:bg-[#15406b] text-white px-8 py-4 rounded-2xl font-semibold text-base transition-all duration-300 shadow-lg shadow-[#1D558E]/25 hover:shadow-xl hover:shadow-[#1D558E]/30 hover:-translate-y-0.5">
+              <button
+                type="button"
+                onClick={() => setJoinOpen(true)}
+                className="group bg-[#1D558E] hover:bg-[#15406b] text-white px-8 py-4 rounded-2xl font-semibold text-base transition-all duration-300 shadow-lg shadow-[#1D558E]/25 hover:shadow-xl hover:shadow-[#1D558E]/30 hover:-translate-y-0.5">
                 Join the Movement
                 <motion.span
                   className="inline-block ml-2"
@@ -351,9 +357,6 @@ const Impact = () => {
                 >
                   →
                 </motion.span>
-              </button>
-              <button className="px-8 py-4 rounded-2xl font-semibold text-base text-[#1D558E] border-2 border-gray-200 hover:border-[#3EBAB9] hover:bg-[#8CE4B5]/10 transition-all duration-300">
-                Learn More
               </button>
             </motion.div>
           </motion.div>
@@ -426,6 +429,8 @@ const Impact = () => {
         </motion.div>
       </div>
     </section>
+      <JoinModal open={joinOpen} onClose={() => setJoinOpen(false)} />
+    </>
   );
 };
 
