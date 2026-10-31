@@ -65,24 +65,37 @@ export default function FeatureScrollSection() {
       </div>
       <div className="mx-auto mt-10 max-w-7xl px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 md:gap-4">
+          {/*
+            REAL SCREENS FOR STEPS TWO AND THREE, pulled frame by frame out
+            of the launch recording, so these are the app as it renders.
+
+            STEP ONE IS STILL A MOCK-UP, and deliberately so rather than by
+            oversight. The sign-up screen's social buttons cannot be
+            captured the way these were: Apple sign-in is iOS-only — the
+            shared AppleSignInButton returns null everywhere else — and
+            Google's sits behind a PostHog flag, so a web render shows
+            neither. A real screenshot of that screen has to come off an
+            iOS device. Swapping it blind would put a screen on the page
+            that no user ever sees.
+          */}
           {/* Mobile */}
           <div className="relative flex justify-center md:hidden pt-24 pb-16">
             <div className="relative w-[280px] h-[340px]">
               <img
                 src="/Sign up Screen.png"
-                alt="Card 1"
+                alt=""
                 className="absolute left-1/2 top-1/2 z-30 -translate-x-[20px] -translate-y-[120px] h-[300px] opacity-90 rounded-2xl shadow-lg object-cover z-0"
               />
 
               <img
-                src="/Location 2.png"
-                alt="Card 2"
+                src="/app-screens/app-home.jpg"
+                alt=""
                 className="absolute left-1/2 top-1/2 z-30 -translate-x-[120px] -translate-y-[80px] h-[320px] -rotate-25 rounded-2xl shadow-xl object-cover z-10"
               />
 
               <img
-                src="/img_3_backup.jpg"
-                alt="Card 3"
+                src="/app-screens/app-coupon.jpg"
+                alt=""
                 className="absolute left-1/2 top-1/2 z-30 -translate-x-1/2 h-[340px] -rotate-5 rounded-2xl shadow-2xl object-cover z-20"
               />
               <div className="absolute left-1/2 top-1/2 -translate-x-1/2 h-[340px] -rotate-5 rounded-2xl shadow-2xl object-cover z-20">
@@ -99,18 +112,18 @@ export default function FeatureScrollSection() {
               >
                 <img
                   src="/Sign up Screen.png"
-                  alt="Base Phone"
+                  alt="Three screens from the Mint Rewards app: signing up, booking a collection, and redeeming a reward"
                   className="relative z-1 rounded-2xl w-full drop-shadow-lg"
                 />
 
                 <motion.img
                   style={{ y: tasksY, opacity: tasksOpacity }}
-                  src="/Location 2.png"
+                  src="/app-screens/app-home.jpg"
                   className="absolute inset-0 z-2 rounded-2xl w-full shadow-lg"
                 />
                 <motion.img
                   style={{ y: goalsY, opacity: goalsOpacity }}
-                  src="/img_3_backup.jpg"
+                  src="/app-screens/app-coupon.jpg"
                   className="absolute inset-0 z-3 rounded-2xl w-full shadow-lg"
                 />
               </motion.div>

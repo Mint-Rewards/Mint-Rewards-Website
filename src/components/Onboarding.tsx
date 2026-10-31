@@ -100,14 +100,14 @@ const PhoneMockup = () => {
     >
       <div className="relative w-[260px] sm:w-[320px] h-full">
         <img
-          src="/Onboardings 5.png"
-          alt="Mint Rewards onboarding preview"
+          src="/app-screens/app-deals.jpg"
+          alt=""
           className="absolute top-0 left-1/2 z-20 w-[72%] sm:w-[62%] -translate-x-[100%] origin-bottom -rotate-10 rounded-3xl shadow-2xl transition-transform duration-700 ease-out"
         />
 
         <img
-          src="/Homescreen 8.png"
-          alt="Mint Rewards signup screen"
+          src="/app-screens/app-home.jpg"
+          alt="The Mint Rewards app home screen, showing points earned, waste recycled and CO2 saved, with partner deals behind it"
           className="absolute top-15 left-1/2 z-30 w-[72%] sm:w-[62%] -translate-x-[50%] origin-bottom rotate-10 rounded-3xl shadow-2xl transition-transform duration-700 ease-out outline outline-1 outline-white/20"
         />
       </div>
