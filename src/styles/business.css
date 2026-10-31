@@ -1200,3 +1200,37 @@
     padding: 12px;
   }
 }
+
+/*
+ * The CTA band's button, which went bulky on tablets.
+ *
+ * `.cta-band` is a flex row down to 700px, so between there and the desktop
+ * layout the button is a shrinkable flex item competing with a 36px heading
+ * for the same line. It lost: labels like "Request a Waste Assessment" broke
+ * across two lines inside a pill sized for one, which is what reads as a
+ * fat, lopsided block on an iPad.
+ *
+ * `flex-shrink: 0` stops the heading squeezing it, and `white-space: nowrap`
+ * means the pill is always exactly as wide as its own label. Scoped to the
+ * band so the header's own CTA, which shares this class, is untouched.
+ */
+.b2b .cta-band .btn-primary {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/*
+ * Tablets specifically: 54px of padding on every side is a desktop measure.
+ * At 768px it leaves the two children fighting over what is left, which is
+ * the other half of why the button was being squeezed.
+ */
+@media (max-width: 900px) {
+  .b2b .cta-band {
+    padding: 34px 30px;
+    gap: 20px;
+  }
+
+  .b2b .cta-copy h2 {
+    font-size: 28px;
+  }
+}
