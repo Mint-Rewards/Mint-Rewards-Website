@@ -1300,3 +1300,59 @@
   .b2b .services-grid.four { grid-template-columns:1fr; }
   .b2b .proof-stats { grid-template-columns:1fr; gap:22px; }
 }
+
+/* ---------------------------------------------------------------------------
+ * Impact solutions: the wireframe's proportions.
+ *
+ * ALL SCOPED UNDER `.impact`. Every grid touched here — hero-grid, split,
+ * cards, technology-band, faq-list, chip — is shared with RecovLoop and
+ * Rewards, which were drawn to different proportions and are not being
+ * changed. The collapses are restated because these selectors outrank the
+ * global 700px rules that would otherwise stack them.
+ *
+ * Type and colour stay this site's. What changes is proportion: the
+ * wireframe gives its copy column more room than its visual, and ours had
+ * them even, which is why the hero and the pillar details read cramped.
+ * ------------------------------------------------------------------------ */
+.b2b .impact .hero-grid { grid-template-columns:1.15fr .85fr; gap:54px; }
+.b2b .impact .split { grid-template-columns:.9fr 1.1fr; gap:48px; }
+.b2b .impact .technology-band { grid-template-columns:1.2fr .8fr; gap:44px; padding:52px; }
+.b2b .impact .services-grid.four { gap:20px; }
+.b2b .impact .cards { gap:22px; }
+.b2b .impact .chip { font-size:13px; padding:10px 18px; }
+
+/* The FAQ ran the full 1200px with 13px summaries, which reads as a
+   settings list rather than a question. 820px is the wireframe's measure. */
+.b2b .impact .faq-list { max-width:820px; }
+.b2b .impact .faq-list details { padding:19px 21px; }
+.b2b .impact .faq-list summary { font-size:16px; }
+.b2b .impact .faq-list details p { font-size:13.5px; }
+
+/* Proof band: intro, a rule, then the figures on one row — the wireframe
+   runs them across, and stacking them lost the comparison between them. */
+.b2b .impact .section-dark { padding:56px 0; }
+.b2b .impact .proof-row { display:grid; grid-template-columns:minmax(190px,230px) 1px repeat(3,1fr); gap:34px; align-items:center; }
+.b2b .impact .proof-row .vr { width:1px; height:70px; background:#ffffff24; }
+.b2b .impact .proof-intro .eyebrow { margin-bottom:11px; }
+.b2b .impact .proof-intro p { color:#a8cfc2; font-size:14px; line-height:1.6; margin:0; }
+
+/* Closing: a centred moment, as drawn, not the left/right band the other
+   business pages end on. */
+.b2b .impact .closing-band { padding:72px 40px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:18px; }
+.b2b .impact .closing-band .eyebrow { justify-content:center; margin-bottom:0; }
+.b2b .impact .closing-band h2 { max-width:18ch; margin:0; }
+.b2b .impact .closing-band p { max-width:52ch; margin:0; }
+
+@media (max-width: 1040px) {
+  .b2b .impact .proof-row { grid-template-columns:1fr 1fr; gap:26px; }
+  .b2b .impact .proof-row .vr { display:none; }
+  .b2b .impact .proof-intro { grid-column:1 / -1; }
+}
+@media (max-width: 700px) {
+  .b2b .impact .hero-grid,
+  .b2b .impact .split,
+  .b2b .impact .technology-band { grid-template-columns:1fr; }
+  .b2b .impact .technology-band { padding:30px; }
+  .b2b .impact .proof-row { grid-template-columns:1fr; gap:22px; }
+  .b2b .impact .closing-band { padding:48px 24px; }
+}

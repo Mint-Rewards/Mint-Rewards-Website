@@ -307,19 +307,18 @@ export default function Impact() {
         </section>
 
         <section className="section section-dark">
-          <div className="container">
-            <div className="section-head">
+          <div className="container proof-row">
+            <div className="proof-intro">
               <Eyebrow>Proof, not promises</Eyebrow>
               <p>The claims we help you make are backed by verifiable data.</p>
             </div>
-            <div className="proof-stats">
-              {PROOF.map(([n, l]) => (
-                <div className="proof-stat" key={l}>
-                  <strong>{n}</strong>
-                  <span>{l}</span>
-                </div>
-              ))}
-            </div>
+            <div className="vr" />
+            {PROOF.map(([n, l]) => (
+              <div className="proof-stat" key={l}>
+                <strong>{n}</strong>
+                <span>{l}</span>
+              </div>
+            ))}
           </div>
         </section>
 
@@ -554,16 +553,14 @@ export default function Impact() {
 
         <section className="section">
           <div className="container">
-            <div className="cta-band">
-              <div className="cta-copy">
-                <Eyebrow>Get started</Eyebrow>
-                <h2>Ready to make your impact provable?</h2>
-                <p>
-                  Technology for Good only matters if it can be trusted. Let us
-                  show you what verified sustainability looks like for your
-                  organisation.
-                </p>
-              </div>
+            <div className="cta-band closing-band">
+              <Eyebrow>Get started</Eyebrow>
+              <h2>Ready to make your impact provable?</h2>
+              <p>
+                Technology for Good only matters if it can be trusted. Let us
+                show you what verified sustainability looks like for your
+                organisation.
+              </p>
               <a className="btn-primary" href="#enquiry">
                 Book a consultation <ArrowRight size={15} />
               </a>
