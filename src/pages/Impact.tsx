@@ -165,6 +165,16 @@ const SECTORS = [
   "Financial Services",
 ];
 
+/*
+ * Off until the articles exist.
+ *
+ * A flag rather than commented-out markup: the section stays
+ * type-checked, linted and formatted while it is dark, so turning it
+ * back on is one word rather than a merge of rotted JSX. The three
+ * entries are the wireframe's, kept verbatim.
+ */
+const SHOW_INSIGHTS = false;
+
 const INSIGHTS: [string, string, string][] = [
   [
     "Circularity",
@@ -292,7 +302,6 @@ export default function Impact() {
                 </article>
               ))}
               <article className="service-tile">
-                <div className="card-label">The engine</div>
                 <div className="card-icon">
                   <Boxes size={20} />
                 </div>
@@ -516,23 +525,25 @@ export default function Impact() {
           </div>
         </section>
 
-        <section className="section">
-          <div className="container">
-            <div className="section-head">
-              <Eyebrow>Insights</Eyebrow>
-              <h2>Thinking from our team.</h2>
+        {SHOW_INSIGHTS ? (
+          <section className="section">
+            <div className="container">
+              <div className="section-head">
+                <Eyebrow>Insights</Eyebrow>
+                <h2>Thinking from our team.</h2>
+              </div>
+              <div className="cards">
+                {INSIGHTS.map(([tag, title, copy]) => (
+                  <article className="solution-card" key={title}>
+                    <div className="card-label">{tag}</div>
+                    <h3>{title}</h3>
+                    <p>{copy}</p>
+                  </article>
+                ))}
+              </div>
             </div>
-            <div className="cards">
-              {INSIGHTS.map(([tag, title, copy]) => (
-                <article className="solution-card" key={title}>
-                  <div className="card-label">{tag}</div>
-                  <h3>{title}</h3>
-                  <p>{copy}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
+          </section>
+        ) : null}
 
         <section className="section section-soft">
           <div className="container">
@@ -553,14 +564,23 @@ export default function Impact() {
 
         <section className="section">
           <div className="container">
+            {/*
+              `.cta-copy` is load-bearing, not a wrapper for tidiness. The
+              only rule that sizes this heading is
+              `.section-head h2, .cta-copy h2`, so flattening it away left
+              the h2 at the browser's default — the same defect the engine
+              band had. The centring is done on the band and on this.
+            */}
             <div className="cta-band closing-band">
-              <Eyebrow>Get started</Eyebrow>
-              <h2>Ready to make your impact provable?</h2>
-              <p>
-                Technology for Good only matters if it can be trusted. Let us
-                show you what verified sustainability looks like for your
-                organisation.
-              </p>
+              <div className="cta-copy">
+                <Eyebrow>Get started</Eyebrow>
+                <h2>Ready to make your impact provable?</h2>
+                <p>
+                  Technology for Good only matters if it can be trusted. Let us
+                  show you what verified sustainability looks like for your
+                  organisation.
+                </p>
+              </div>
               <a className="btn-primary" href="#enquiry">
                 Book a consultation <ArrowRight size={15} />
               </a>

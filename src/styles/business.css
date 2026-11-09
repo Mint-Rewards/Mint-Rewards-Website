@@ -1338,10 +1338,11 @@
 
 /* Closing: a centred moment, as drawn, not the left/right band the other
    business pages end on. */
-.b2b .impact .closing-band { padding:72px 40px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:18px; }
+.b2b .impact .closing-band { padding:72px 40px; flex-direction:column; align-items:center; text-align:center; gap:26px; }
+.b2b .impact .closing-band .cta-copy { display:flex; flex-direction:column; align-items:center; gap:14px; }
 .b2b .impact .closing-band .eyebrow { justify-content:center; margin-bottom:0; }
 .b2b .impact .closing-band h2 { max-width:18ch; margin:0; }
-.b2b .impact .closing-band p { max-width:52ch; margin:0; }
+.b2b .impact .closing-band p { max-width:52ch; margin:0; font-size:15px; line-height:1.75; color:#4a5a63; }
 
 @media (max-width: 1040px) {
   .b2b .impact .proof-row { grid-template-columns:1fr 1fr; gap:26px; }
@@ -1356,3 +1357,26 @@
   .b2b .impact .proof-row { grid-template-columns:1fr; gap:22px; }
   .b2b .impact .closing-band { padding:48px 24px; }
 }
+
+/* ---------------------------------------------------------------------------
+ * `.technology-band`: give the heading inside it a size.
+ *
+ * NOT SCOPED, because this is a defect rather than a preference. The band
+ * styles its own background, padding and nodes but never styled the h2 or
+ * the p inside it, so the heading fell back to the browser's default bold
+ * 1.5em and sat flush against the paragraph with no space between them.
+ * The Business page has carried the same bug for as long as it has used
+ * the band; fixing it there is the point of doing this globally.
+ *
+ * The eyebrow is the other casualty: it resolves to `--b2b-accent`, which
+ * is blue, on a #0b3d2e panel.
+ * ------------------------------------------------------------------------ */
+.b2b .technology-band .eyebrow { color:#7fd4b4; }
+.b2b .technology-band h2 { font:700 clamp(26px,3vw,34px)/1.15 var(--app-font-serif); letter-spacing:-1.4px; margin:0 0 14px; color:#fff; }
+.b2b .technology-band p { color:#b5d4c7; font-size:14px; line-height:1.75; margin:0; }
+.b2b .technology-band small { display:block; margin-top:14px; color:#8fb7ac; font-size:11px; line-height:1.6; }
+
+/* Three engine features read as a list, not a 2+1 grid with a hole in it.
+   Scoped: the Business page puts four nodes in there, which pair up. */
+.b2b .impact .tech-nodes { grid-template-columns:1fr; gap:12px; }
+.b2b .impact .tech-node { display:flex; align-items:center; gap:11px; font-size:13px; }
