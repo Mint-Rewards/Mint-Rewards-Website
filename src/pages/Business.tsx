@@ -13,7 +13,7 @@ import {
 import { BUSINESS_ROOT } from "../siteMode";
 import EnquiryForm from "../components/business/EnquiryForm";
 import Eyebrow from "../components/business/Eyebrow";
-import PageMeta from "../components/business/PageMeta";
+import PageMeta from "../components/PageMeta";
 import "../styles/business.css";
 
 /**

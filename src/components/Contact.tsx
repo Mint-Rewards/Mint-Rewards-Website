@@ -17,6 +17,7 @@ import {
 import Footer from "./Footer";
 import { openAppStore } from "../utils/appStore";
 import { API_BASE } from "../utils/apiBase";
+import PageMeta from "./PageMeta";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -98,6 +99,16 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      {/*
+        /contact renders this component, not a file under pages/ — which
+        is why the sweep that gave every page its metadata missed it, and
+        why the prerender check caught it: its title never moved off the
+        document default.
+      */}
+      <PageMeta
+        title="Contact Mint Rewards"
+        description="Get in touch with Mint Rewards about collections, rewards, partnerships or support. We respond within 24 hours."
+      />
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 overflow-hidden">
         {/* Gradient Background */}

@@ -1,5 +1,53 @@
 # Deploying the website
 
+## The build prerenders every page, and needs a browser to do it
+
+`npm run build` now runs three steps, not one:
+
+```
+make-sitemap.mjs   -> public/sitemap.xml, and FAILS if App.tsx and the
+                      route table in scripts/routes.mjs disagree
+vite build         -> dist/
+prerender.mjs      -> dist/<route>/index.html for all 18 routes
+```
+
+**Why.** This is a client-rendered SPA behind a catch-all rewrite, so
+every URL served the same shell and the per-page title, description,
+canonical and schema only existed after React ran. Google executes
+JavaScript; LinkedIn, WhatsApp, Slack and Facebook do not. Every link
+shared out of this site showed the home page's card whatever page it
+pointed at.
+
+**What it needs.** `puppeteer`, a devDependency, which downloads its own
+Chrome on `npm install`. That is deliberate: GitHub runners have Chrome
+but **Vercel's build container does not**, and the deployed artifact is
+the one that matters. Relying on a system browser would have prerendered
+locally and shipped a shell.
+
+**It fails the build rather than skipping.** A missing or unlaunchable
+browser exits non-zero. A silent skip would produce a shell-only deploy
+that looks correct in local preview, which is the exact failure this
+step exists to prevent. To skip on purpose:
+
+```sh
+PRERENDER=0 npm run build
+```
+
+**How the files get served.** Vercel checks the filesystem before
+applying `rewrites`, so `/business/impact` finds
+`dist/business/impact/index.html` and the catch-all in `vercel.json`
+never runs for it. The rewrite stays for anything not prerendered.
+**Confirm this on a preview deploy** rather than trusting it: fetch a
+nested URL and check the `<title>` in the raw response, not in devtools.
+
+```sh
+curl -s https://<preview>/business/impact | grep -o '<title>[^<]*</title>'
+```
+
+Adding a route means adding it to `scripts/routes.mjs`; the sitemap
+guard will fail the build until you do.
+
+
 ## The forms need three settings, in two places
 
 Both public forms — the contact page and the business enquiry — post to the

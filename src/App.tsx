@@ -18,6 +18,9 @@ import NotFound from "./pages/NotFound";
 import WasteManagement from "./pages/WasteManagement";
 import Rewards from "./pages/Rewards";
 import Impact from "./pages/Impact";
+import Tracifai from "./pages/Tracifai";
+import Sectors from "./pages/Sectors";
+import Regulations from "./pages/Regulations";
 import Contact from "./components/Contact";
 
 const AppContent = () => {
@@ -43,6 +46,17 @@ const AppContent = () => {
         <Route path="/business/waste-management" element={<WasteManagement />} />
         <Route path="/business/rewards" element={<Rewards />} />
         <Route path="/business/impact" element={<Impact />} />
+        {/*
+          Nested under /business/impact, and deliberately NOT in the top
+          nav. The business menu is measured: NavbarDark notes its four
+          tabs at 440px clearing the centred switch at about 1500, and
+          three more would push that past 700 and collapse the nav on
+          laptops again. The impact page is the hub these are reached
+          from, which is the role the wireframe gives it anyway.
+        */}
+        <Route path="/business/impact/tracifai" element={<Tracifai />} />
+        <Route path="/business/impact/sectors" element={<Sectors />} />
+        <Route path="/business/impact/regulations" element={<Regulations />} />
         <Route path="/how-it-works" element={<HowItWorks />} />
         <Route path="/co2-calculator" element={<CO2Calculator />} />
         <Route path="/privacy" element={<Privacy />} />

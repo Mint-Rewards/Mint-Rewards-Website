@@ -9,6 +9,8 @@ import {
   Globe,
 } from "lucide-react";
 import { contactDetails } from "../constants";
+import PageMeta from "../components/PageMeta";
+import JsonLd from "../components/JsonLd";
 
 interface FAQ {
   question: string;
@@ -19,6 +21,34 @@ interface FAQCategory {
   id: string;
   title: string;
   faqs: FAQ[];
+}
+
+/**
+ * The page's questions, as FAQPage structured data.
+ *
+ * DERIVED FROM THE SAME ARRAY THE PAGE RENDERS, not written alongside it.
+ * A hand-kept copy is the kind that still answers last year's question
+ * after somebody edits the visible one, and Google treats a mismatch
+ * between markup and schema as a reason to drop the rich result.
+ *
+ * `answer` is a string or an array of lines; the array form joins with a
+ * space, because the schema wants prose rather than a layout.
+ */
+function faqSchema(categories: FAQCategory[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: categories.flatMap((category) =>
+      category.faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: Array.isArray(faq.answer) ? faq.answer.join(" ") : faq.answer,
+        },
+      })),
+    ),
+  };
 }
 
 const faqCategories: FAQCategory[] = [
@@ -231,6 +261,11 @@ const FAQs = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <PageMeta
+        title="Frequently Asked Questions | Mint Rewards"
+        description="How collections are booked, which materials are accepted, how points are earned and spent, and where Mint Rewards operates."
+      />
+      <JsonLd id="faq" data={faqSchema(faqCategories)} />
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-[#1D558E] via-[#3EBAB9] to-[#8CE4B5] py-20 md:py-32 overflow-hidden">
         {/* Decorative elements */}

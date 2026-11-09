@@ -36,9 +36,35 @@ const MENU_BY_MODE = {
   ],
 } as const;
 
+/*
+ * Where the tabs collapse into the hamburger, per mode.
+ *
+ * THE TWO MENUS NEED DIFFERENT WIDTHS, because their labels differ. The
+ * switch is absolutely centred, so each side gets `W/2 - 95 - 24` and the
+ * right-hand group has to fit in it. Measured at 1920:
+ *
+ *   consumer  tabs 365 + gap + CTA 136 = 517  -> clears at 1320
+ *   business  tabs 440 + gap + CTA 163 = 619  -> clears at about 1500
+ *
+ * One shared breakpoint cannot serve both. 1320 applied to business
+ * overlapped the switch by 78px at 1320, 18px at 1440 and 3px at 1470 —
+ * which is how "Overview" ended up sliding under the switch on a MacBook
+ * Air. 1520 applied to consumer would take the tabs away from the same
+ * laptop, which has room for them.
+ *
+ * The strings are written out in full on purpose. Tailwind generates classes
+ * by scanning source text, so a composed `min-[${n}px]:flex` produces no CSS
+ * at all and the nav would silently never appear.
+ */
+const NAV_AT = {
+  consumer: { show: "hidden min-[1320px]:flex", hide: "min-[1320px]:hidden" },
+  business: { show: "hidden min-[1180px]:flex", hide: "min-[1180px]:hidden" },
+} as const;
+
 const NavbarDark = () => {
   const location = useLocation();
   const mode = siteModeFor(location.pathname);
+  const navAt = NAV_AT[mode];
   const brand = brandFor(location.pathname);
   const menuItems: readonly {
     name: string;
@@ -218,15 +244,26 @@ const NavbarDark = () => {
           <div className="flex items-center justify-end gap-4">
             {/* Desktop Nav */}
             {/*
-              `xl`, not `lg`. At 1024 the tabs and the CTA together need
-              more than their third of the row, so the right-hand column
-              grew past its `1fr` share and shoved the switch 99px off
-              centre — a grid column will not shrink below its content.
-              Collapsing the tabs one breakpoint earlier keeps the switch
-              on the centre of the screen, which is the thing that has to
-              hold; the tabs are still one tap away in the menu.
+              1320px, which is not a Tailwind breakpoint, because the real
+              threshold is not a round number — it is the width at which
+              this row's contents stop fitting around a centred switch.
+              Measured at 1920: logo 128, switch 190, tabs 365, CTA 136.
+              The switch is absolutely centred, so the right-hand group has
+              only `W/2 - 95 - 24` to live in, and tabs + gap + CTA need
+              517. That resolves to W >= ~1320.
+
+              `2xl` (1536) was too cautious and cost every 13" laptop its
+              navigation — a MacBook Air is 1470 logical and was getting the
+              hamburger at 100% zoom. `xl` (1280) is about 20px too small,
+              and the failure is not graceful: the right-hand group grows
+              past its share and shoves the switch off centre, because a
+              grid column will not shrink below its content.
+
+              Below this the tabs are one tap away in the menu, and the
+              switch stays on the centre of the screen, which is the thing
+              that has to hold.
             */}
-            <nav className="hidden 2xl:flex items-center gap-6">
+            <nav className={`${navAt.show} items-center gap-6`}>
               {menuItems.map((item) => (
                 <div key={item.key}>
                   {item.type === "link" ? (
@@ -267,7 +304,15 @@ const NavbarDark = () => {
               lines and overlapping the mark. The same action lives at the
               bottom of the mobile sheet instead.
             */}
-            <div className="hidden 2xl:flex">
+            {/*
+              CONSUMER ONLY. The business pages carry "Talk to our team" in
+              their own hero, so repeating it here bought nothing and cost
+              179px — tabs 163 plus the gap — out of a row that has to fit
+              around a centred switch. Removing it is what lets the business
+              tabs appear on a 13" laptop at all; see NAV_AT above.
+            */}
+            {mode === "consumer" && (
+            <div className={navAt.show}>
               <a
                 /*
                  * #enquiry, not /business/contact. That route was never
@@ -279,25 +324,17 @@ const NavbarDark = () => {
                  * would duplicate that form; if one is ever built, this
                  * goes back to a route.
                  */
-                href={mode === "business" ? "#enquiry" : "#onboarding"}
+                href="#onboarding"
                 className="flex items-center gap-2 whitespace-nowrap rounded-full bg-black px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 transition"
               >
-                {mode === "business" ? (
-                  <>
-                    Talk to our team
-                    <ArrowRight size={16} />
-                  </>
-                ) : (
-                  <>
-                    <Download size={16} />
-                    Get the App
-                  </>
-                )}
+                <Download size={16} />
+                Get the App
               </a>
             </div>
+            )}
             {/* Mobile Menu Button */}
             <button
-              className="2xl:hidden text-black"
+              className={`${navAt.hide} text-black`}
               onClick={() => setOpen(!open)}
               aria-label="Toggle navigation menu"
               aria-expanded={open}
@@ -313,7 +350,7 @@ const NavbarDark = () => {
       {/* Mobile Menu */}
       {open && (
         <div
-          className="2xl:hidden border-t border-black/10 bg-white/95 backdrop-blur"
+          className={`${navAt.hide} border-t border-black/10 bg-white/95 backdrop-blur`}
           id="mobile-nav"
         >
           <div className="flex flex-col gap-4 px-6 py-6 text-black/80">
