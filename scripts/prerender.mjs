@@ -29,7 +29,7 @@
 import { createServer } from "node:http";
 import { readFile, mkdir, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
-import { dirname, extname, join } from "node:path";
+import { dirname, extname, join, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { ROUTES } from "./routes.mjs";
 
@@ -49,13 +49,31 @@ const TYPES = {
   ".txt": "text/plain",
 };
 
-/* The built app, served the way Vercel will serve it: a real file if one
-   exists, the shell otherwise. */
+const distRoot = resolve(dist);
+
+/**
+ * The built app, served the way Vercel will serve it: a real file if one
+ * exists, the shell otherwise.
+ *
+ * THE CONTAINMENT CHECK IS NOT CEREMONY. `req.url` reaches a filesystem
+ * path, so without it `/../../etc/passwd` is served — CodeQL flagged this
+ * as js/path-injection and was right. The only client here is the
+ * prerenderer on an ephemeral port for a few seconds, which lowers the
+ * stakes and changes nothing about whether the code is wrong.
+ *
+ * `resolve` collapses the traversal first; the prefix test then rejects
+ * anything that ended up outside. Comparing before resolving would be
+ * the version that looks careful and does nothing.
+ */
 const server = createServer(async (req, res) => {
   const url = decodeURIComponent((req.url ?? "/").split("?")[0]);
-  const file = join(dist, url);
+  const requested = resolve(distRoot, `.${url}`);
+  const inside =
+    requested === distRoot || requested.startsWith(distRoot + sep);
   const target =
-    extname(url) && existsSync(file) ? file : join(dist, "index.html");
+    inside && extname(url) && existsSync(requested)
+      ? requested
+      : join(distRoot, "index.html");
   try {
     const body = await readFile(target);
     res.writeHead(200, { "content-type": TYPES[extname(target)] ?? "text/plain" });
