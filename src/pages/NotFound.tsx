@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { BUSINESS_ROOT, siteModeFor } from "../siteMode";
+import PageMeta from "../components/PageMeta";
 
 /**
  * What an unmatched URL shows.
@@ -19,29 +20,36 @@ export default function NotFound() {
   const home = mode === "business" ? BUSINESS_ROOT : "/";
 
   return (
-    <main className="min-h-screen flex items-center justify-center px-6">
-      <div className="max-w-md text-center">
-        <p className="text-sm font-medium text-black/50">404</p>
-        <h1 className="mt-3 text-3xl font-bold text-black sm:text-4xl">
-          We could not find that page
-        </h1>
-        <p className="mt-4 text-black/60">
-          The address{" "}
-          {/* Shown so a mistyped or stale link is obvious at a glance, rather
-              than leaving somebody guessing which part was wrong. */}
-          <span className="font-mono text-sm text-black/80">{pathname}</span>{" "}
-          does not exist. It may have moved, or the link that brought you here
-          may be out of date.
-        </p>
-        <Link
-          to={home}
-          className="mt-8 inline-flex items-center gap-2 rounded-full bg-black px-5 py-2.5 text-sm font-medium text-white transition hover:bg-gray-800"
-        >
-          {mode === "business"
-            ? "Back to Mint Rewards for Business"
-            : "Back to Mint Rewards"}
-        </Link>
-      </div>
-    </main>
+    <>
+      <PageMeta
+        title="Page not found | Mint Rewards"
+        description="That page does not exist. Try the home page or the main menu."
+        noindex
+      />
+      <main className="min-h-screen flex items-center justify-center px-6">
+        <div className="max-w-md text-center">
+          <p className="text-sm font-medium text-black/50">404</p>
+          <h1 className="mt-3 text-3xl font-bold text-black sm:text-4xl">
+            We could not find that page
+          </h1>
+          <p className="mt-4 text-black/60">
+            The address{" "}
+            {/* Shown so a mistyped or stale link is obvious at a glance, rather
+                than leaving somebody guessing which part was wrong. */}
+            <span className="font-mono text-sm text-black/80">{pathname}</span>{" "}
+            does not exist. It may have moved, or the link that brought you here
+            may be out of date.
+          </p>
+          <Link
+            to={home}
+            className="mt-8 inline-flex items-center gap-2 rounded-full bg-black px-5 py-2.5 text-sm font-medium text-white transition hover:bg-gray-800"
+          >
+            {mode === "business"
+              ? "Back to Mint Rewards for Business"
+              : "Back to Mint Rewards"}
+          </Link>
+        </div>
+      </main>
+    </>
   );
 }

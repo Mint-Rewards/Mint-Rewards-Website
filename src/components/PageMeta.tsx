@@ -2,7 +2,11 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 /**
- * Per-route metadata, ported from Ahsan's build.
+ * Per-route metadata for every page on the site.
+ *
+ * MOVED OUT OF components/business. It began as a business-pages fix and
+ * is now on all of them, and a consumer page importing from a `business`
+ * folder reads as an accident rather than a decision.
  *
  * It was missing from my port entirely, and nothing on screen said so —
  * which is exactly why the B2B ticket called this out as the easiest thing
@@ -25,10 +29,13 @@ export default function PageMeta({
   title,
   description,
   noindex = false,
+  image,
 }: {
   title: string;
   description: string;
   noindex?: boolean;
+  /** Absolute, or site-root relative. Falls back to the document default. */
+  image?: string;
 }) {
   const { pathname } = useLocation();
 
@@ -66,6 +73,37 @@ export default function PageMeta({
       noindex ? "noindex,nofollow" : "index,follow",
     );
 
+    /*
+     * og:url has to move with the route.
+     *
+     * index.html carries the site defaults, and a share of /business/impact
+     * that still said og:url=/ would have every link on social resolve to
+     * the home page. The image is left to the document default unless a
+     * page passes one: a wrong picture is worse than a generic one.
+     */
+    ensureMeta('meta[property="og:url"]', "property", "og:url", canonicalUrl);
+    ensureMeta('meta[property="og:type"]', "property", "og:type", "website");
+    ensureMeta(
+      'meta[property="og:site_name"]',
+      "property",
+      "og:site_name",
+      "Mint Rewards",
+    );
+    ensureMeta('meta[name="twitter:title"]', "name", "twitter:title", title);
+    ensureMeta(
+      'meta[name="twitter:description"]',
+      "name",
+      "twitter:description",
+      description,
+    );
+    if (image) {
+      const url = image.startsWith("http")
+        ? image
+        : `https://www.mintrewards.app${image}`;
+      ensureMeta('meta[property="og:image"]', "property", "og:image", url);
+      ensureMeta('meta[name="twitter:image"]', "name", "twitter:image", url);
+    }
+
     let canonical =
       document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
     if (!canonical) {
@@ -96,7 +134,7 @@ export default function PageMeta({
         url: "https://www.mintrewards.app/",
       },
     });
-  }, [title, description, noindex, pathname]);
+  }, [title, description, noindex, image, pathname]);
 
   return null;
 }

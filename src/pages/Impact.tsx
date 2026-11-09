@@ -18,7 +18,7 @@ import { Link } from "react-router-dom";
 import EnquiryForm from "../components/business/EnquiryForm";
 import Eyebrow from "../components/business/Eyebrow";
 import ImpactNav from "../components/business/ImpactNav";
-import PageMeta from "../components/business/PageMeta";
+import PageMeta from "../components/PageMeta";
 import "../styles/business.css";
 
 /**

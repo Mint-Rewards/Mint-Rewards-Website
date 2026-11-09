@@ -1,0 +1,11 @@
+# Mint Rewards — https://www.mintrewards.app
+#
+# Everything is public. The only exclusion is /app, which is a redirect to
+# the app stores: crawling it asks for a URL that answers with somebody
+# else's page.
+
+User-agent: *
+Allow: /
+Disallow: /app
+
+Sitemap: https://www.mintrewards.app/sitemap.xml

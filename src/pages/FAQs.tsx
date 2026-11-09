@@ -9,6 +9,7 @@ import {
   Globe,
 } from "lucide-react";
 import { contactDetails } from "../constants";
+import PageMeta from "../components/PageMeta";
 
 interface FAQ {
   question: string;
@@ -231,6 +232,10 @@ const FAQs = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <PageMeta
+        title="Frequently Asked Questions | Mint Rewards"
+        description="How collections are booked, which materials are accepted, how points are earned and spent, and where Mint Rewards operates."
+      />
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-[#1D558E] via-[#3EBAB9] to-[#8CE4B5] py-20 md:py-32 overflow-hidden">
         {/* Decorative elements */}

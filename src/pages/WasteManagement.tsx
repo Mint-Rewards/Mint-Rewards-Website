@@ -14,7 +14,7 @@ import BrandOrbit, { PARTNER_COUNT } from "../components/business/BrandOrbit";
 import CtaBand from "../components/business/CtaBand";
 import EnquiryForm from "../components/business/EnquiryForm";
 import Eyebrow from "../components/business/Eyebrow";
-import PageMeta from "../components/business/PageMeta";
+import PageMeta from "../components/PageMeta";
 import "../styles/business.css";
 
 /**

@@ -12,7 +12,7 @@ import CtaBand from "../components/business/CtaBand";
 import EnquiryForm from "../components/business/EnquiryForm";
 import AppShowcase from "../components/business/AppShowcase";
 import Eyebrow from "../components/business/Eyebrow";
-import PageMeta from "../components/business/PageMeta";
+import PageMeta from "../components/PageMeta";
 import "../styles/business.css";
 
 /**
