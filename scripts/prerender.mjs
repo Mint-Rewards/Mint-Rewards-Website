@@ -27,9 +27,8 @@
  * deliberately.
  */
 import { createServer } from "node:http";
-import { readFile, mkdir, writeFile } from "node:fs/promises";
-import { existsSync } from "node:fs";
-import { dirname, extname, join, resolve, sep } from "node:path";
+import { readFile, readdir, mkdir, writeFile } from "node:fs/promises";
+import { dirname, extname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { ROUTES } from "./routes.mjs";
 
@@ -49,31 +48,43 @@ const TYPES = {
   ".txt": "text/plain",
 };
 
-const distRoot = resolve(dist);
-
 /**
  * The built app, served the way Vercel will serve it: a real file if one
  * exists, the shell otherwise.
  *
- * THE CONTAINMENT CHECK IS NOT CEREMONY. `req.url` reaches a filesystem
- * path, so without it `/../../etc/passwd` is served — CodeQL flagged this
- * as js/path-injection and was right. The only client here is the
- * prerenderer on an ephemeral port for a few seconds, which lowers the
- * stakes and changes nothing about whether the code is wrong.
+ * THE REQUEST NEVER BECOMES A PATH. dist/ is walked once up front into a
+ * map of url -> absolute file, and a request is a LOOKUP in that map. So
+ * the only paths this process ever opens are ones it found on disk
+ * itself; nothing a client sends is joined, resolved or normalised into
+ * a filename.
  *
- * `resolve` collapses the traversal first; the prefix test then rejects
- * anything that ended up outside. Comparing before resolving would be
- * the version that looks careful and does nothing.
+ * The first version did build a path and guard it — resolve() then a
+ * prefix test — which closed the hole but CodeQL kept flagging, because
+ * a guard it does not recognise is indistinguishable from no guard. A
+ * lookup has no sink to flag, and is easier to be sure about than a
+ * sanitiser I would have had to argue was correct.
  */
+const FILES = new Map();
+{
+  const walk = async (dir, prefix = "") => {
+    for (const entry of await readdir(dir, { withFileTypes: true })) {
+      const abs = join(dir, entry.name);
+      if (entry.isDirectory()) await walk(abs, `${prefix}/${entry.name}`);
+      else FILES.set(`${prefix}/${entry.name}`, abs);
+    }
+  };
+  await walk(dist);
+}
+
+const shell = FILES.get("/index.html");
+if (!shell) {
+  console.error("prerender: dist/index.html is missing — did vite build run?");
+  process.exit(1);
+}
+
 const server = createServer(async (req, res) => {
   const url = decodeURIComponent((req.url ?? "/").split("?")[0]);
-  const requested = resolve(distRoot, `.${url}`);
-  const inside =
-    requested === distRoot || requested.startsWith(distRoot + sep);
-  const target =
-    inside && extname(url) && existsSync(requested)
-      ? requested
-      : join(distRoot, "index.html");
+  const target = FILES.get(url) ?? shell;
   try {
     const body = await readFile(target);
     res.writeHead(200, { "content-type": TYPES[extname(target)] ?? "text/plain" });
