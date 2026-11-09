@@ -1,4 +1,12 @@
-import { ArrowRight, Boxes, FileCheck2, GitBranch, Link2, Scan, Workflow } from "lucide-react";
+import {
+  ArrowRight,
+  Boxes,
+  FileCheck2,
+  GitBranch,
+  Link2,
+  Scan,
+  Workflow,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import CtaBand from "../components/business/CtaBand";
 import EnquiryForm from "../components/business/EnquiryForm";
@@ -82,39 +90,26 @@ export default function Tracifai() {
       <ImpactNav />
       <main id="main" className="impact">
         <section className="page-hero">
-          <div className="container hero-grid">
-            <div>
-              <Eyebrow>Impact solutions &middot; Tracifai</Eyebrow>
-              <h1>Follow it back.</h1>
-              <p className="hero-sub">
-                Material records, movements and custody — written down as they
-                happen.
-              </p>
-              <p className="hero-copy">
-                Tracifai is the traceability layer underneath our circular and
-                ESG work. It exists so that a claim has a trail behind it, and
-                so that the trail is built while the work is being done rather
-                than assembled the week before an audit.
-              </p>
-              <div className="hero-actions">
-                <a href="#enquiry" className="btn-primary">
-                  Book a demo <ArrowRight size={15} />
-                </a>
-                <Link to="/business/impact" className="btn-secondary">
-                  Back to impact solutions
-                </Link>
-              </div>
-            </div>
-            <div className="hero-art">
-              <img
-                src="/images/recovery-hero.jpg"
-                alt="Material recovery operations, the activity a traceability record describes"
-              />
-              <div className="photo-shade" />
-              <div className="floating-note">
-                <strong>Recorded, not recalled</strong>A trail built while the
-                work happens
-              </div>
+          <div className="container hero-plain">
+            <Eyebrow>Impact solutions &middot; Tracifai</Eyebrow>
+            <h1>Follow it back.</h1>
+            <p className="hero-sub">
+              Material records, movements and custody — written down as they
+              happen.
+            </p>
+            <p className="hero-copy">
+              Tracifai is the traceability layer underneath our circular and ESG
+              work. It exists so that a claim has a trail behind it, and so that
+              the trail is built while the work is being done rather than
+              assembled the week before an audit.
+            </p>
+            <div className="hero-actions">
+              <a href="#enquiry" className="btn-primary">
+                Book a demo <ArrowRight size={15} />
+              </a>
+              <Link to="/business/impact" className="btn-secondary">
+                Back to impact solutions
+              </Link>
             </div>
           </div>
         </section>

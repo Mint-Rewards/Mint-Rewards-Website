@@ -1395,7 +1395,11 @@
  * sideways: a hover menu on a touch screen opens on the tap that was meant
  * to follow the link.
  * ------------------------------------------------------------------------ */
-.b2b .impact-nav { position:sticky; top:64px; z-index:40; margin-top:64px; background:rgba(255,255,255,.94); backdrop-filter:blur(14px); border-bottom:1px solid #e6eef0; }
+/* Transparent, like the site header, which carries `backdrop-blur` and no
+   background colour at all — a solid white bar under a see-through one
+   read as two different components stacked. The hairline stays: without
+   it the bar has no edge once content scrolls under it. */
+.b2b .impact-nav { position:sticky; top:64px; z-index:40; margin-top:64px; backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border-bottom:1px solid rgba(19,37,45,.07); }
 .b2b .impact-nav-row { display:flex; align-items:center; gap:24px; min-height:56px; }
 .b2b .impact-nav-brand { font:700 13px var(--app-font-serif); letter-spacing:-.3px; color:#17252d; white-space:nowrap; }
 .b2b .impact-nav-links { display:flex; align-items:center; gap:4px; margin-left:auto; }
@@ -1427,3 +1431,10 @@
   .b2b .impact-nav-links { gap:2px; }
   .b2b .impact-nav-links > a { white-space:nowrap; }
 }
+
+/* The secondary impact pages have no hero visual — the wireframe gives
+   only the Services page one, and the others are a plain band of copy.
+   Measures so the heading and lead do not run the full 1200px. */
+.b2b .impact .hero-plain h1 { max-width:20ch; }
+.b2b .impact .hero-plain .hero-copy,
+.b2b .impact .hero-plain .hero-sub { max-width:62ch; }

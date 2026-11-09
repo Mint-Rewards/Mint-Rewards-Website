@@ -84,30 +84,21 @@ export default function Regulations() {
       <ImpactNav />
       <main id="main" className="impact">
         <section className="page-hero">
-          <div className="container hero-grid">
-            <div>
-              <Eyebrow>Impact solutions &middot; Regulations</Eyebrow>
-              <h1>Know the rule. Show you meet it.</h1>
-              <p className="hero-copy">
-                A plain-language orientation to the frameworks shaping ESG for
-                exporters, corporates and financial institutions — what each one
-                is for, and who it tends to catch.
-              </p>
-              <div className="hero-actions">
-                <a href="#enquiry" className="btn-primary">
-                  Talk to us about your obligations <ArrowRight size={15} />
-                </a>
-                <Link to="/business/impact" className="btn-secondary">
-                  Back to impact solutions
-                </Link>
-              </div>
-            </div>
-            <div className="hero-art">
-              <img
-                src="/images/recovery-hero.jpg"
-                alt="Operational records of the kind sustainability disclosure depends on"
-              />
-              <div className="photo-shade" />
+          <div className="container hero-plain">
+            <Eyebrow>Impact solutions &middot; Regulations</Eyebrow>
+            <h1>Know the rule. Show you meet it.</h1>
+            <p className="hero-copy">
+              A plain-language orientation to the frameworks shaping ESG for
+              exporters, corporates and financial institutions — what each one
+              is for, and who it tends to catch.
+            </p>
+            <div className="hero-actions">
+              <a href="#enquiry" className="btn-primary">
+                Talk to us about your obligations <ArrowRight size={15} />
+              </a>
+              <Link to="/business/impact" className="btn-secondary">
+                Back to impact solutions
+              </Link>
             </div>
           </div>
         </section>

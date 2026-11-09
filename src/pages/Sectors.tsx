@@ -67,30 +67,21 @@ export default function Sectors() {
       <ImpactNav />
       <main id="main" className="impact">
         <section className="page-hero">
-          <div className="container hero-grid">
-            <div>
-              <Eyebrow>Impact solutions &middot; Sectors</Eyebrow>
-              <h1>Sustainability, in the language of your sector.</h1>
-              <p className="hero-copy">
-                Each industry carries its own circularity, disclosure and
-                traceability pressures. The work below describes where our
-                pillars apply, and what tends to matter first in each.
-              </p>
-              <div className="hero-actions">
-                <a href="#enquiry" className="btn-primary">
-                  Book a consultation <ArrowRight size={15} />
-                </a>
-                <Link to="/business/impact" className="btn-secondary">
-                  Back to impact solutions
-                </Link>
-              </div>
-            </div>
-            <div className="hero-art">
-              <img
-                src="/images/recovery-hero.jpg"
-                alt="Recovered materials from a range of industrial streams"
-              />
-              <div className="photo-shade" />
+          <div className="container hero-plain">
+            <Eyebrow>Impact solutions &middot; Sectors</Eyebrow>
+            <h1>Sustainability, in the language of your sector.</h1>
+            <p className="hero-copy">
+              Each industry carries its own circularity, disclosure and
+              traceability pressures. The work below describes where our pillars
+              apply, and what tends to matter first in each.
+            </p>
+            <div className="hero-actions">
+              <a href="#enquiry" className="btn-primary">
+                Book a consultation <ArrowRight size={15} />
+              </a>
+              <Link to="/business/impact" className="btn-secondary">
+                Back to impact solutions
+              </Link>
             </div>
           </div>
         </section>
