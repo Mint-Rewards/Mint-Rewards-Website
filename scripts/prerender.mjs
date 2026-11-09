@@ -115,6 +115,23 @@ try {
   });
 } catch (error) {
   console.error(`prerender: could not launch a browser — ${error.message}`);
+  if (process.env.VERCEL) {
+    /*
+     * Vercel's build image downloads Chrome happily and then cannot run
+     * it: the shared libraries are missing (libnspr4.so and friends).
+     * There is no flag for that, so the build does not happen there.
+     *
+     * It does not need to. This project has no Git integration — every
+     * deploy is already a CLI deploy from somebody's machine — so the
+     * build runs where a browser works and only the output is uploaded.
+     */
+    console.error("");
+    console.error("  Vercel's build image cannot run Chrome: its shared libraries are absent.");
+    console.error("  Build here and upload the result instead:");
+    console.error("");
+    console.error("    npm run deploy       # vercel build --prod && vercel deploy --prebuilt --prod");
+    console.error("");
+  }
   console.error("  set PRERENDER=0 to ship a shell-only build deliberately.");
   server.close();
   process.exit(1);
