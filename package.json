@@ -13,7 +13,8 @@
     "preview": "vite preview",
     "test": "jest",
     "typecheck": "tsc --noEmit",
-    "qr": "node scripts/make-qr.mjs"
+    "qr": "node scripts/make-qr.mjs",
+    "deploy": "vercel build --prod && vercel deploy --prebuilt --prod"
   },
   "dependencies": {
     "@fontsource-variable/dm-sans": "^5.3.0",

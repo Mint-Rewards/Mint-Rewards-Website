@@ -33,6 +33,29 @@ step exists to prevent. To skip on purpose:
 PRERENDER=0 npm run build
 ```
 
+**Deploy with `npm run deploy`, not a bare `vercel deploy`.**
+
+```sh
+npm run deploy      # vercel build --prod && vercel deploy --prebuilt --prod
+```
+
+Vercel's build image downloads Chrome and then cannot run it — the
+shared libraries are missing:
+
+```
+chrome: error while loading shared libraries: libnspr4.so
+```
+
+There is no flag for that, so the build does not happen there. It does
+not need to: this project has **no Git integration**, every deploy is
+already a CLI deploy from somebody's machine, so the build runs where a
+browser works and only `.vercel/output` is uploaded.
+
+That is also safer than what it replaces. A bare `vercel deploy` uploads
+the working tree and relies on `.vercelignore` to hold back `.env`,
+`.git` and the rest; `--prebuilt` uploads the built output and nothing
+else.
+
 **How the files get served.** Vercel checks the filesystem before
 applying `rewrites`, so `/business/impact` finds
 `dist/business/impact/index.html` and the catch-all in `vercel.json`
