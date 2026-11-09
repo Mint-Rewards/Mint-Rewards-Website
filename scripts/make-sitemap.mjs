@@ -16,46 +16,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const ORIGIN = "https://www.mintrewards.app";
-
-/**
- * Every route, and what to do with it.
- *
- * `priority` is a hint about relative importance within this site only —
- * it says nothing to Google about ranking against anyone else. The home
- * page and the two section landings carry the most; legal pages carry
- * least because they are necessary rather than sought.
- */
-const ROUTES = [
-  { path: "/", priority: "1.0", changefreq: "weekly" },
-  { path: "/personal", priority: "0.9", changefreq: "monthly" },
-  { path: "/how-it-works", priority: "0.8", changefreq: "monthly" },
-  { path: "/co2-calculator", priority: "0.7", changefreq: "monthly" },
-  { path: "/faqs", priority: "0.6", changefreq: "monthly" },
-  { path: "/about", priority: "0.6", changefreq: "yearly" },
-  { path: "/story", priority: "0.5", changefreq: "yearly" },
-  { path: "/careers", priority: "0.6", changefreq: "weekly" },
-  { path: "/contact", priority: "0.6", changefreq: "yearly" },
-
-  { path: "/business", priority: "0.9", changefreq: "monthly" },
-  { path: "/business/waste-management", priority: "0.8", changefreq: "monthly" },
-  { path: "/business/rewards", priority: "0.8", changefreq: "monthly" },
-  { path: "/business/impact", priority: "0.8", changefreq: "monthly" },
-  { path: "/business/impact/tracifai", priority: "0.7", changefreq: "monthly" },
-  { path: "/business/impact/sectors", priority: "0.7", changefreq: "monthly" },
-  { path: "/business/impact/regulations", priority: "0.7", changefreq: "monthly" },
-
-  { path: "/privacy", priority: "0.3", changefreq: "yearly" },
-  { path: "/terms", priority: "0.3", changefreq: "yearly" },
-];
-
-/**
- * Routes that exist but must never be listed.
- *
- * `/app` is a redirect to the stores — listing a redirect asks a crawler
- * to index a URL that answers with somebody else's page. `*` is the 404.
- */
-const EXCLUDED = new Set(["/app", "*"]);
+import { ORIGIN, ROUTES, EXCLUDED } from "./routes.mjs";
 
 /* Comments first. App.tsx keeps two retired home variants commented out,
    and a naive match treats them as live routes. */
