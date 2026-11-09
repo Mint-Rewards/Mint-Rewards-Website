@@ -67,8 +67,11 @@ export default function ImpactNav() {
 
   return (
     <nav className="impact-nav" aria-label="Impact solutions">
-      <div className="container impact-nav-row">
-        <span className="impact-nav-brand">Impact solutions</span>
+      {/* Full width with 24px gutters, matching the site header's
+          `w-full px-6` — not the 1200px content container, which made the
+          two bars end at different places on a wide screen. */}
+      <div className="impact-nav-row">
+        <span className="impact-nav-brand">Mint Impact Solutions</span>
 
         <div className="impact-nav-links">
           <div className="impact-nav-item">

@@ -66,8 +66,8 @@ export default function Sectors() {
       />
       <ImpactNav />
       <main id="main" className="impact">
-        <section className="page-hero">
-          <div className="container hero-plain">
+        <section className="page-hero plain">
+          <div className="container">
             <Eyebrow>Impact solutions &middot; Sectors</Eyebrow>
             <h1>Sustainability, in the language of your sector.</h1>
             <p className="hero-copy">

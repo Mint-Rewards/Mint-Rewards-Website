@@ -83,8 +83,8 @@ export default function Regulations() {
       />
       <ImpactNav />
       <main id="main" className="impact">
-        <section className="page-hero">
-          <div className="container hero-plain">
+        <section className="page-hero plain">
+          <div className="container">
             <Eyebrow>Impact solutions &middot; Regulations</Eyebrow>
             <h1>Know the rule. Show you meet it.</h1>
             <p className="hero-copy">

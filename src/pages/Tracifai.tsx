@@ -89,8 +89,8 @@ export default function Tracifai() {
       />
       <ImpactNav />
       <main id="main" className="impact">
-        <section className="page-hero">
-          <div className="container hero-plain">
+        <section className="page-hero plain">
+          <div className="container">
             <Eyebrow>Impact solutions &middot; Tracifai</Eyebrow>
             <h1>Follow it back.</h1>
             <p className="hero-sub">
