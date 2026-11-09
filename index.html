@@ -33,6 +33,41 @@
   <meta name="twitter:description"
     content="Book a free collection, recycle what you already throw away, and earn points to spend with local brands." />
   <meta name="twitter:image" content="https://www.mintrewards.app/images/recovery-hero.jpg" />
+
+  <!--
+    The organisation itself, stated once for the whole site.
+
+    IN THE DOCUMENT RATHER THAN INJECTED BY REACT, deliberately: this is
+    the one piece of structured data a crawler that runs no JavaScript can
+    still read, and it is the piece that ties the domain to a real company.
+
+    `sameAs` uses the profiles the footer actually links to
+    (contactSocialLinks). constants.ts also holds a `footerSocialLinks`
+    with DIFFERENT handles, which nothing imports — do not copy from it.
+  -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Mint Rewards",
+    "url": "https://www.mintrewards.app/",
+    "logo": "https://www.mintrewards.app/favicon.png",
+    "description": "Mint Rewards collects household recyclables in Pakistan and rewards people with points they can spend with partner brands.",
+    "email": "hello@mymintrewards.com",
+    "telephone": "+92 349 2498174",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "5th Floor Amir Trade Centre, PECHS Block 2",
+      "addressLocality": "Karachi",
+      "addressCountry": "PK"
+    },
+    "sameAs": [
+      "https://www.linkedin.com/company/mintrewards/",
+      "https://www.instagram.com/mymintrewards/",
+      "https://www.facebook.com/MintRewards"
+    ]
+  }
+  </script>
 </head>
 
 <body>
