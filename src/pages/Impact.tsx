@@ -1,184 +1,156 @@
 import {
-  ArrowDown,
   ArrowRight,
+  BadgeCheck,
   Boxes,
-  GitBranch,
-  Globe2,
+  CheckCircle2,
+  Clock3,
+  Diamond,
   GraduationCap,
-  HeartHandshake,
-  PackageCheck,
+  Heart,
+  Link2,
   Recycle,
   ScrollText,
+  Sparkles,
+  Target,
   Users,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import CtaBand from "../components/business/CtaBand";
 import EnquiryForm from "../components/business/EnquiryForm";
 import Eyebrow from "../components/business/Eyebrow";
 import PageMeta from "../components/business/PageMeta";
 import "../styles/business.css";
 
 /**
- * Impact solutions — the hub for the consulting pillars and Tracifai.
+ * Impact solutions — the Mint Impact Solutions wireframe, page 01.
  *
- * Rebuilt from the Mint Impact Solutions wireframe: its narrative, its
- * section order, its three-pillars-plus-an-engine structure. The visual
- * language stays this site's own `.b2b` system — the wireframe's green
- * ramp, Bricolage Grotesque and dark mode are not adopted, and almost no
- * CSS was added, because the system already had a class for nearly every
- * section the wireframe drew.
+ * THE COPY IS THE WIREFRAME'S, VERBATIM. An earlier pass rewrote almost
+ * every line of it — the hero lead, the pillar descriptions, the FAQ, the
+ * ledger rows — and dropped the insights section entirely, which was not
+ * a port of anything. The brief was the wireframe's content in this
+ * site's design language, so the only thing that changes crossing over
+ * is the markup and the palette.
  *
- * THE DISCLAIMERS ARE STILL THE DESIGN. The wireframe is written in a
- * confident register — "100% claims traceable", VERIFIED, PROVEN, "9
- * priority sectors served" — and this page is read by CSR and
- * sustainability teams, who are the one audience that checks. A claim
- * that cannot be evidenced is the kind quoted back during assurance, so
- * each was qualified or dropped:
+ * WHAT THAT MEANS, SINCE IT WAS RAISED AND OVERRULED. The wireframe
+ * states things this repo cannot support, and they are now on the page:
  *
- *   - "100% claims traceable" is gone. It states an outcome nothing here
- *     can support.
- *   - the hero carries no VERIFIED / ON-CHAIN / PROVEN stamps. The
- *     wireframe's own example row, "72% diverted", is this page's
- *     INDICATORS placeholder — an invented figure — redrawn as verified
- *     fact.
- *   - "9 priority sectors SERVED" became sectors we work across, because
- *     the RecovLoop page states the sector list "does not represent
- *     confirmed clients", and two pages of one site must not disagree.
- *   - the London office and the mintimpactsolutions.com address are not
- *     here. Nothing in this repo mentions either, and an office is not a
- *     thing to assert on a maybe.
+ *   - "we verify every claim with our own traceability technology", and
+ *     the ledger's ON-CHAIN / VALID / PROVEN stamps. WasteManagement.tsx
+ *     says, flagged LOAD-BEARING against section 15 of the spec, that
+ *     Tracifai is "not a subsidiary or Mint-owned product" and that its
+ *     verification is "not represented as operational". Those two pages
+ *     now contradict each other. That is a decision for the owner, not
+ *     something to resolve by quietly rewording one of them.
+ *   - "Offices — Karachi & London". Nothing in this repo mentions a
+ *     London office; the FAQ says Karachi, Lahore and Islamabad.
+ *   - "100% Claims traceable via Tracifai" and "9 Priority sectors
+ *     served" — the latter against RecovLoop's line that its sector list
+ *     "does not represent confirmed clients".
+ *   - "Circularity claim — 72% diverted" is the figure from this page's
+ *     old INDICATORS placeholder, which was explicitly invented.
  *
- * The conceptual indicator view keeps all three of its warnings.
+ * Also gone, because the wireframe has no equivalent section: Ahsan's
+ * five impact solutions, and the conceptual indicator view with its
+ * three disclaimers. Both are recoverable from git if they are wanted
+ * back alongside this.
  */
 
 const PILLARS = [
   [
     "Circular Economy Consulting",
-    "Turn waste into circular systems that can be designed, run and evidenced.",
+    "Turn waste into verified, revenue-bearing circular systems.",
     Recycle,
+    "Explore",
     "#circular",
   ],
   [
     "ESG Consulting",
-    "Make ESG performance measured, reported and defensible to a board.",
+    "Make your ESG performance measured, reported, and defensible.",
     ScrollText,
+    "Explore",
     "#esg",
   ],
   [
     "People ESG Training",
-    "Build the internal capability that keeps a programme alive after handover.",
+    "Build the internal capability that keeps ESG alive.",
     GraduationCap,
+    "Explore",
     "#people",
   ],
 ] as const;
 
-/*
- * Ahsan's original five, kept as the circular pillar's detail.
- *
- * The wireframe replaces them with generic consultancy language, which
- * reads well and says nothing about what Mint can actually do. These five
- * are the connection to a real recycling operation, so they stay as the
- * substance underneath the pillar rather than being written over.
- */
-const SOLUTIONS = [
+const LEDGER = [
   [
-    "Sponsored Recycling & Recovery",
-    "Fund defined waste recovery programmes targeting selected materials, locations or communities.",
+    "Recycled PET — Batch 4821",
+    "Source to recovery, 6 checkpoints",
+    "ON-CHAIN",
     Recycle,
   ],
   [
-    "Corporate & Employee Engagement",
-    "Deliver workplace recycling campaigns, awareness activities and sustainability challenges.",
-    Users,
+    "Scope 3 emissions data",
+    "Supplier-validated, audit-ready",
+    "VALID",
+    Clock3,
   ],
   [
-    "Community Recycling Programmes",
-    "Support recycling initiatives in residential communities, educational institutions and other locations.",
-    Globe2,
-  ],
-  [
-    "Brand & Consumer Campaigns",
-    "Engage consumers through co branded recycling and environmental initiatives.",
-    HeartHandshake,
-  ],
-  [
-    "Impact Measurement & Reporting",
-    "Define programme indicators and report on outcomes supported by available operational records.",
-    PackageCheck,
+    "Circularity claim — 72% diverted",
+    "Evidence trail attached",
+    "PROVEN",
+    Sparkles,
   ],
 ] as const;
 
-const ESG_SCOPE = [
+const PROOF = [
+  ["9", "Priority sectors served"],
+  ["100%", "Claims traceable via Tracifai"],
+  ["5", "Global reporting frameworks"],
+];
+
+const CIRCULAR_CHIPS = [
+  "Circular strategy & roadmap",
+  "Material flow design",
+  "Recycling & recovery",
+  "Nature & biodiversity",
+  "Resource efficiency",
+];
+
+const CIRCULAR_STEPS = [
+  ["Map the material streams", "Baseline waste, inputs, recovery points", Target],
+  ["Design the circular system", "Reduce, recycle, redesign supply loops", Recycle],
+  ["Verify with Tracifai", "Audit-ready evidence at every checkpoint", BadgeCheck],
+] as const;
+
+const ESG_CHIPS = [
   "ESG & sustainability strategy",
   "Materiality assessment",
-  "Reporting & disclosure",
   "Stakeholder engagement",
   "CSR policy & governance",
 ];
 
-const PEOPLE_SCOPE = [
+const ESG_STEPS = [
+  ["Strategy & materiality", "What matters to your stakeholders", Diamond],
+  ["Measure & collect", "Verified data, not estimates", Clock3],
+  ["Report & assure", "Defensible to board and regulator", CheckCircle2],
+] as const;
+
+const STANDARDS = ["GRI", "CSRD", "TCFD", "CDP", "ISSB"];
+
+const PEOPLE_CHIPS = [
   "ESG & sustainability training",
   "Leadership & culture",
   "DEI education",
   "Community engagement",
 ];
 
-const STANDARDS = ["GRI", "CSRD", "TCFD", "CDP", "ISSB"];
+const PEOPLE_STEPS = [
+  ["Board & leadership", "Set the tone and the mandate", Target],
+  ["Managers & teams", "Translate strategy into daily practice", Users],
+  ["Community & culture", "Engagement that sustains the programme", Heart],
+] as const;
 
-/*
- * SAMPLE FIGURES. INVENTED. NOT TO BE QUOTED ANYWHERE.
- *
- * THEY DESCRIBE ONE COHERENT PROGRAMME, which is the part to preserve if
- * anyone edits them. 1,860 households across 14 locations is about 130
- * each; 412 tonnes across those households is roughly 220kg apiece; 298
- * of 412 tonnes recovered is the 72%; and 1,860 taking part of the ~2,740
- * invited is the 68%. Figures that do not reconcile read as carelessness
- * rather than as a placeholder, and a sustainability team is exactly the
- * audience that adds them up.
- *
- * The frame says what they are three times over: the eyebrow calls the
- * view conceptual, a tag sits directly above the tiles, and the line
- * beneath the copy states plainly that no actual programme data is
- * represented. All three stay.
- *
- * The wireframe lifted the 72% into its hero as a verified on-chain
- * claim. It is an invention. It does not leave this section.
- */
-const INDICATORS: [string, string][] = [
-  ["Materials collected", "412 t"],
-  ["Materials recovered", "298 t"],
-  ["Recovery rate", "72%"],
-  ["Participating households", "1,860"],
-  ["Programme locations", "14"],
-  ["Community participation", "68%"],
-];
-
-/*
- * The hero ledger's example rows.
- *
- * States describe the material's journey — recorded, moved, received —
- * rather than asserting that a claim has been verified. See the note in
- * business.css for why that distinction is load-bearing.
- */
-const LEDGER = [
-  [
-    "Recycled PET — batch 4821",
-    "Collected, weighed, six checkpoints",
-    "RECORDED",
-    Recycle,
-  ],
-  [
-    "Transfer to recovery partner",
-    "Custody handed over, timestamped",
-    "MOVED",
-    GitBranch,
-  ],
-  [
-    "Recovery confirmed at facility",
-    "Receipt logged against the batch",
-    "RECEIVED",
-    Boxes,
-  ],
+const ENGINE_FEATURES = [
+  ["Blockchain-backed verification", Link2],
+  ["AI-driven data capture", Sparkles],
+  ["Audit-ready evidence trail", Clock3],
 ] as const;
 
 const SECTORS = [
@@ -193,22 +165,40 @@ const SECTORS = [
   "Financial Services",
 ];
 
-const FAQS: [string, string][] = [
+const INSIGHTS: [string, string, string][] = [
   [
-    "What standards can you report against?",
-    "We work to the structures of GRI, CSRD, TCFD, CDP and ISSB, and shape programme indicators so the evidence behind them is collected as the work happens rather than reconstructed afterwards.",
+    "Circularity",
+    "Why circular claims need a chain of evidence",
+    "Traceability is what turns a sustainability story into something a buyer can trust.",
   ],
   [
-    "How is Tracifai different from a reporting platform?",
-    "Most platforms store what you type into them. Tracifai is built to record the material journey itself, so a claim can be traced back to the movements behind it.",
+    "Disclosure",
+    "CSRD is coming for your supply chain data",
+    "What EU-facing exporters in the region need to put in place now.",
+  ],
+  [
+    "People",
+    "ESG dies in the handover. Here is how to keep it alive.",
+    "Internal capability is the difference between a report and a programme.",
+  ],
+];
+
+const FAQS: [string, string][] = [
+  [
+    "What standards do you report against?",
+    "We deliver reporting aligned to GRI, CSRD, TCFD, CDP and ISSB, and give you a verified evidence trail through Tracifai so disclosures hold up to assurance.",
+  ],
+  [
+    "How is Tracifai different from a normal ESG platform?",
+    "Most platforms store self-reported estimates. Tracifai verifies the data behind your claims and records it in a tamper-evident, audit-ready form.",
   ],
   [
     "Do you work with organisations early in their ESG journey?",
-    "Yes. A first materiality assessment is a perfectly good starting point, and most programmes begin well before anything is ready to disclose.",
+    "Yes. We meet you where you are, from first materiality assessment through to full disclosure and verified circular systems.",
   ],
   [
     "How do we get started?",
-    "Tell us the objective and the constraints. We scope what is practical, and say plainly which parts can be evidenced and which cannot.",
+    "Book a consultation. We scope your priorities and show you where verified data changes what you can credibly claim.",
   ],
 ];
 
@@ -216,106 +206,80 @@ export default function Impact() {
   return (
     <div className="b2b">
       <PageMeta
-        title="Impact Solutions — Circular Economy, ESG & Training | Mint Rewards"
-        description="Circular economy consulting, ESG consulting and people training, with material journeys traceable through Tracifai. Practical programmes with evidence collected as the work happens."
+        title="Technology for Good, proven | Mint Impact Solutions"
+        description="Circular economy consulting, ESG consulting and people ESG training, with every claim verified through Tracifai."
       />
       <main id="main" className="impact">
         <section className="page-hero">
           <div className="container hero-grid">
             <div>
-              <Eyebrow>Mint Rewards &middot; Impact solutions</Eyebrow>
+              <Eyebrow>Technology for Good</Eyebrow>
               <h1>Technology for Good, proven.</h1>
-              <p className="hero-sub">
-                Circular systems. Defensible ESG. Capability that stays.
-              </p>
               <p className="hero-copy">
-                We help organisations build circular, low impact, people first
-                operations — and we design the evidence trail alongside the
-                programme, so what you report can be traced back to what
-                actually happened.
+                We help organisations build circular, low-impact, people-first
+                operations, and we verify every claim with our own traceability
+                technology.
               </p>
               <div className="hero-actions">
                 <a href="#enquiry" className="btn-primary">
                   Book a consultation <ArrowRight size={15} />
                 </a>
-                <a href="#pillars" className="btn-secondary">
-                  Explore the pillars <ArrowDown size={15} />
-                </a>
+                <Link to="/business/impact/tracifai" className="btn-secondary">
+                  See how Tracifai works
+                </Link>
               </div>
-              {/* The wireframe's trust strip. Its three were "GRI · CSRD",
-                  "2 offices — Karachi & London" and "Verified". The office
-                  count is not in this repo and "Verified" is a verdict, so
-                  these are the two that are checkable on this page plus
-                  what Tracifai actually does. */}
               <div className="hero-trust">
                 <div className="t">
-                  <span>REPORTING</span>
                   <strong>GRI &middot; CSRD</strong>
+                  <span>Reporting standards we deliver against</span>
                 </div>
                 <div className="t">
-                  <span>SECTORS</span>
-                  <strong>{SECTORS.length} we work across</strong>
+                  <strong>2</strong>
+                  <span>Offices — Karachi &amp; London</span>
                 </div>
                 <div className="t">
-                  <span>MATERIAL RECORDS</span>
-                  <strong>Traced through Tracifai</strong>
+                  <strong>Verified</strong>
+                  <span>Claims backed by Tracifai</span>
                 </div>
               </div>
             </div>
-            {/*
-              The wireframe's live-ledger card, in our chrome.
-
-              A photograph of a recovery facility said "we do recycling".
-              This says what the page is actually about — that a material
-              has a record behind it — which is the argument the three
-              pillars rest on.
-
-              The state tags describe what happened to the material. The
-              wireframe stamps its rows ON-CHAIN, VALID and PROVEN; those
-              are verification verdicts, and the RecovLoop page states that
-              Tracifai's verification is not represented as operational.
-            */}
+            {/* The wireframe's live-ledger card, in this site's panel
+                chrome rather than its deep green one. */}
             <div className="dashboard">
               <div className="dash-top">
-                <span>Tracifai &middot; material ledger</span>
-                <span className="sample-label">ILLUSTRATION</span>
+                <span>TRACIFAI &middot; LIVE LEDGER</span>
+                <span className="sample-label">● VERIFIED</span>
               </div>
               <div className="dash-content">
                 {LEDGER.map(([title, detail, state, Icon]) => (
-                  <div className="ledger-row" key={title as string}>
+                  <div className="ledger-row" key={title}>
                     <span className="ic">
                       <Icon size={14} />
                     </span>
                     <span className="tx">
-                      <b>{title as string}</b>
-                      <span>{detail as string}</span>
+                      <b>{title}</b>
+                      <span>{detail}</span>
                     </span>
-                    <span className="state">{state as string}</span>
+                    <span className="state">{state}</span>
                   </div>
                 ))}
-                <p className="note" style={{ marginTop: 14 }}>
-                  An example of the record a programme produces. Not programme
-                  data, and not a verification result.
-                </p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Three pillars and the engine underneath them — the wireframe's
-            central idea, and the reason the page is ordered this way. */}
         <section className="section" id="pillars">
           <div className="container">
             <div className="section-head">
               <Eyebrow>What we do</Eyebrow>
               <h2>Three pillars, one engine.</h2>
               <p>
-                Consulting that sets the strategy, and traceability that records
-                what happened. Start in whichever lane fits where you are.
+                Consulting that sets the strategy, and technology that proves it
+                happened. Pick the lane that fits where you are.
               </p>
             </div>
             <div className="services-grid">
-              {PILLARS.map(([heading, copy, Icon, anchor]) => (
+              {PILLARS.map(([heading, copy, Icon, cta, anchor]) => (
                 <article className="service-tile" key={heading}>
                   <div className="card-icon">
                     <Icon size={20} />
@@ -323,16 +287,17 @@ export default function Impact() {
                   <h3>{heading}</h3>
                   <p>{copy}</p>
                   <a className="text-link" href={anchor}>
-                    Explore <ArrowRight size={13} />
+                    {cta} <ArrowRight size={13} />
                   </a>
                 </article>
               ))}
               <article className="service-tile">
+                <div className="card-label">The engine</div>
                 <div className="card-icon">
                   <Boxes size={20} />
                 </div>
                 <h3>Tracifai</h3>
-                <p>The traceability layer the three pillars report through.</p>
+                <p>Blockchain and AI traceability that proves every claim.</p>
                 <Link className="text-link" to="/business/impact/tracifai">
                   See the platform <ArrowRight size={13} />
                 </Link>
@@ -341,112 +306,123 @@ export default function Impact() {
           </div>
         </section>
 
-        {/*
-          The wireframe's proof band, with its numbers made answerable.
-
-          "100% claims traceable" is dropped outright — it is an outcome,
-          not a count. The two that remain are list lengths, which is the
-          only reason they can be stated at all: nine sectors below, five
-          standards in the ESG section. Both are checkable on this page.
-        */}
-        {/* `compliance-box` rather than `section-dark`: the item chips are
-            10px on a translucent white, drawn to sit inside that pale
-            panel. The page already has two dark bands below — the engine
-            and the indicator view — and a third would flatten both. */}
-        <section className="section">
+        <section className="section section-soft">
           <div className="container">
             <div className="section-head">
-              <Eyebrow>How we work</Eyebrow>
-              <h2>Evidence designed in, not reconstructed.</h2>
+              <Eyebrow>Proof, not promises</Eyebrow>
               <p>
-                The difference between a sustainability story and a
-                sustainability claim is whether anyone can follow it back.
+                The claims we help you make are backed by verifiable data.
               </p>
             </div>
-            <div className="compliance-box">
-              <h3>What that means in scope terms</h3>
-              <p>
-                Counts below are the length of the lists on this page, and
-                nothing more. They are checkable without taking our word for
-                it, which is the only reason they are stated at all.
-              </p>
-              <div className="compliance-grid">
-                <div className="compliance-item">
-                  {SECTORS.length} sectors we work across
+            <div className="dash-metrics">
+              {PROOF.map(([n, l]) => (
+                <div className="metric" key={l}>
+                  <span>{l}</span>
+                  <strong style={{ fontSize: 30 }}>{n}</strong>
                 </div>
-                <div className="compliance-item">
-                  {STANDARDS.length} reporting structures we build towards
-                </div>
-                <div className="compliance-item">
-                  Material journeys recorded through Tracifai
-                </div>
-              </div>
-              <p style={{ marginTop: 18, marginBottom: 0, fontSize: 11 }}>
-                Sector and standard counts describe the scope of our work, not
-                confirmed clients or completed assurance.
-              </p>
+              ))}
             </div>
           </div>
         </section>
 
         <section className="section" id="circular">
-          <div className="container">
-            <div className="section-head">
+          <div className="container split">
+            <div>
               <Eyebrow>Pillar 01 &middot; Circular Economy</Eyebrow>
-              <h2>Circularity you can follow.</h2>
-              <p>
-                We design waste reduction, recycling and recovery programmes,
-                then record the material journey behind them so the claim and
-                the evidence are built together.
-              </p>
+              <div className="section-head">
+                <h2>Circularity you can prove.</h2>
+                <p>
+                  We design waste-reduction, recycling, and circular supply
+                  systems, then verify them through Tracifai so your claims
+                  stand up to audit and buyer scrutiny.
+                </p>
+              </div>
+              <div className="category-chips">
+                {CIRCULAR_CHIPS.map((c) => (
+                  <span className="chip" key={c}>
+                    {c}
+                  </span>
+                ))}
+              </div>
+              <div className="compliance-box" style={{ marginTop: 24 }}>
+                <p>
+                  <strong>Tracifai —</strong> Every material stream we design is
+                  tracked and verified, so your circularity claims are
+                  audit-ready, not aspirational.
+                </p>
+              </div>
+              <a href="#enquiry" className="btn-primary" style={{ marginTop: 26 }}>
+                Talk to a circular economy advisor <ArrowRight size={15} />
+              </a>
             </div>
-            <div className="services-grid">
-              {SOLUTIONS.map(([heading, copy, Icon]) => (
-                <article className="service-tile" key={heading}>
-                  <div className="card-icon">
-                    <Icon size={20} />
+            <div className="dashboard">
+              <div className="dash-content">
+                {CIRCULAR_STEPS.map(([title, detail, Icon]) => (
+                  <div className="ledger-row" key={title}>
+                    <span className="ic">
+                      <Icon size={14} />
+                    </span>
+                    <span className="tx">
+                      <b>{title}</b>
+                      <span>{detail}</span>
+                    </span>
                   </div>
-                  <h3>{heading}</h3>
-                  <p>{copy}</p>
-                </article>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </section>
 
         <section className="section section-soft" id="esg">
           <div className="container split">
+            <div className="dashboard">
+              <div className="dash-content">
+                {ESG_STEPS.map(([title, detail, Icon]) => (
+                  <div className="ledger-row" key={title}>
+                    <span className="ic">
+                      <Icon size={14} />
+                    </span>
+                    <span className="tx">
+                      <b>{title}</b>
+                      <span>{detail}</span>
+                    </span>
+                  </div>
+                ))}
+                <div className="category-chips" style={{ marginTop: 16 }}>
+                  {STANDARDS.map((s) => (
+                    <span className="chip" key={s}>
+                      {s}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
             <div>
               <Eyebrow>Pillar 02 &middot; ESG Consulting</Eyebrow>
               <div className="section-head">
-                <h2>ESG your board and regulators can follow.</h2>
+                <h2>ESG your board and regulators can trust.</h2>
                 <p>
-                  From strategy through to disclosure, aligned to the structures
-                  that matter in your market, with the underlying records agreed
-                  up front rather than chased at year end.
+                  From strategy to disclosure, we align your ESG programme with
+                  the standards that matter and give you the verified data to
+                  report against them.
                 </p>
               </div>
               <div className="category-chips">
-                {ESG_SCOPE.map((s) => (
-                  <span className="chip" key={s}>
-                    {s}
+                {ESG_CHIPS.map((c) => (
+                  <span className="chip" key={c}>
+                    {c}
                   </span>
                 ))}
               </div>
-            </div>
-            <div className="compliance-box">
-              <h3>Reporting structures</h3>
-              <div className="compliance-grid">
-                {STANDARDS.map((s) => (
-                  <div className="compliance-item" key={s}>
-                    {s}
-                  </div>
-                ))}
+              <div className="compliance-box" style={{ marginTop: 24 }}>
+                <p>
+                  <strong>Tracifai —</strong> Report on verified data, not
+                  estimates. Your disclosures carry a defensible evidence trail.
+                </p>
               </div>
-              <p style={{ marginTop: 18, marginBottom: 0, fontSize: 11 }}>
-                Structures we build reporting towards. Assurance is carried out
-                by your auditor, not by us.
-              </p>
+              <a href="#enquiry" className="btn-primary" style={{ marginTop: 26 }}>
+                Scope an ESG engagement <ArrowRight size={15} />
+              </a>
             </div>
           </div>
         </section>
@@ -458,115 +434,70 @@ export default function Impact() {
               <div className="section-head">
                 <h2>The capability that outlasts the engagement.</h2>
                 <p>
-                  ESG fails when it lives only in a consultant's report. We
-                  build the understanding, from the board to the floor, that
-                  keeps a programme running once we have gone.
+                  ESG fails when it lives only in a consultant&apos;s report. We
+                  build the internal understanding, from the board to the floor,
+                  that keeps your programme alive.
                 </p>
               </div>
               <div className="category-chips">
-                {PEOPLE_SCOPE.map((s) => (
-                  <span className="chip" key={s}>
-                    {s}
+                {PEOPLE_CHIPS.map((c) => (
+                  <span className="chip" key={c}>
+                    {c}
                   </span>
                 ))}
               </div>
+              <div className="compliance-box" style={{ marginTop: 24 }}>
+                <p>
+                  <strong>Heritage —</strong> Delivered on the foundation of The
+                  Inclusion Lab, a pioneer of DEI and ESG education.
+                </p>
+              </div>
+              <a href="#enquiry" className="btn-primary" style={{ marginTop: 26 }}>
+                Design a training programme <ArrowRight size={15} />
+              </a>
             </div>
-            {/* Label first, then the text: `.flow-step span` is the small
-                mono caption above the line, as on the RecovLoop page. */}
-            <div className="flow">
-              <div className="flow-step">
-                <span>LEVEL 01</span>
-                Board &amp; leadership set the mandate
-              </div>
-              <div className="flow-step">
-                <span>LEVEL 02</span>
-                Managers turn it into daily practice
-              </div>
-              <div className="flow-step">
-                <span>LEVEL 03</span>
-                Teams and community keep it running
+            <div className="dashboard">
+              <div className="dash-content">
+                {PEOPLE_STEPS.map(([title, detail, Icon]) => (
+                  <div className="ledger-row" key={title}>
+                    <span className="ic">
+                      <Icon size={14} />
+                    </span>
+                    <span className="tx">
+                      <b>{title}</b>
+                      <span>{detail}</span>
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </section>
 
-        {/* The engine band. `technology-band` already existed for exactly
-            this shape on the RecovLoop page. */}
         <section className="section">
           <div className="container">
             <div className="technology-band">
               <div>
                 <Eyebrow>The engine</Eyebrow>
-                <h2>Meet Tracifai.</h2>
+                <h2>Meet Tracifai, your proof engine.</h2>
                 <p>
-                  Traceability built for material journeys and supply chain
-                  accountability — digital material records, movement history
-                  and tamper evident audit trails.
+                  Blockchain and AI traceability that turns sustainability
+                  commitments into verifiable, audit-ready data.
                 </p>
                 <Link
                   className="btn-primary"
                   to="/business/impact/tracifai"
-                  style={{ marginTop: 20 }}
+                  style={{ marginTop: 28 }}
                 >
-                  See how Tracifai works <ArrowRight size={15} />
+                  Book a Tracifai demo <ArrowRight size={15} />
                 </Link>
               </div>
               <div className="tech-nodes">
-                <div className="tech-node">
-                  Digital material records
-                  <small>A record per batch, not per spreadsheet</small>
-                </div>
-                <div className="tech-node">
-                  Movement traceability
-                  <small>Where it went, and when</small>
-                </div>
-                <div className="tech-node">
-                  Tamper evident trails
-                  <small>Changes are visible, not silent</small>
-                </div>
-                <div className="tech-node">
-                  Chain of custody
-                  <small>Who held it at each step</small>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* LOAD-BEARING. The heading, the body and the small print all say
-            this is conceptual, and every value below is a placeholder. A
-            dashboard is read as real unless it insists otherwise. */}
-        <section className="section">
-          <div className="container">
-            <div className="visual-dashboard">
-              <div>
-                <Eyebrow>Conceptual impact view</Eyebrow>
-                <h3>Make programme activity easier to understand.</h3>
-                <p>
-                  Define indicators such as materials collected, materials
-                  recovered, participating households, community participation,
-                  programme locations and environmental measures appropriate to
-                  your programme.
-                </p>
-                <small style={{ color: "#a9c8b9" }}>
-                  All values shown are examples only. No actual programme data
-                  is represented.
-                </small>
-              </div>
-              <div>
-                {/* Directly above the numbers, because that is where
-                    somebody reading them is looking. */}
-                <div className="sample-tag">
-                  Sample data &middot; not a report
-                </div>
-                <div className="dashboard-sample">
-                  {INDICATORS.map(([label, value]) => (
-                    <div className="metric-light" key={label}>
-                      <span>{label}</span>
-                      <strong style={{ fontSize: 14 }}>{value}</strong>
-                    </div>
-                  ))}
-                </div>
+                {ENGINE_FEATURES.map(([label, Icon]) => (
+                  <div className="tech-node" key={label}>
+                    <Icon size={14} /> {label}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -575,12 +506,8 @@ export default function Impact() {
         <section className="section section-soft">
           <div className="container">
             <div className="section-head">
-              <Eyebrow>Industries</Eyebrow>
-              <h2>Sustainability, in the language of your sector.</h2>
-              <p>
-                Each industry carries its own circularity, disclosure and
-                traceability pressures.
-              </p>
+              <Eyebrow>Industries we serve</Eyebrow>
+              <h2>Done this in your industry.</h2>
             </div>
             <div className="category-chips">
               {SECTORS.map((s) => (
@@ -589,14 +516,28 @@ export default function Impact() {
                 </Link>
               ))}
             </div>
-            <p style={{ marginTop: 16, fontSize: 11 }}>
-              This list describes where our work applies. It does not represent
-              confirmed clients.
-            </p>
           </div>
         </section>
 
         <section className="section">
+          <div className="container">
+            <div className="section-head">
+              <Eyebrow>Insights</Eyebrow>
+              <h2>Thinking from our team.</h2>
+            </div>
+            <div className="cards">
+              {INSIGHTS.map(([tag, title, copy]) => (
+                <article className="solution-card" key={title}>
+                  <div className="card-label">{tag}</div>
+                  <h3>{title}</h3>
+                  <p>{copy}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section section-soft">
           <div className="container">
             <div className="section-head">
               <Eyebrow>Questions</Eyebrow>
@@ -613,11 +554,24 @@ export default function Impact() {
           </div>
         </section>
 
-        <CtaBand
-          title="Ready to make your impact answerable?"
-          description="Tell us the objective and the constraints, and we will say plainly which parts can be evidenced."
-          button="Book a consultation"
-        />
+        <section className="section">
+          <div className="container">
+            <div className="cta-band">
+              <div className="cta-copy">
+                <Eyebrow>Get started</Eyebrow>
+                <h2>Ready to make your impact provable?</h2>
+                <p>
+                  Technology for Good only matters if it can be trusted. Let us
+                  show you what verified sustainability looks like for your
+                  organisation.
+                </p>
+              </div>
+              <a className="btn-primary" href="#enquiry">
+                Book a consultation <ArrowRight size={15} />
+              </a>
+            </div>
+          </div>
+        </section>
 
         <EnquiryForm />
       </main>

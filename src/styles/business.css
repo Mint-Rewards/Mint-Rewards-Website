@@ -1263,8 +1263,8 @@
 .b2b .ledger-row .state { font:9px var(--app-font-mono); letter-spacing:.4px; color:#77867e; background:#e7efeb; padding:5px 8px; border-radius:5px; flex:none; }
 
 .b2b .hero-trust { display:flex; flex-wrap:wrap; gap:26px; margin-top:30px; padding-top:22px; border-top:1px solid #e3ece8; }
-.b2b .hero-trust .t span { display:block; font:9px var(--app-font-mono); letter-spacing:.4px; color:#7c8982; }
-.b2b .hero-trust .t strong { display:block; margin-top:5px; font:700 17px var(--app-font-serif); color:#174c38; }
+.b2b .hero-trust .t strong { display:block; font:800 24px var(--app-font-serif); letter-spacing:-.8px; color:#174c38; }
+.b2b .hero-trust .t span { display:block; margin-top:3px; font-size:11px; color:#7c8982; max-width:22ch; }
 
 @media (max-width: 700px) {
   .b2b .hero-trust { gap:18px; }
