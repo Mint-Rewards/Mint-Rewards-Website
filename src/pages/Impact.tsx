@@ -2,6 +2,7 @@ import {
   ArrowDown,
   ArrowRight,
   Boxes,
+  GitBranch,
   Globe2,
   GraduationCap,
   HeartHandshake,
@@ -152,6 +153,34 @@ const INDICATORS: [string, string][] = [
   ["Community participation", "68%"],
 ];
 
+/*
+ * The hero ledger's example rows.
+ *
+ * States describe the material's journey — recorded, moved, received —
+ * rather than asserting that a claim has been verified. See the note in
+ * business.css for why that distinction is load-bearing.
+ */
+const LEDGER = [
+  [
+    "Recycled PET — batch 4821",
+    "Collected, weighed, six checkpoints",
+    "RECORDED",
+    Recycle,
+  ],
+  [
+    "Transfer to recovery partner",
+    "Custody handed over, timestamped",
+    "MOVED",
+    GitBranch,
+  ],
+  [
+    "Recovery confirmed at facility",
+    "Receipt logged against the batch",
+    "RECEIVED",
+    Boxes,
+  ],
+] as const;
+
 const SECTORS = [
   "Textile & Apparel",
   "PET & Polymers",
@@ -213,19 +242,61 @@ export default function Impact() {
                   Explore the pillars <ArrowDown size={15} />
                 </a>
               </div>
-            </div>
-            <div className="hero-art">
-              <img
-                src="/images/recovery-hero.jpg"
-                alt="A material recovery facility supporting practical sustainability programmes"
-              />
-              <div className="photo-shade" />
-              <div className="floating-note">
-                <strong>From intent to evidence</strong>Build a programme people
-                can join, and a record that holds up
+              {/* The wireframe's trust strip. Its three were "GRI · CSRD",
+                  "2 offices — Karachi & London" and "Verified". The office
+                  count is not in this repo and "Verified" is a verdict, so
+                  these are the two that are checkable on this page plus
+                  what Tracifai actually does. */}
+              <div className="hero-trust">
+                <div className="t">
+                  <span>REPORTING</span>
+                  <strong>GRI &middot; CSRD</strong>
+                </div>
+                <div className="t">
+                  <span>SECTORS</span>
+                  <strong>{SECTORS.length} we work across</strong>
+                </div>
+                <div className="t">
+                  <span>MATERIAL RECORDS</span>
+                  <strong>Traced through Tracifai</strong>
+                </div>
               </div>
-              <div className="art-caption">
-                A practical foundation for measurable programmes
+            </div>
+            {/*
+              The wireframe's live-ledger card, in our chrome.
+
+              A photograph of a recovery facility said "we do recycling".
+              This says what the page is actually about — that a material
+              has a record behind it — which is the argument the three
+              pillars rest on.
+
+              The state tags describe what happened to the material. The
+              wireframe stamps its rows ON-CHAIN, VALID and PROVEN; those
+              are verification verdicts, and the RecovLoop page states that
+              Tracifai's verification is not represented as operational.
+            */}
+            <div className="dashboard">
+              <div className="dash-top">
+                <span>Tracifai &middot; material ledger</span>
+                <span className="sample-label">ILLUSTRATION</span>
+              </div>
+              <div className="dash-content">
+                {LEDGER.map(([title, detail, state, Icon]) => (
+                  <div className="ledger-row" key={title as string}>
+                    <span className="ic">
+                      <Icon size={14} />
+                    </span>
+                    <span className="tx">
+                      <b>{title as string}</b>
+                      <span>{detail as string}</span>
+                    </span>
+                    <span className="state">{state as string}</span>
+                  </div>
+                ))}
+                <p className="note" style={{ marginTop: 14 }}>
+                  An example of the record a programme produces. Not programme
+                  data, and not a verification result.
+                </p>
               </div>
             </div>
           </div>

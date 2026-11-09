@@ -1234,3 +1234,38 @@
     font-size: 28px;
   }
 }
+
+/* ---------------------------------------------------------------------------
+ * Hero ledger panel, and the trust strip beneath the hero copy.
+ *
+ * The wireframe's hero carries a dark "live ledger" card listing material
+ * records, and a row of three figures under the copy. Nothing in this system
+ * was that shape, so these are the only rules the impact rebuild added — the
+ * rest of those four pages is assembled from classes that already existed.
+ *
+ * Our palette, not the wireframe's: it is a light panel on the pale hero,
+ * using the same chrome as `.dashboard` above, rather than the wireframe's
+ * deep green card. The mono state tag is `.sample-label`'s treatment, which
+ * is what this site already uses for "this is an example".
+ *
+ * THE STATE TAGS DESCRIBE A RECORD, NOT A VERDICT. The wireframe stamps its
+ * rows ON-CHAIN, VALID and PROVEN. Those are verification claims, and the
+ * RecovLoop page states that Tracifai's verification is not represented as
+ * operational — so these say what happened to the material instead, and the
+ * panel header says ILLUSTRATION.
+ * ------------------------------------------------------------------------ */
+.b2b .ledger-row { display:flex; align-items:center; gap:12px; padding:13px 15px; border:1px solid #e7efeb; border-radius:12px; background:#fff; }
+.b2b .ledger-row + .ledger-row { margin-top:9px; }
+.b2b .ledger-row .ic { width:28px; height:28px; border-radius:8px; background:#eaf6f0; color:#145c46; display:grid; place-items:center; flex:none; }
+.b2b .ledger-row .tx { flex:1; min-width:0; }
+.b2b .ledger-row .tx b { display:block; font-size:12px; color:#174c38; }
+.b2b .ledger-row .tx span { font-size:10px; color:#7c8982; }
+.b2b .ledger-row .state { font:9px var(--app-font-mono); letter-spacing:.4px; color:#77867e; background:#e7efeb; padding:5px 8px; border-radius:5px; flex:none; }
+
+.b2b .hero-trust { display:flex; flex-wrap:wrap; gap:26px; margin-top:30px; padding-top:22px; border-top:1px solid #e3ece8; }
+.b2b .hero-trust .t span { display:block; font:9px var(--app-font-mono); letter-spacing:.4px; color:#7c8982; }
+.b2b .hero-trust .t strong { display:block; margin-top:5px; font:700 17px var(--app-font-serif); color:#174c38; }
+
+@media (max-width: 700px) {
+  .b2b .hero-trust { gap:18px; }
+}
