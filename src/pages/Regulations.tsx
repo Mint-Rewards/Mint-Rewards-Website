@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import CtaBand from "../components/business/CtaBand";
 import EnquiryForm from "../components/business/EnquiryForm";
 import Eyebrow from "../components/business/Eyebrow";
+import ImpactNav from "../components/business/ImpactNav";
 import PageMeta from "../components/business/PageMeta";
 import "../styles/business.css";
 
@@ -80,6 +81,7 @@ export default function Regulations() {
         title="Regulations & Disclosures — GRI, CSRD, CBAM, EPR | Mint Rewards"
         description="A plain-language orientation to the sustainability reporting regimes that shape ESG for exporters, corporates and financial institutions."
       />
+      <ImpactNav />
       <main id="main" className="impact">
         <section className="page-hero">
           <div className="container hero-grid">

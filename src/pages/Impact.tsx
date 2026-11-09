@@ -17,6 +17,7 @@ import {
 import { Link } from "react-router-dom";
 import EnquiryForm from "../components/business/EnquiryForm";
 import Eyebrow from "../components/business/Eyebrow";
+import ImpactNav from "../components/business/ImpactNav";
 import PageMeta from "../components/business/PageMeta";
 import "../styles/business.css";
 
@@ -219,6 +220,7 @@ export default function Impact() {
         title="Technology for Good, proven | Mint Impact Solutions"
         description="Circular economy consulting, ESG consulting and people ESG training, with every claim verified through Tracifai."
       />
+      <ImpactNav />
       <main id="main" className="impact">
         <section className="page-hero">
           <div className="container hero-grid">

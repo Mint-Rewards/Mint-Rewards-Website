@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import CtaBand from "../components/business/CtaBand";
 import EnquiryForm from "../components/business/EnquiryForm";
 import Eyebrow from "../components/business/Eyebrow";
+import ImpactNav from "../components/business/ImpactNav";
 import PageMeta from "../components/business/PageMeta";
 import "../styles/business.css";
 
@@ -63,6 +64,7 @@ export default function Sectors() {
         title="Sectors — Circular Economy & ESG by Industry | Mint Rewards"
         description="Circular economy and ESG work across textiles, polymers, food systems, health, utilities, technology, retail, construction and financial services."
       />
+      <ImpactNav />
       <main id="main" className="impact">
         <section className="page-hero">
           <div className="container hero-grid">

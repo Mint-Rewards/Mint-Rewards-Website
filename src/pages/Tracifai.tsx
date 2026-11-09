@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import CtaBand from "../components/business/CtaBand";
 import EnquiryForm from "../components/business/EnquiryForm";
 import Eyebrow from "../components/business/Eyebrow";
+import ImpactNav from "../components/business/ImpactNav";
 import PageMeta from "../components/business/PageMeta";
 import "../styles/business.css";
 
@@ -78,6 +79,7 @@ export default function Tracifai() {
         title="Tracifai — Material Traceability & Audit Trails | Mint Rewards"
         description="Tracifai records material journeys, movements and chain of custody so circularity and ESG claims can be traced back to what happened."
       />
+      <ImpactNav />
       <main id="main" className="impact">
         <section className="page-hero">
           <div className="container hero-grid">
