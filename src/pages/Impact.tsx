@@ -278,7 +278,7 @@ export default function Impact() {
                 happened. Pick the lane that fits where you are.
               </p>
             </div>
-            <div className="services-grid">
+            <div className="services-grid four">
               {PILLARS.map(([heading, copy, Icon, cta, anchor]) => (
                 <article className="service-tile" key={heading}>
                   <div className="card-icon">
@@ -306,19 +306,17 @@ export default function Impact() {
           </div>
         </section>
 
-        <section className="section section-soft">
+        <section className="section section-dark">
           <div className="container">
             <div className="section-head">
               <Eyebrow>Proof, not promises</Eyebrow>
-              <p>
-                The claims we help you make are backed by verifiable data.
-              </p>
+              <p>The claims we help you make are backed by verifiable data.</p>
             </div>
-            <div className="dash-metrics">
+            <div className="proof-stats">
               {PROOF.map(([n, l]) => (
-                <div className="metric" key={l}>
+                <div className="proof-stat" key={l}>
+                  <strong>{n}</strong>
                   <span>{l}</span>
-                  <strong style={{ fontSize: 30 }}>{n}</strong>
                 </div>
               ))}
             </div>

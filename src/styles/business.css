@@ -1269,3 +1269,34 @@
 @media (max-width: 700px) {
   .b2b .hero-trust { gap:18px; }
 }
+
+/* ---------------------------------------------------------------------------
+ * Impact solutions: four-up pillars, and the proof band.
+ *
+ * `.services-grid` is three across everywhere else on this site, and the
+ * wireframe's pillar row is four — three disciplines plus the engine. A
+ * modifier rather than a change to the base, so the RecovLoop and Rewards
+ * grids are untouched. The responsive overrides have to be restated here:
+ * the existing 1040 and 700 rules target `.services-grid` alone and lose to
+ * the extra class.
+ *
+ * The proof band is dark, as drawn, using the #0b3d2e this site already
+ * uses for `.section-dark`. Two things do not survive that background on
+ * their own: `.eyebrow` is accent blue, which is close to unreadable on
+ * dark green, and there was no stat style that was not a bordered white
+ * card. Both are given dark variants rather than the band being made light.
+ * ------------------------------------------------------------------------ */
+.b2b .services-grid.four { grid-template-columns:repeat(4,1fr); }
+
+.b2b .section-dark .eyebrow { color:#7fd4b4; }
+.b2b .proof-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:34px; align-items:start; margin-top:34px; padding-top:30px; border-top:1px solid #ffffff1f; }
+.b2b .proof-stat strong { display:block; font:800 40px var(--app-font-serif); letter-spacing:-2px; color:#fff; font-variant-numeric:tabular-nums; }
+.b2b .proof-stat span { display:block; margin-top:6px; font-size:13px; line-height:1.5; color:#9fc6ba; }
+
+@media (max-width: 1040px) {
+  .b2b .services-grid.four { grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width: 700px) {
+  .b2b .services-grid.four { grid-template-columns:1fr; }
+  .b2b .proof-stats { grid-template-columns:1fr; gap:22px; }
+}
